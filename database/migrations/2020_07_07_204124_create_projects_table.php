@@ -21,7 +21,7 @@ class CreateProjectsTable extends Migration
             $table->string('title');
             $table->string('general_objetive');
             $table->string('specifics_objetives');
-            $table->string('created_at');
+//            $table->string('created_at');
             $table->string('uploaded_at');
             $table->string('report_pdf');
             $table->string('report_uploaded_at');
