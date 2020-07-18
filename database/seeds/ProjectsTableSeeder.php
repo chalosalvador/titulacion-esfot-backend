@@ -1,16 +1,18 @@
 <?php
 
+use App\Project;
 use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder
+class ProjectsTableSeeder extends Seeder
 {
     /**
-     * Seed the application's database.
+     * Run the database seeds.
      *
      * @return void
      */
     public function run()
     {
-        $this->call(ProjectsTableSeeder::class);
+        Project::truncate();
+
     }
 }
