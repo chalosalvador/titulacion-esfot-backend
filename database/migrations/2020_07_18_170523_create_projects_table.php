@@ -14,19 +14,18 @@ class CreateProjectsTable extends Migration
     public function up()
     {
         Schema::create('projects', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->integer('director_id');
             $table->integer('codirector_id');
-            $table->integer('status_id'); //TODO verificar valor de status, no es integer es ENUM
-            $table->string('title');
-            $table->string('general_objetive');
-            $table->string('specifics_objetives');
-//            $table->string('created_at');
-            $table->string('uploaded_at');
-            $table->string('report_pdf');
-            $table->string('report_uploaded_at');
-            $table->string('report_modified_at');
+            $table->integer('status_id');
+            $table->string('title', 45);
+            $table->string('general_objective', 45);
+            $table->string('specifics_objectives', 45);
             $table->timestamps();
+            $table->string('uploaded_at', 45);
+            $table->string('report_pdf', 45);
+            $table->string('report_uploaded_at', 45 );
+            $table->string('report_modified_at', 45 );
         });
 
         Schema::create('project_student', function (Blueprint $table) {
