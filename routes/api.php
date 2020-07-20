@@ -24,8 +24,8 @@ Route::post('login', 'UserController@authenticate');
 Route::get('teachers-plans','TeacherPlanController@index');
 Route::get('teachers-plans','TeacherPlanController@show');
 Route::post('teachers-plans','TeacherPlanController@store');
-Route::put('teachers-plans/{teacher-plan}','TeacherPlanController@update');
-Route::delete('teachers-plans/{teacher-plan}','TeacherPlanController@delete');
+Route::put('teachers-plans/{teacherplan}','TeacherPlanController@update');
+Route::delete('teachers-plans/{teacherplan}','TeacherPlanController@delete');
 
 //project
 Route::get('projects','ProjectController@index');
@@ -36,7 +36,7 @@ Route::delete('projects/{project}','ProjectController@delete');
 
 
 //student
-Rotue::get('students','StudentController@index');
+Route::get('students','StudentController@index');
 Route::get('students/{student}','StudentController@show');
 Route::put('students/{student}','StudentController@update');
 Route::delete('students/{student}','StudentController@delete');
