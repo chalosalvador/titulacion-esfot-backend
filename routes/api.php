@@ -23,7 +23,7 @@ Route::post('login', 'UserController@authenticate');
 Route::group(['middleware' => ['jwt.verify']], function() {
     //teachers plans
     Route::get('teachers-plans','TeacherPlanController@index');
-    Route::get('teachers-plans','TeacherPlanController@show');
+    Route::get('teachers-plans/{teacherplan}','TeacherPlanController@show');
     Route::post('teachers-plans','TeacherPlanController@store');
     Route::put('teachers-plans/{teacherplan}','TeacherPlanController@update');
     Route::delete('teachers-plans/{teacherplan}','TeacherPlanController@delete');
@@ -31,7 +31,7 @@ Route::group(['middleware' => ['jwt.verify']], function() {
 //project
     Route::get('projects','ProjectController@index');
     Route::get('projects/{project}','ProjectController@show');
-    Route::post('project','ProjectController@store');
+    Route::post('projects','ProjectController@store');
     Route::put('projects/{project}','ProjectController@update');
     Route::delete('projects/{project}','ProjectController@delete');
 
