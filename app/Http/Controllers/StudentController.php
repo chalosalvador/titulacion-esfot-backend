@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Students;
 use Illuminate\Http\Request;
+use App\Http\Resources\StudentCollection;
 
 class StudentController extends Controller
 {
     public function index()
     {
-        return Students::all();
+        return new StudentCollection(Students::all());
     }
 
     public function show (Students $student)

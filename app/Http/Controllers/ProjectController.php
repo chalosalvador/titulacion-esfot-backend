@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Project;
+use App\Http\Resources\ProjectCollection;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
 {
     public function index()
     {
-        return Project::all();
+        return new ProjectCollection(Project::all());
     }
 
     public function show (Project $project)
