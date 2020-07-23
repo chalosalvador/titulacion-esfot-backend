@@ -14,10 +14,9 @@ class CreateProjectsTable extends Migration
     public function up()
     {
         Schema::create('projects', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->integer('director_id');
             $table->integer('codirector_id');
-            $table->integer('status_id');
             $table->string('title', 45);
             $table->string('general_objective', 45);
             $table->string('specifics_objectives', 45);
@@ -35,6 +34,7 @@ class CreateProjectsTable extends Migration
             $table->foreign('student_id')->references('id')->on('students')->onDelete('restrict');
             $table->timestamps();
         });
+
     }
 
     /**
