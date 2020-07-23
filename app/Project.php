@@ -14,7 +14,6 @@ class Project extends Model
         parent::boot();
         static::creating(function ($project) {
             $project->teachers_id = Auth::id();
-
         });
     }
 
