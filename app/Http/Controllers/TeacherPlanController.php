@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use App\TeachersPlans;
 use Illuminate\Http\Request;
+use App\Http\Resources\TeacherPlanCollection;
 
 class TeacherPlanController extends Controller
 {
     public function index()
     {
-        return TeachersPlans::all();
+        return new TeacherPlanCollection(TeachersPlans::all());
     }
 
     public function show (TeachersPlans $teacherplan)
