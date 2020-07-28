@@ -15,8 +15,8 @@ class CreateProjectsTable extends Migration
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('director_id');
-            $table->integer('codirector_id');
+//            $table->integer('director_id');
+//            $table->integer('codirector_id');
             $table->string('title', 45);
             $table->string('general_objective', 45);
             $table->string('specifics_objectives', 45);

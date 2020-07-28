@@ -14,7 +14,7 @@ class CreateTeacherIdProjectsTable extends Migration
     public function up()
     {
         Schema::table('projects', function (Blueprint $table) {
-            $table->unsignedBigInteger('teachers_id');
+            $table->bigInteger('teachers_id')->unsigned();
             $table->foreign('teachers_id')->references('id')->on('teachers')->onDelete('restrict');
         });
     }

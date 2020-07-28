@@ -12,7 +12,24 @@ class ProjectsTableSeeder extends Seeder
      */
     public function run()
     {
-        Project::truncate();
+        //Project::truncate();
+
+        $faker = \Faker\Factory::create();
+
+        $teachers = \App\Teachers::all();
+
+        foreach ($teachers as $teacher){
+            Project::create([
+                'title' => $faker->word,
+                'general_objective' => $faker->word,
+                'specifics_objectives'=> $faker->word,
+                'uploaded_at'=>$faker->dateTime,
+                'report_pdf'=>$faker->word,
+                'report_uploaded_at'=>$faker->dateTime,
+                'report_modified_at'=>$faker->dateTime,
+                'teachers_id'=>$teacher->id,
+            ]);
+        }
 
     }
 }
