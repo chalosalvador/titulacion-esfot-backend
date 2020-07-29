@@ -10,7 +10,7 @@ class ProjectController extends Controller
 {
     private static $messages = [
         'required' => 'El campo :attribute es obligatorio.',
-        'title.unique' => 'El títula ya existe, por favor agregue otro.',
+        'title.unique' => 'El título ya existe, por favor agregue otro.',
 
     ];
 
