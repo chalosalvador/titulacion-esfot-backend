@@ -8,6 +8,10 @@ use App\Http\Resources\StudentCollection;
 
 class StudentController extends Controller
 {
+    private static $messages = [
+        'required' => 'El campo :attribute es obligatorio.',
+
+    ];
     public function index()
     {
         return new StudentCollection(Students::all());
@@ -22,7 +26,7 @@ class StudentController extends Controller
     {
         $validatedData = $request->validate([
            'apto' => 'required'
-        ]);
+        ],self::$messages);
 
         $student = Students::create($validatedData);
         return response()->json(new StudentResource ($student), 201);
