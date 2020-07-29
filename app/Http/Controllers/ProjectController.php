@@ -30,10 +30,12 @@ class ProjectController extends Controller
             'title' => 'required|string|unique:projects|max:255',
             'general_objective' => 'required',
             'specifics_objectives' => 'required',
+            'uploaded_at'=>'required',
+            'teachers_id'=>'required'
         ],self::$messages);
 
         $project = Project::create($validatedData);
-        return response()->json(new ProjectResource($project), 201);
+        return response()->json(new ProjectCollection($project), 201);
     }
 
     public function update (Request $request, Project $project)
