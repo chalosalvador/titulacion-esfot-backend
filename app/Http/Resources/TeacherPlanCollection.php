@@ -15,14 +15,7 @@ class TeacherPlanCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        return [
-          'id'=>$this->id,
-          'title'=>$this->title,
-          'problem'=>$this->problem,
-          'solution'=>$this->solution,
-          'created_at'=>$this->created_at,
-          'updated_at'=>$this->updated_at,
-          'teachers_id'=>TeacherResource::collection($this->teachers_id)
-        ];
+        return ['data' => $this->collection,
+            'links' => ['self' => 'link-value',],];
     }
 }

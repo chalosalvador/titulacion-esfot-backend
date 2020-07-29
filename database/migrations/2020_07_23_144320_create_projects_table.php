@@ -22,9 +22,9 @@ class CreateProjectsTable extends Migration
             $table->string('specifics_objectives', 45);
             $table->timestamps();
             $table->string('uploaded_at', 45);
-            $table->string('report_pdf', 45);
-            $table->string('report_uploaded_at', 45 );
-            $table->string('report_modified_at', 45 );
+            $table->string('report_pdf', 45)->nullable();
+            $table->string('report_uploaded_at', 45 )->nullable();
+            $table->string('report_modified_at', 45 )->nullable();
         });
 
         Schema::create('project_student', function (Blueprint $table) {

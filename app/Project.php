@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 class Project extends Model
 {
-    protected $fillable = ['status', 'title', 'general_objective', 'specifics_objectives', 'uploaded_at', 'report_pdf', 'report_uploaded_at', 'report_modified_at','teachers_id'];
+    protected $fillable = ['status', 'title', 'general_objective', 'specifics_objectives', 'uploaded_at','teachers_id'];
 
 //    public static function boot()
 //    {

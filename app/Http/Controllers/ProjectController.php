@@ -8,6 +8,12 @@ use Illuminate\Http\Request;
 
 class ProjectController extends Controller
 {
+    private static $messages = [
+        'required' => 'El campo :attribute es obligatorio.',
+        'title.unique' => 'El título ya existe, por favor agregue otro.',
+
+    ];
+
     public function index()
     {
         return new ProjectCollection(Project::all());
@@ -24,14 +30,22 @@ class ProjectController extends Controller
             'title' => 'required|string|unique:projects|max:255',
             'general_objective' => 'required',
             'specifics_objectives' => 'required',
-        ]);
+            'uploaded_at'=>'required',
+            'teachers_id'=>'required'
+        ],self::$messages);
 
         $project = Project::create($validatedData);
-        return response()->json(new ProjectResource($project), 201);
+        return response()->json(new ProjectCollection($project), 201);
     }
 
     public function update (Request $request, Project $project)
     {
+        $request->validate([
+            'title' => 'required|string|unique:projects,title,'.$project->id.'|max:255',
+            'general_objective' => 'required',
+            'specifics_objectives' => 'required',
+
+        ],self::$messages);
         $project->update($request->all());
         return response()->json($project, 200);
     }
