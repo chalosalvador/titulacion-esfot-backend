@@ -20,8 +20,14 @@ class ProjectController extends Controller
 
     public function store (Request $request)
     {
-        $project = Project::create($request->all());
-        return response()->json($project, 201);
+        $validatedData = $request->validate([
+            'title' => 'required|string|unique:projects|max:255',
+            'general_objective' => 'required',
+            'specifics_objectives' => 'required',
+        ]);
+
+        $project = Project::create($validatedData);
+        return response()->json(new ProjectResource($project), 201);
     }
 
     public function update (Request $request, Project $project)

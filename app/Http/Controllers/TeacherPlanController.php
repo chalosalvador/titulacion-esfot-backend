@@ -20,8 +20,14 @@ class TeacherPlanController extends Controller
 
     public function store (Request $request)
     {
-        $teacherplan = TeachersPlans::create($request->all());
-        return response()->json($teacherplan, 201);
+        $validatedData= $request->validate([
+           'title' => 'required|string|unique:teachersplans|max:255',
+           'problem' => 'require',
+           'solution' => 'require'
+        ]);
+
+        $teacherplan = TeachersPlans::create($validatedData);
+        return response()->json(new TeachersPlansResource ($teacherplan), 201);
     }
 
     public function update (Request $request, TeachersPlans $teacherplan)
