@@ -20,8 +20,12 @@ class StudentController extends Controller
 
     public function store (Request $request)
     {
-        $student = Students::create($request->all());
-        return response()->json($student, 201);
+        $validatedData = $request->validate([
+           'apto' => 'required'
+        ]);
+
+        $student = Students::create($validatedData);
+        return response()->json(new StudentResource ($student), 201);
     }
 
     public function update (Request $request, Students $student)
