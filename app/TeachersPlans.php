@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 class TeachersPlans extends Model
 {
-    protected $fillable = ['title','problem','solution','teachers_id'];
+    protected $fillable = ['title','problem','solution'];
     public static function boot()
     {
         parent::boot();
