@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Http\Resources\User as UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -65,6 +66,6 @@ class UserController extends Controller
             return response()->json(['token_absent'], $e->getStatusCode());
         }
 
-        return response()->json(compact('user'));
+        return response()->json(new UserResource($user),200);
     }
 }
