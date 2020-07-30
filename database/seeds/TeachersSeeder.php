@@ -15,6 +15,7 @@ class TeachersSeeder extends Seeder
 
         $faker = \Faker\Factory::create();
 
-        Teachers::create(['users_id' => 2]);
+
+
     }
 }

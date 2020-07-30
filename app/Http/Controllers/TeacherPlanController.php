@@ -28,8 +28,7 @@ class TeacherPlanController extends Controller
         $validator = $request->validate([
            'title' => 'required|string|unique:teachers_plans|max:255',
            'problem' => 'required',
-           'solution' => 'required',
-            'teachers_id'=>'required'
+           'solution' => 'required'
         ], self::$messages);
 
         $teacherplan = TeachersPlans::create($validator);
@@ -41,8 +40,7 @@ class TeacherPlanController extends Controller
         $request->validate([
             'title' => 'required|string|unique:teachers_plans,title,'.$teacherplan->id.'|max:255',
             'problem' => 'required',
-            'solution' => 'required',
-            'teachers_id'=>'required'
+            'solution' => 'required'
         ],self::$messages);
 
         $teacherplan->update($request->all());

@@ -21,6 +21,8 @@ Route::post('register','UserController@register');
 Route::post('login', 'UserController@authenticate');
 
 Route::group(['middleware' => ['jwt.verify']], function() {
+    //users
+    Route::get('user', 'UserController@getAuthenticatedUser');
     //teachers plans
     Route::get('teachers-plans','TeacherPlanController@index');
     Route::get('teachers-plans/{teacherplan}','TeacherPlanController@show');

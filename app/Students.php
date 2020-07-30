@@ -6,10 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Students extends Model
 {
-    protected $fillable = ['apto'];
+    protected $fillable = ['apto','unique_number'];
 
     public function projects()
     {
         return $this->belongsToMany('App\Project    ')->withTimestamps();
+    }
+    public function user()
+    {
+        return $this->morphOne('App\User', 'userable');
     }
 }
