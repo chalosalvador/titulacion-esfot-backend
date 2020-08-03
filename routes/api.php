@@ -26,7 +26,7 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     //teachers plans
     Route::get('teachers-plans','TeacherPlanController@index');
     Route::get('teachers-plans/{teacherplan}','TeacherPlanController@show');
-    Route::post('teachers-plans','TeacherPlanController@store');
+    Route::post('teachers/{teacher}/teachers-plans','TeacherPlanController@store');
     Route::put('teachers-plans/{teacherplan}','TeacherPlanController@update');
     Route::delete('teachers-plans/{teacherplan}','TeacherPlanController@delete');
 

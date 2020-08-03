@@ -12,4 +12,13 @@ class Teachers extends Model
     {
         return $this->morphOne('App\User', 'userable');
     }
+    public function projects()
+    {
+        return $this->hasMany('App\Project');
+    }
+
+    public function ideas()
+    {
+        return $this->hasMany('App\TeachersPlans');
+    }
 }

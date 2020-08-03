@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Project;
+use App\Http\Resources\Project as ProjectResource;
 use App\Http\Resources\ProjectCollection;
 use Illuminate\Http\Request;
 
@@ -16,41 +17,41 @@ class ProjectController extends Controller
 
     public function index()
     {
-        return new ProjectCollection(Project::all());
+        return new ProjectCollection(Project::paginate());
     }
 
-    public function show (Project $project)
+    public function show(Project $project)
     {
-        return $project;
+        return response()->json(new ProjectResource($project),200);
     }
 
-    public function store (Request $request)
+    public function store(Request $request)
     {
         $validatedData = $request->validate([
             'title' => 'required|string|unique:projects|max:255',
             'general_objective' => 'required',
             'specifics_objectives' => 'required',
-            'uploaded_at'=>'required',
-            'teachers_id'=>'required'
-        ],self::$messages);
+            'uploaded_at' => 'required',
+            'teachers_id' => 'required'
+        ], self::$messages);
 
         $project = Project::create($validatedData);
-        return response()->json(new ProjectCollection($project), 201);
+        return response()->json(new ProjectResource($project), 201);
     }
 
-    public function update (Request $request, Project $project)
+    public function update(Request $request, Project $project)
     {
         $request->validate([
-            'title' => 'required|string|unique:projects,title,'.$project->id.'|max:255',
+            'title' => 'required|string|unique:projects,title,' . $project->id . '|max:255',
             'general_objective' => 'required',
             'specifics_objectives' => 'required',
 
-        ],self::$messages);
+        ], self::$messages);
         $project->update($request->all());
         return response()->json($project, 200);
     }
 
-    public function delete (Project $project)
+    public function delete(Project $project)
     {
         $project->delete();
         return response()->json(null, 204);

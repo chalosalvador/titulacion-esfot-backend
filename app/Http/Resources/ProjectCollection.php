@@ -18,5 +18,4 @@ class ProjectCollection extends ResourceCollection
             'links' => ['self' => 'link-value',],];
     }
 
-    public $preserveKeys = true;
 }

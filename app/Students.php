@@ -10,7 +10,7 @@ class Students extends Model
 
     public function projects()
     {
-        return $this->belongsToMany('App\Project    ')->withTimestamps();
+        return $this->belongsToMany('App\Project')->withTimestamps();
     }
     public function user()
     {

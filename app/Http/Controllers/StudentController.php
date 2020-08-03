@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Students;
 use Illuminate\Http\Request;
+use App\Http\Resources\Student as StudentResource;
 use App\Http\Resources\StudentCollection;
 
 class StudentController extends Controller
@@ -14,12 +15,12 @@ class StudentController extends Controller
     ];
     public function index()
     {
-        return new StudentCollection(Students::all());
+        return new StudentCollection(Students::paginate());
     }
 
     public function show (Students $student)
     {
-        return $student;
+        return response()->json(new StudentResource($student), 200);
     }
 
     public function store (Request $request)
@@ -29,7 +30,7 @@ class StudentController extends Controller
         ],self::$messages);
 
         $student = Students::create($validatedData);
-        return response()->json(new StudentResource ($student), 201);
+        return response()->json(new StudentResource($student), 201);
     }
 
     public function update (Request $request, Students $student)
