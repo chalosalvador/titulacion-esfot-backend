@@ -17,41 +17,43 @@ use Illuminate\Http\Request;
 //    return $request->user();
 //});
 
-Route::post('register','UserController@register');
+Route::post('register', 'UserController@register');
 Route::post('login', 'UserController@authenticate');
 
-Route::group(['middleware' => ['jwt.verify']], function() {
+Route::group(['middleware' => ['jwt.verify']], function () {
     //users
     Route::get('user', 'UserController@getAuthenticatedUser');
     //teachers plans
-    Route::get('teachers-plans','TeacherPlanController@index');
-    Route::get('teachers-plans/{teacherplan}','TeacherPlanController@show');
-    Route::post('teachers-plans','TeacherPlanController@store');
-    Route::put('teachers-plans/{teacherplan}','TeacherPlanController@update');
-    Route::delete('teachers-plans/{teacherplan}','TeacherPlanController@delete');
+    Route::get('teachers-plans', 'TeacherPlanController@index');
+    Route::get('teachers-plans/{teacherplan}', 'TeacherPlanController@show');
+    Route::post('teachers-plans', 'TeacherPlanController@store');
+    Route::put('teachers-plans/{teacherplan}', 'TeacherPlanController@update');
+    Route::delete('teachers-plans/{teacherplan}', 'TeacherPlanController@delete');
 
 //project
-    Route::get('projects','ProjectController@index');
-    Route::get('projects/{project}','ProjectController@show');
-    Route::post('projects','ProjectController@store');
-    Route::put('projects/{project}','ProjectController@update');
-    Route::delete('projects/{project}','ProjectController@delete');
+    Route::get('projects', 'ProjectController@index');
+    Route::get('projects/{project}', 'ProjectController@show');
+    Route::post('projects', 'ProjectController@store');
+    Route::put('projects/{project}', 'ProjectController@update');
+    Route::delete('projects/{project}', 'ProjectController@delete');
 
 
 //student
-    Route::get('students','StudentController@index');
-    Route::get('students/{student}','StudentController@show');
-    Route::put('students/{student}','StudentController@update');
-    Route::delete('students/{student}','StudentController@delete');
-    Route::get('students/{student}/projects','StudentController@projects');
-    Route::get('students/{student}/projects/{project}','StudentController@project');
+    Route::get('students', 'StudentController@index');
+    Route::get('students/{student}', 'StudentController@show');
+    Route::put('students/{student}', 'StudentController@update');
+    Route::delete('students/{student}', 'StudentController@delete');
+    Route::get('students/{student}/projects', 'StudentController@projects');
+    Route::get('students/{student}/projects/{project}', 'StudentController@project');
 
 //teacher
-    Route::get('teachers','TeacherController@index');
-    Route::get('teachers/{teacher}','TeacherController@show');
-    Route::put('teachers/{teacher}','TeacherController@update');
-    Route::delete('teachers/{teacher}','TeacherController@delete');
-    Route::get('teacher/{teacher}/teacher-plans','TeacherController@ideas');
-    Route::get('teacher/{teacher}/teacher-plans/{teacherplan}','TeacherController@idea');
+    Route::get('teachers', 'TeacherController@index');
+    Route::get('teachers/{teacher}', 'TeacherController@show');
+    Route::put('teachers/{teacher}', 'TeacherController@update');
+    Route::delete('teachers/{teacher}', 'TeacherController@delete');
+    Route::get('teacher/{teacher}/projects', 'TeacherController@projects');
+    Route::get('teacher/{teacher}/projects/{project}', 'TeacherController@project');
+    Route::get('teacher/{teacher}/teacher-plans', 'TeacherController@ideas');
+    Route::get('teacher/{teacher}/teacher-plans/{teacherplan}', 'TeacherController@idea');
 
 });
