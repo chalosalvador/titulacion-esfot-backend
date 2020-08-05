@@ -26,15 +26,16 @@ class TeacherPlanController extends Controller
         return response()->json(new TeacherPlanResource($teacherplan), 200);
     }
 
-    public function store(Request $request, Teachers $teacher)
+    public function store(Request $request)
     {
-        $request->validate([
+        $validateData = $request->validate([
             'title' => 'required|string|unique:teachers_plans|max:255',
             'problem' => 'required',
             'solution' => 'required'
         ], self::$messages);
 
-        $idea = $teacher->ideas()->save(new TeachersPlans($request->all()));
+
+        $idea = TeachersPlans::create($validateData);
 
         return response()->json(new TeacherPlanResource($idea), 201);
     }
@@ -50,18 +51,6 @@ class TeacherPlanController extends Controller
         $teacherplan->update($request->all());
         return response()->json($teacherplan, 200);
     }
-
-    public function ideas(Teachers $teacher)
-    {
-        $ideas = $teacher->ideas;
-        return response()->json(TeacherPlanResource::collection($ideas), 200);
-    }
-
-//    public function idea(Teachers $teacher, TeachersPlans $ideas)
-//    {
-//        $idea = $teacher->ideas()->where('id',$ideas->id)->findOrFail();
-//        return response()->json($idea,200);
-//    }
 
     public function delete(TeachersPlans $teacherplan)
     {
