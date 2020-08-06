@@ -41,15 +41,15 @@ class StudentController extends Controller
         return response()->json($student, 200);
     }
 
-    public function projects(Project $project)
+    public function projects(Students $students)
     {
-        $projects = $project->students;
+        $projects = $students->projects;
         return response()->json(StudentResource::collection($projects), 200);
     }
 
     public function project(Students $student, Project $projects)
     {
-        $project = $student->projects()->where('id', $projects->id)->findOrFail();
+        $project = $student->projects()->where('id', $projects->id)->firstOrFail();
         return response()->json($project, 200);
     }
 

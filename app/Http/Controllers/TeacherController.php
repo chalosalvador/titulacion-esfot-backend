@@ -40,7 +40,7 @@ class TeacherController extends Controller
 
     public function project(Teachers $teachers, Project $projects)
     {
-        $project = $teachers->projects()->where('id',$projects->id)->findOrFail();
+        $project = $teachers->projects()->where('id',$projects->id)->firstOrFail();
         return response()->json($project,200);
     }
 
@@ -51,7 +51,7 @@ class TeacherController extends Controller
 
     public function idea(Teachers $teacher, TeachersPlans $ideas)
     {
-        $idea = $teacher->ideas()->where('id',$ideas->id)->findOrFail();
+        $idea = $teacher->ideas()->where('id',$ideas->id)->firstOrFail();
         return response()->json($idea,200);
     }
 
