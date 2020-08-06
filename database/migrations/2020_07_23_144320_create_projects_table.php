@@ -27,11 +27,11 @@ class CreateProjectsTable extends Migration
             $table->string('report_modified_at', 45 )->nullable();
         });
 
-        Schema::create('project_student', function (Blueprint $table) {
+        Schema::create('project_students', function (Blueprint $table) {
             $table->unsignedBigInteger('project_id');
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('restrict');
-            $table->unsignedBigInteger('student_id');
-            $table->foreign('student_id')->references('id')->on('students')->onDelete('restrict');
+            $table->unsignedBigInteger('students_id');
+            $table->foreign('students_id')->references('id')->on('students')->onDelete('restrict');
             $table->timestamps();
         });
 

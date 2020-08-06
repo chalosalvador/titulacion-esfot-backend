@@ -15,4 +15,9 @@ class TeachersPlans extends Model
             $project->teachers_id = Auth::id();
         });
     }
+
+    public function teacher()
+    {
+        return $this->belongsTo('App\Teachers');
+    }
 }
