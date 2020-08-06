@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Project;
+use App\Students;
 use App\Http\Resources\Project as ProjectResource;
 use App\Http\Resources\ProjectCollection;
 use Illuminate\Http\Request;
@@ -22,12 +23,12 @@ class ProjectController extends Controller
 
     public function show(Project $project)
     {
-        return response()->json(new ProjectResource($project),200);
+        return response()->json(new ProjectResource($project), 200);
     }
 
-    public function store(Request $request)
+    public function store(Request $request, Students $students)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'title' => 'required|string|unique:projects|max:255',
             'general_objective' => 'required',
             'specifics_objectives' => 'required',
@@ -35,7 +36,7 @@ class ProjectController extends Controller
             'teachers_id' => 'required'
         ], self::$messages);
 
-        $project = Project::create($validatedData);
+        $project = $students->projects()->save(new Project($request->all()));
         return response()->json(new ProjectResource($project), 201);
     }
 

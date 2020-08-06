@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Project;
 use App\Students;
 use Illuminate\Http\Request;
+use App\Http\Resources\Project as ProjectResource;
 use App\Http\Resources\Student as StudentResource;
 use App\Http\Resources\StudentCollection;
 
@@ -41,16 +42,17 @@ class StudentController extends Controller
         return response()->json($student, 200);
     }
 
-    public function projects(Students $students)
+    public function projects(Students $student)
     {
-        $projects = $students->projects;
-        return response()->json(StudentResource::collection($projects), 200);
+        $projects = $student->projects;
+        return response()->json(ProjectResource::collection($projects), 200);
+
     }
 
-    public function project(Students $student, Project $projects)
+    public function project(Students $student, Project $project)
     {
-        $project = $student->projects()->where('id', $projects->id)->firstOrFail();
-        return response()->json($project, 200);
+        $projects = $student->projects()->where('id', $project->id)->firstOrFail();
+        return response()->json($projects, 200);
     }
 
     public function delete(Students $student)

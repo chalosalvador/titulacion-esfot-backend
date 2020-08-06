@@ -33,7 +33,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
 //project
     Route::get('projects', 'ProjectController@index');
     Route::get('projects/{project}', 'ProjectController@show');
-    Route::post('projects', 'ProjectController@store');
+    Route::post('students/{students}/projects', 'ProjectController@store');
     Route::put('projects/{project}', 'ProjectController@update');
     Route::delete('projects/{project}', 'ProjectController@delete');
 
@@ -51,9 +51,9 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get('teachers/{teacher}', 'TeacherController@show');
     Route::put('teachers/{teacher}', 'TeacherController@update');
     Route::delete('teachers/{teacher}', 'TeacherController@delete');
-    Route::get('teacher/{teacher}/projects', 'TeacherController@projects');
-    Route::get('teacher/{teacher}/projects/{project}', 'TeacherController@project');
-    Route::get('teacher/{teacher}/teacher-plans', 'TeacherController@ideas');
-    Route::get('teacher/{teacher}/teacher-plans/{teacherplan}', 'TeacherController@idea');
+    Route::get('teachers/{teacher}/projects', 'TeacherController@projects');
+    Route::get('teachers/{teacher}/projects/{project}', 'TeacherController@project');
+    Route::get('teachers/{teacher}/ideas', 'TeacherController@ideas');
+    Route::get('teachers/{teacher}/ideas/{idea}', 'TeacherController@idea');
 
 });

@@ -6,6 +6,8 @@ use App\Teachers;
 use App\Project;
 use App\TeachersPlans;
 use Illuminate\Http\Request;
+use App\Http\Resources\Project as ProjectResource;
+use App\Http\Resources\TeacherPlan as TeacherPlanResource;
 use App\Http\Resources\Teacher as TeacherResource;
 use App\Http\Resources\TeacherCollection;
 
@@ -33,26 +35,26 @@ class TeacherController extends Controller
         return response()->json($teacher, 200);
     }
 
-    public function projects(Teachers $teachers)
+    public function projects(Teachers $teacher)
     {
-        return response()->json(TeacherResource::collection($teachers->projects), 200);
+        return response()->json(ProjectResource::collection($teacher->projects), 200);
     }
 
-    public function project(Teachers $teachers, Project $projects)
+    public function project(Teachers $teacher, Project $project)
     {
-        $project = $teachers->projects()->where('id',$projects->id)->firstOrFail();
-        return response()->json($project,200);
+        $projects = $teacher->projects()->where('id',$project->id)->firstOrFail();
+        return response()->json(new ProjectResource($projects),200);
     }
 
-    public function ideas(Teachers $teachers)
+    public function ideas(Teachers $teacher)
     {
-        return response()->json(TeacherResource::collection($teachers->ideas),200);
+        return response()->json(TeacherPlanResource::collection($teacher->ideas),200);
     }
 
-    public function idea(Teachers $teacher, TeachersPlans $ideas)
+    public function idea(Teachers $teacher, TeachersPlans $idea)
     {
-        $idea = $teacher->ideas()->where('id',$ideas->id)->firstOrFail();
-        return response()->json($idea,200);
+        $ideas = $teacher->ideas()->where('id',$idea->id)->firstOrFail();
+        return response()->json(new TeacherPlanResource($ideas),200);
     }
 
     public function delete(Teachers $teacher)
