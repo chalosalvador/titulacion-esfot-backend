@@ -33,7 +33,8 @@ class ProjectController extends Controller
             'general_objective' => 'required',
             'specifics_objectives' => 'required',
             'uploaded_at' => 'required',
-            'teachers_id' => 'required'
+            'teachers_id' => 'required',
+            'cronogram' => 'required',
         ], self::$messages);
 
         $project = $students->projects()->save(new Project($request->all()));
