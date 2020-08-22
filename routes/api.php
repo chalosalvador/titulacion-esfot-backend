@@ -19,6 +19,7 @@ use Illuminate\Http\Request;
 
 Route::post('register', 'UserController@register');
 Route::post('login', 'UserController@authenticate');
+Route::get('projects/{project}/cronogram', 'ProjectController@cronogram');
 
 Route::group(['middleware' => ['jwt.verify']], function () {
     //users
@@ -43,8 +44,10 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get('students/{student}', 'StudentController@show');
     Route::put('students/{student}', 'StudentController@update');
     Route::delete('students/{student}', 'StudentController@delete');
-    Route::get('students/{student}/projects', 'StudentController@projects');
+
     Route::get('students/{student}/projects/{project}', 'StudentController@project');
+
+//project cronogram
 
 //teacher
     Route::get('teachers', 'TeacherController@index');

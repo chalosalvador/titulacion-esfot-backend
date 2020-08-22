@@ -7,6 +7,8 @@ use App\Students;
 use App\Http\Resources\Project as ProjectResource;
 use App\Http\Resources\ProjectCollection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use const Grpc\STATUS_OUT_OF_RANGE;
 
 class ProjectController extends Controller
 {
@@ -26,6 +28,11 @@ class ProjectController extends Controller
         return response()->json(new ProjectResource($project), 200);
     }
 
+    public function cronogram(Project $project)
+    {
+        return response()->download(public_path(Storage::url($project->cronogram)), $project->title);
+    }
+
     public function store(Request $request, Students $students)
     {
         $request->validate([
@@ -34,7 +41,7 @@ class ProjectController extends Controller
             'specifics_objectives' => 'required',
             'uploaded_at' => 'required',
             'teachers_id' => 'required',
-            'cronogram' => 'required',
+            'cronogram' => 'required|image',
         ], self::$messages);
 
         $project = $students->projects()->save(new Project($request->all()));
