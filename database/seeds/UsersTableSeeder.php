@@ -21,20 +21,28 @@ class UsersTableSeeder extends Seeder
         $password = Hash::make('123456');
 
 
-        User::create(['name' => 'Administrador', 'email' => 'admin@prueba.com', 'password' => $password,'userable_id'=>0,'userable_type'=>'App\Admin']);
+        User::create([
+            'name' => 'Administrador',
+            'email' => 'admin@prueba.com',
+            'password' => $password,
+            'userable_id' => 0,
+            'userable_type' => 'App\Admin',
+            'role'=>User::ROLE_SUPERADMIN]);
 
         for ($i = 0; $i < 10; $i++) {
-            $student = Students::create(['apto'=>$faker->boolean,'unique_number'=>$faker->word]);
-            $teacher = Teachers::create(['titular'=>$faker->boolean]);
-            $student->user() -> create([
+            $student = Students::create(['apto' => $faker->boolean, 'unique_number' => $faker->word]);
+            $teacher = Teachers::create(['titular' => $faker->boolean]);
+            $student->user()->create([
                 'name' => $faker->name,
                 'email' => $faker->email,
                 'password' => $password,
-                ]);
-            $teacher->user() -> create([
+                'role'=>User::ROLE_STUDENT
+            ]);
+            $teacher->user()->create([
                 'name' => $faker->name,
                 'email' => $faker->email,
                 'password' => $password,
+                'role'=>User::ROLE_TEACHER
             ]);
 
         }

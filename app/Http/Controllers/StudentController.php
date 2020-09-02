@@ -38,12 +38,14 @@ class StudentController extends Controller
 
     public function update(Request $request, Students $student)
     {
+        $this->authorize('update', $student);
         $student->update($request->all());
         return response()->json($student, 200);
     }
 
     public function projects(Students $student)
     {
+        $this->authorize('view', $student);
         $projects = $student->projects;
         return response()->json(ProjectResource::collection($projects), 200);
 
@@ -51,6 +53,7 @@ class StudentController extends Controller
 
     public function project(Students $student, Project $project)
     {
+        $this->authorize('view', $student);
         $projects = $student->projects()->where('id', $project->id)->firstOrFail();
         return response()->json($projects, 200);
     }

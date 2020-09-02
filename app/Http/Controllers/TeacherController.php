@@ -46,16 +46,6 @@ class TeacherController extends Controller
         return response()->json(new ProjectResource($projects),200);
     }
 
-    public function ideas(Teachers $teacher)
-    {
-        return response()->json(TeacherPlanResource::collection($teacher->ideas),200);
-    }
-
-    public function idea(Teachers $teacher, TeachersPlans $idea)
-    {
-        $ideas = $teacher->ideas()->where('id',$idea->id)->firstOrFail();
-        return response()->json(new TeacherPlanResource($ideas),200);
-    }
 
     public function delete(Teachers $teacher)
     {

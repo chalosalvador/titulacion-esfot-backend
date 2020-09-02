@@ -28,6 +28,7 @@ class TeacherPlanController extends Controller
 
     public function store(Request $request)
     {
+        $this->authorize('create',TeachersPlans::class);
         $validateData = $request->validate([
             'title' => 'required|string|unique:teachers_plans|max:255',
             'problem' => 'required',
@@ -42,6 +43,7 @@ class TeacherPlanController extends Controller
 
     public function update(Request $request, TeachersPlans $teacherplan)
     {
+        $this->authorize('update',$teacherplan);
         $request->validate([
             'title' => 'required|string|unique:teachers_plans,title,' . $teacherplan->id . '|max:255',
             'problem' => 'required',
@@ -50,6 +52,18 @@ class TeacherPlanController extends Controller
 
         $teacherplan->update($request->all());
         return response()->json($teacherplan, 200);
+    }
+
+    public function ideas(Teachers $teacher)
+    {
+        return response()->json(TeacherPlanResource::collection($teacher->ideas),200);
+    }
+
+    public function idea(Teachers $teacher, TeachersPlans $idea)
+    {
+        $this->authorize('view',$idea);
+        $ideas = $teacher->ideas()->where('id',$idea->id)->firstOrFail();
+        return response()->json(new TeacherPlanResource($ideas),200);
     }
 
     public function delete(TeachersPlans $teacherplan)
