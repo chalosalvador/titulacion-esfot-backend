@@ -37,7 +37,7 @@ class ProjectController extends Controller
 
     public function store(Request $request)
     {
-//        $this->authorize('create',Project::class);
+        $this->authorize('create',Project::class);
         $request->validate([
             'title' => 'required|string|unique:projects|max:255',
             'general_objective' => 'required',
@@ -51,7 +51,11 @@ class ProjectController extends Controller
         $project = new Project($request->all());
 
         $project->save();
-        $project->students()->sync([Auth::id(), $request->student_id_2]);
+        if($request->student_id_2!==null) {
+            $project->students()->sync([Auth::id(), $request->student_id_2]);
+        } else {
+            $project->students()->sync([Auth::id()]);
+        }
         return response()->json(new ProjectResource($project), 201);
     }
 
