@@ -37,7 +37,7 @@ class ProjectController extends Controller
 
     public function store(Request $request)
     {
-        // $this->authorize('create',Project::class);
+        $this->authorize('create');
         $request->validate([
             'title' => 'required|string|unique:projects|max:255',
             'general_objective' => 'required',
@@ -45,7 +45,7 @@ class ProjectController extends Controller
             'uploaded_at' => 'required',
             'teachers_id' => 'required',
             'cronogram' => 'required|image',
-            'student_id_2' => 'nullable|exists:user,id'
+            'student_id_2' => 'nullable|exists:users,id'
         ], self::$messages);
 
         $project = new Project($request->all());
