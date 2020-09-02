@@ -22,9 +22,9 @@ class ProjectsTableSeeder extends Seeder
 
         foreach ($teachers as $teacher){
             Project::create([
-                'title' => $faker->word,
-                'general_objective' => $faker->word,
-                'specifics_objectives'=> $faker->word,
+                'title' => $faker->sentence(6),
+                'general_objective' => $faker->sentence(6),
+                'specifics_objectives'=> $faker->sentence(6),
                 'cronogram' =>$faker->imageUrl(400,300, null, false),
                 'uploaded_at'=>$faker->dateTime,
                 'report_pdf'=>$faker->word,

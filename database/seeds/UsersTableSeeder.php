@@ -21,7 +21,7 @@ class UsersTableSeeder extends Seeder
         $password = Hash::make('123456');
 
 
-        User::create(['name' => 'Administrador', 'email' => 'admin@prueba.com', 'password' => $password,'userable_id'=>0,'userable_type'=>'App\Admin']);
+        User::create(['name' => 'Administrador', 'email' => 'admin@prueba.com', 'password' => $password,'userable_id'=>0,'userable_type'=>'App\Teachers']);
 
         for ($i = 0; $i < 10; $i++) {
             $student = Students::create(['apto'=>$faker->boolean,'unique_number'=>$faker->word]);
