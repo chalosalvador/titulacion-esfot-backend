@@ -48,7 +48,7 @@ class ProjectController extends Controller
             'student_id_2' => 'nullable|exists:users,id'
         ], self::$messages);
 
-        $project = new Project($request->all());
+        $project = new Project($request->except('student_id_2'));
 
         $project->save();
         if($request->student_id_2!==null) {
