@@ -26,6 +26,7 @@ class Project extends JsonResource
             'report_uploaded_at'=>$this->report_uploaded_at,
             'report_modified_at'=>$this->report_modified_at,
             'teacher'=>'/api/teachers/'.$this->teachers_id,
+            'teacher_name' => $this->teacher->user->name,
             'cronogram'=>$this->cronogram,
         ];
     }
