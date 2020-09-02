@@ -37,7 +37,7 @@ class ProjectController extends Controller
 
     public function store(Request $request)
     {
-        $this->authorize('create',Project::class);
+//        $this->authorize('create',Project::class);
         $request->validate([
             'title' => 'required|string|unique:projects|max:255',
             'general_objective' => 'required',
