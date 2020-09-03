@@ -18,7 +18,7 @@ class ProjectsTableSeeder extends Seeder
 
         $teachers = \App\Teachers::all();
 
-        $image_name = $faker->image('public/storage/projects', 400, 300, null);
+//        $image_name = $faker->image('storage/app/public/projects', 400, 300, null);
 
         foreach ($teachers as $teacher){
             Project::create([
