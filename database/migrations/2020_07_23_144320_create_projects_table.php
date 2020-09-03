@@ -17,9 +17,9 @@ class CreateProjectsTable extends Migration
             $table->bigIncrements('id');
 //            $table->integer('director_id');
 //            $table->integer('codirector_id');
-            $table->string('title', 45);
-            $table->string('general_objective', 45);
-            $table->string('specifics_objectives', 45);
+            $table->string('title', 255);
+            $table->string('general_objective', 255);
+            $table->string('specifics_objectives', 255);
             $table->timestamps();
             $table->string('uploaded_at', 45);
             $table->string('report_pdf', 45)->nullable();
