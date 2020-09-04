@@ -7,6 +7,7 @@ use App\Students;
 use App\Http\Resources\Project as ProjectResource;
 use App\Http\Resources\ProjectCollection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use const Grpc\STATUS_OUT_OF_RANGE;
 
@@ -25,6 +26,7 @@ class ProjectController extends Controller
 
     public function show(Project $project)
     {
+//        $this->authorize('view', $project);
         return response()->json(new ProjectResource($project), 200);
     }
 
@@ -33,8 +35,9 @@ class ProjectController extends Controller
         return response()->download(public_path(Storage::url($project->cronogram)), $project->title);
     }
 
-    public function store(Request $request, Students $students)
+    public function store(Request $request)
     {
+        $this->authorize('create', Project::class);
         $request->validate([
             'title' => 'required|string|unique:projects|max:255',
             'general_objective' => 'required',
@@ -42,14 +45,23 @@ class ProjectController extends Controller
             'uploaded_at' => 'required',
             'teachers_id' => 'required',
             'cronogram' => 'required|image',
+            'student_id_2' => 'nullable|exists:users,id'
         ], self::$messages);
 
-        $project = $students->projects()->save(new Project($request->all()));
+        $project = new Project($request->except(['student_id_2']));
+
+        $project->save();
+        if($request->student_id_2!==null) {
+            $project->students()->sync([Auth::user()->id, $request->student_id_2]);
+        } else {
+            $project->students()->sync([Auth::user()->id]);
+        }
         return response()->json(new ProjectResource($project), 201);
     }
 
     public function update(Request $request, Project $project)
     {
+        $this->authorize('update', $project);
         $request->validate([
             'title' => 'required|string|unique:projects,title,' . $project->id . '|max:255',
             'general_objective' => 'required',

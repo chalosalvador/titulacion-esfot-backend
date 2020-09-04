@@ -22,6 +22,7 @@ class User extends JsonResource
 //            'userable'=>$this->userable,
 //            'unique_number'=>$this->when(Auth::user()->userable_type=='App\Student',$this->userable->unique_number),
             $this->merge($this->userable),
+            'role'=>$this->role,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
