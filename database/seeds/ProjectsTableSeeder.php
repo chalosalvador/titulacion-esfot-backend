@@ -18,13 +18,13 @@ class ProjectsTableSeeder extends Seeder
 
         $teachers = \App\Teachers::all();
 
-        $image_name = $faker->image('public/storage/projects', 400, 300, null);
+//        $image_name = $faker->image('storage/app/public/projects', 400, 300, null);
 
         foreach ($teachers as $teacher){
             Project::create([
-                'title' => $faker->word,
-                'general_objective' => $faker->word,
-                'specifics_objectives'=> $faker->word,
+                'title' => $faker->sentence(6),
+                'general_objective' => $faker->sentence(6),
+                'specifics_objectives'=> $faker->sentence(6),
                 'cronogram' =>$faker->imageUrl(400,300, null, false),
                 'uploaded_at'=>$faker->dateTime,
                 'report_pdf'=>$faker->word,
