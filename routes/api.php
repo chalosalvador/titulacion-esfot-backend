@@ -18,7 +18,7 @@ use Illuminate\Http\Request;
 //});
 
 
-Route::group(['middleware'=>['cors']],function (){
+Route::group(['middleware'=>['cors']],function () {
     Route::post('register', 'UserController@register');
     Route::post('login', 'UserController@authenticate');
     Route::get('projects/{project}/cronogram', 'ProjectController@cronogram');
@@ -39,7 +39,7 @@ Route::group(['middleware'=>['cors']],function (){
 //project
         Route::get('projects', 'ProjectController@index');
         Route::get('projects/{project}', 'ProjectController@show');
-        Route::post('students/{students}/projects', 'ProjectController@store');
+        Route::post('students/projects', 'ProjectController@store');
         Route::put('projects/{project}', 'ProjectController@update');
         Route::delete('projects/{project}', 'ProjectController@delete');
 
@@ -55,12 +55,13 @@ Route::group(['middleware'=>['cors']],function (){
 //project cronogram
 
 //teacher
-    Route::get('teachers', 'TeacherController@index');
-    Route::get('teachers/{teacher}', 'TeacherController@show');
-    Route::put('teachers/{teacher}', 'TeacherController@update');
-    Route::delete('teachers/{teacher}', 'TeacherController@delete');
-    Route::get('teachers/{teacher}/projects', 'TeacherController@projects');
-    Route::get('teachers/{teacher}/projects/{project}', 'TeacherController@project');
+        Route::get('teachers', 'TeacherController@index');
+        Route::get('teachers/{teacher}', 'TeacherController@show');
+        Route::put('teachers/{teacher}', 'TeacherController@update');
+        Route::delete('teachers/{teacher}', 'TeacherController@delete');
+        Route::get('teachers/{teacher}/projects', 'TeacherController@projects');
+        Route::get('teachers/{teacher}/projects/{project}', 'TeacherController@project');
 
 
+    });
 });
