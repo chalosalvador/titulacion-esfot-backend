@@ -51,7 +51,7 @@ class ProjectController extends Controller
         $project = new Project($request->except(['student_id_2']));
 
         $project->save();
-        if($request->student_id_2!==null) {
+        if ($request->student_id_2 !== null) {
             $project->students()->sync([Auth::user()->id, $request->student_id_2]);
         } else {
             $project->students()->sync([Auth::user()->id]);
