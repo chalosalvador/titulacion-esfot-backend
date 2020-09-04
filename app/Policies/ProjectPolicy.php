@@ -15,7 +15,6 @@ class ProjectPolicy
         if ($user->isGranted(User::ROLE_SUPERADMIN)) {
             return true;
         }
-        return false;
     }
 
     /**

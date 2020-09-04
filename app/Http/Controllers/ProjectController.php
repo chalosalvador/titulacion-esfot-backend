@@ -26,7 +26,7 @@ class ProjectController extends Controller
 
     public function show(Project $project)
     {
-        $this->authorize('view', $project);
+//        $this->authorize('view', $project);
         return response()->json(new ProjectResource($project), 200);
     }
 
@@ -37,7 +37,7 @@ class ProjectController extends Controller
 
     public function store(Request $request)
     {
-//        $this->authorize('create', Project::class);
+        $this->authorize('create', Project::class);
         $request->validate([
             'title' => 'required|string|unique:projects|max:255',
             'general_objective' => 'required',
@@ -52,9 +52,9 @@ class ProjectController extends Controller
 
         $project->save();
         if($request->student_id_2!==null) {
-            $project->students()->sync([Auth::id(), $request->student_id_2]);
+            $project->students()->sync([Auth::user()->id, $request->student_id_2]);
         } else {
-            $project->students()->sync([Auth::id()]);
+            $project->students()->sync([Auth::user()->id]);
         }
         return response()->json(new ProjectResource($project), 201);
     }
