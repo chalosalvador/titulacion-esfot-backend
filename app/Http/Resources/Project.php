@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\User as UserResource;
 
 class Project extends JsonResource
 {
@@ -26,7 +27,7 @@ class Project extends JsonResource
             'report_uploaded_at'=>$this->report_uploaded_at,
             'report_modified_at'=>$this->report_modified_at,
             'teacher'=>'/api/teachers/'.$this->teachers_id,
-            'teacher_name' => $this->teacher->user->name,
+            'teacher_name' => isset($this->teacher) ? new UserResource($this->teacher->user) : null,
             'cronogram'=>$this->cronogram,
         ];
     }
