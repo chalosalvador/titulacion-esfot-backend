@@ -16,22 +16,48 @@ class CreateProjectsTable extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->bigIncrements('id');
 //            $table->integer('director_id');
-//            $table->integer('codirector_id');
-            $table->string('title', 255);
-            $table->string('general_objective', 255);
-            $table->string('specifics_objectives', 255);
+//            $table->integer('coodirector_id');
+            $table->string('title', 255)->nullable();
+            $table->string('general_objective', 255)->nullable();
+            $table->string('specifics_objectives', 255)->nullable();
+            $table->text('problem')->nullable();
+            $table->text('hypothesis')->nullable();
+            $table->text('justification')->nullable();
+            $table->text('methodology')->nullable();
+            $table->text('work_plan')->nullable();
+            $table->string('research_line', 255)->nullable();
+            $table->string('knowledge_area', 255)->nullable();
+            $table->enum('status', [
+                'plan_sent',
+                'plan_approved_director',
+                'san_curriculum_1',
+                'plan_review_commission',
+                'plan_approved_commission',
+                'project_uploaded',
+                'project_approved_director'.
+                'san_curriculum_2',
+                'tribunal_assigned',
+                'project_graded',
+                'test_defense_apt',
+                'date_defense_assigned',
+                'project_completed',
+                'plan_rejected',
+                'project_rejected']);
             $table->timestamps();
-            $table->string('uploaded_at', 45);
-            $table->string('report_pdf', 45)->nullable();
-            $table->string('report_uploaded_at', 45 )->nullable();
-            $table->string('report_modified_at', 45 )->nullable();
+            $table->dateTime('uploaded_at')->nullable();
+            $table->string('schedule')->nullable();
+            $table->string('report_pdf', 255)->nullable();
+            $table->dateTime('report_uploaded_at')->nullable();
+            $table->dateTime('report_modified_at')->nullable();
+            $table->bigInteger('teacher_id')->unsigned();
+            $table->foreign('teacher_id')->references('id')->on('teachers')->onDelete('restrict');
         });
 
-        Schema::create('project_students', function (Blueprint $table) {
+        Schema::create('project_student', function (Blueprint $table) {
             $table->unsignedBigInteger('project_id');
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('restrict');
-            $table->unsignedBigInteger('students_id');
-            $table->foreign('students_id')->references('id')->on('students')->onDelete('restrict');
+            $table->unsignedBigInteger('student_id');
+            $table->foreign('student_id')->references('id')->on('students')->onDelete('restrict');
             $table->timestamps();
         });
 
