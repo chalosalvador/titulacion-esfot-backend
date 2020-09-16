@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Project;
-use App\Students;
+use App\Student;
 use App\Http\Resources\Project as ProjectResource;
 use App\Http\Resources\ProjectCollection;
 use Illuminate\Http\Request;
@@ -32,30 +32,29 @@ class ProjectController extends Controller
 
     public function cronogram(Project $project)
     {
-        return response()->download(public_path(Storage::url($project->cronogram)), $project->title);
+        return response()->download(public_path(Storage::url($project->schedule)), $project->title);
     }
 
     public function store(Request $request)
     {
         $this->authorize('create', Project::class);
         $request->validate([
-            'title' => 'required|string|unique:projects|max:255',
-            'general_objective' => 'required',
-            'specifics_objectives' => 'required',
-            'uploaded_at' => 'required',
-            'teachers_id' => 'required',
-            'cronogram' => 'required|image',
+            'title' => 'string|unique:projects|max:255',
+            'teacher_id' => 'required|exists:teachers,id',
+            'schedule' => 'image',
             'student_id_2' => 'nullable|exists:users,id'
         ], self::$messages);
 
         $project = new Project($request->except(['student_id_2']));
 
         $project->save();
-        if ($request->student_id_2 !== null) {
-            $project->students()->sync([Auth::user()->id, $request->student_id_2]);
-        } else {
-            $project->students()->sync([Auth::user()->id]);
+        if($request->student_id_2!==null){
+            $project->students()->sync([Auth::id(), $request->student_id_2]);
+        }else {
+            $project->students()->sync([Auth::id()]);
         }
+
+
         return response()->json(new ProjectResource($project), 201);
     }
 

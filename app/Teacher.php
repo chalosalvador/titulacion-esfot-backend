@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Teachers extends Model
+class Teacher extends Model
 {
     protected $fillable = ['titular'];
 
@@ -19,6 +19,6 @@ class Teachers extends Model
 
     public function ideas()
     {
-        return $this->hasMany('App\TeachersPlans');
+        return $this->hasMany('App\TeacherPlan');
     }
 }

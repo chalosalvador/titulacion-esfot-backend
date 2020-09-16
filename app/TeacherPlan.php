@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
-class TeachersPlans extends Model
+class TeacherPlan extends Model
 {
     protected $fillable = ['title','problem','solution'];
     public static function boot()
@@ -18,6 +18,6 @@ class TeachersPlans extends Model
 
     public function teacher()
     {
-        return $this->belongsTo('App\Teachers');
+        return $this->belongsTo('App\Teacher');
     }
 }

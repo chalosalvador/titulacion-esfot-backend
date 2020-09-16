@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Teachers;
-use App\TeachersPlans;
+use App\Teacher;
+use App\TeacherPlan;
 use Illuminate\Http\Request;
 use App\Http\Resources\TeacherPlanCollection;
 use App\Http\Resources\TeacherPlan as TeacherPlanResource;
@@ -18,17 +18,17 @@ class TeacherPlanController extends Controller
 
     public function index()
     {
-        return new TeacherPlanCollection(TeachersPlans::paginate());
+        return new TeacherPlanCollection(TeacherPlan::paginate());
     }
 
-    public function show(TeachersPlans $teacherplan)
+    public function show(TeacherPlan $teacherplan)
     {
         return response()->json(new TeacherPlanResource($teacherplan), 200);
     }
 
     public function store(Request $request)
     {
-        $this->authorize('create',TeachersPlans::class);
+        $this->authorize('create',TeacherPlan::class);
         $validateData = $request->validate([
             'title' => 'required|string|unique:teachers_plans|max:255',
             'problem' => 'required',
@@ -36,12 +36,12 @@ class TeacherPlanController extends Controller
         ], self::$messages);
 
 
-        $idea = TeachersPlans::create($validateData);
+        $idea = TeacherPlan::create($validateData);
 
         return response()->json(new TeacherPlanResource($idea), 201);
     }
 
-    public function update(Request $request, TeachersPlans $teacherplan)
+    public function update(Request $request, TeacherPlan $teacherplan)
     {
         $this->authorize('update',$teacherplan);
         $request->validate([
@@ -54,19 +54,19 @@ class TeacherPlanController extends Controller
         return response()->json($teacherplan, 200);
     }
 
-    public function ideas(Teachers $teacher)
+    public function ideas(Teacher $teacher)
     {
         return response()->json(TeacherPlanResource::collection($teacher->ideas),200);
     }
 
-    public function idea(Teachers $teacher, TeachersPlans $idea)
+    public function idea(Teacher $teacher, TeacherPlan $idea)
     {
         $this->authorize('view',$idea);
         $ideas = $teacher->ideas()->where('id',$idea->id)->firstOrFail();
         return response()->json(new TeacherPlanResource($ideas),200);
     }
 
-    public function delete(TeachersPlans $teacherplan)
+    public function delete(TeacherPlan $teacherplan)
     {
         $teacherplan->delete();
         return response()->json(null, 204);

@@ -1,6 +1,6 @@
 <?php
 
-use App\TeachersPlans;
+use App\TeacherPlan;
 use Illuminate\Database\Seeder;
 
 class TeachersPlansSeeder extends Seeder
@@ -16,10 +16,12 @@ class TeachersPlansSeeder extends Seeder
 
         $faker = \Faker\Factory::create();
 
-        $teachers = \App\Teachers::all();
+        $teachers = \App\Teacher::all();
+
+
 
         foreach ($teachers as $teacher){
-            TeachersPlans::create([
+            TeacherPlan::create([
                 'title' => $faker->sentence,
                 'problem' => $faker->paragraph,
                 'solution'=> $faker->paragraph,

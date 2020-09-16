@@ -1,7 +1,7 @@
 <?php
 
-use App\Students;
-use App\Teachers;
+use App\Student;
+use App\Teacher;
 use App\User;
 use Illuminate\Database\Seeder;
 
@@ -30,8 +30,8 @@ class UsersTableSeeder extends Seeder
             'role'=>User::ROLE_SUPERADMIN]);
 
         for ($i = 0; $i < 10; $i++) {
-            $student = Students::create(['apto' => $faker->boolean, 'unique_number' => $faker->word]);
-            $teacher = Teachers::create(['titular' => $faker->boolean]);
+            $student = Student::create(['apto' => $faker->boolean, 'unique_number' => $faker->word]);
+            $teacher = Teacher::create(['titular' => $faker->boolean]);
             $student->user()->create([
                 'name' => $faker->name,
                 'email' => $faker->email,

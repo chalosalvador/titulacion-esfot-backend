@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Administratives extends Model
+class Administrative extends Model
 {
     protected $protected = ['users_id'];
 }

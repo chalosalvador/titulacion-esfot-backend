@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\Teachers;
+use App\Teacher;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -25,10 +25,10 @@ class TeachersPolicy
      * Determine whether the user can view the teachers.
      *
      * @param  \App\User  $user
-     * @param  \App\Teachers  $teachers
+     * @param  \App\Teacher  $teachers
      * @return mixed
      */
-    public function view(User $user, Teachers $teachers)
+    public function view(User $user, Teacher $teachers)
     {
         //
     }
@@ -48,10 +48,10 @@ class TeachersPolicy
      * Determine whether the user can update the teachers.
      *
      * @param  \App\User  $user
-     * @param  \App\Teachers  $teachers
+     * @param  \App\Teacher  $teachers
      * @return mixed
      */
-    public function update(User $user, Teachers $teachers)
+    public function update(User $user, Teacher $teachers)
     {
         //
     }
@@ -60,10 +60,10 @@ class TeachersPolicy
      * Determine whether the user can delete the teachers.
      *
      * @param  \App\User  $user
-     * @param  \App\Teachers  $teachers
+     * @param  \App\Teacher  $teachers
      * @return mixed
      */
-    public function delete(User $user, Teachers $teachers)
+    public function delete(User $user, Teacher $teachers)
     {
         //
     }
@@ -72,10 +72,10 @@ class TeachersPolicy
      * Determine whether the user can restore the teachers.
      *
      * @param  \App\User  $user
-     * @param  \App\Teachers  $teachers
+     * @param  \App\Teacher  $teachers
      * @return mixed
      */
-    public function restore(User $user, Teachers $teachers)
+    public function restore(User $user, Teacher $teachers)
     {
         //
     }
@@ -84,10 +84,10 @@ class TeachersPolicy
      * Determine whether the user can permanently delete the teachers.
      *
      * @param  \App\User  $user
-     * @param  \App\Teachers  $teachers
+     * @param  \App\Teacher  $teachers
      * @return mixed
      */
-    public function forceDelete(User $user, Teachers $teachers)
+    public function forceDelete(User $user, Teacher $teachers)
     {
         //
     }

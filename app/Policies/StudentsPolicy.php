@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\Students;
+use App\Student;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -32,10 +32,10 @@ class StudentsPolicy
      * Determine whether the user can view the students.
      *
      * @param  \App\User  $user
-     * @param  \App\Students  $students
+     * @param  \App\Student  $students
      * @return mixed
      */
-    public function view(User $user, Students $students)
+    public function view(User $user, Student $students)
     {
         return ($user->isGranted(User::ROLE_STUDENT));
     }
@@ -55,10 +55,10 @@ class StudentsPolicy
      * Determine whether the user can update the students.
      *
      * @param  \App\User  $user
-     * @param  \App\Students  $students
+     * @param  \App\Student  $students
      * @return mixed
      */
-    public function update(User $user, Students $students)
+    public function update(User $user, Student $students)
     {
         return $user->isGranted(User::ROLE_ADMIN)||$user->isGranted(User::ROLE_STUDENT);
     }
@@ -67,10 +67,10 @@ class StudentsPolicy
      * Determine whether the user can delete the students.
      *
      * @param  \App\User  $user
-     * @param  \App\Students  $students
+     * @param  \App\Student  $students
      * @return mixed
      */
-    public function delete(User $user, Students $students)
+    public function delete(User $user, Student $students)
     {
         return $user->isGranted(User::ROLE_ADMIN);
     }
@@ -79,10 +79,10 @@ class StudentsPolicy
      * Determine whether the user can restore the students.
      *
      * @param  \App\User  $user
-     * @param  \App\Students  $students
+     * @param  \App\Student  $students
      * @return mixed
      */
-    public function restore(User $user, Students $students)
+    public function restore(User $user, Student $students)
     {
         //
     }
@@ -91,10 +91,10 @@ class StudentsPolicy
      * Determine whether the user can permanently delete the students.
      *
      * @param  \App\User  $user
-     * @param  \App\Students  $students
+     * @param  \App\Student  $students
      * @return mixed
      */
-    public function forceDelete(User $user, Students $students)
+    public function forceDelete(User $user, Student $students)
     {
         //
     }

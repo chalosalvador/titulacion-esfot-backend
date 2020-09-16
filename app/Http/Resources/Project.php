@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\User as UserResource;
 
 class Project extends JsonResource
 {
@@ -14,6 +15,7 @@ class Project extends JsonResource
      */
     public function toArray($request)
     {
+        $teacher = $this->teacher->user;
         return [
             'id' => $this->id,
             'title' => $this->title,
@@ -25,9 +27,9 @@ class Project extends JsonResource
             'report_pdf'=>$this->reprt_pdf,
             'report_uploaded_at'=>$this->report_uploaded_at,
             'report_modified_at'=>$this->report_modified_at,
-            'teacher'=>'/api/teachers/'.$this->teachers_id,
-            'teacher_name' => $this->teacher->user->name,
-            'cronogram'=>$this->cronogram,
+            'teacher'=>'/api/teachers/'.$this->teacher_id,
+            'teacher_name' => $teacher->name,
+            'schedule'=>$this->schedule,
         ];
     }
 }

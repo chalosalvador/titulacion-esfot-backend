@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\TeachersPlans;
+use App\TeacherPlan;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -32,10 +32,10 @@ class TeachersPlansPolicy
      * Determine whether the user can view the teachers plans.
      *
      * @param \App\User $user
-     * @param \App\TeachersPlans $idea
+     * @param \App\TeacherPlan $idea
      * @return mixed
      */
-    public function view(User $user, TeachersPlans $idea)
+    public function view(User $user, TeacherPlan $idea)
     {
         return $user->id === $idea->teacher_id;
     }
@@ -55,34 +55,34 @@ class TeachersPlansPolicy
      * Determine whether the user can update the teachers plans.
      *
      * @param \App\User $user
-     * @param \App\TeachersPlans $teachersplans
+     * @param \App\TeacherPlan $teachersplans
      * @return mixed
      */
-    public function update(User $user, TeachersPlans $teachersplans)
+    public function update(User $user, TeacherPlan $teachersplans)
     {
-        return $user === $teachersplans->teachers_id;
+        return $user->userable->id === $teachersplans->teachers_id;
     }
 
     /**
      * Determine whether the user can delete the teachers plans.
      *
      * @param \App\User $user
-     * @param \App\TeachersPlans $teachersPlans
+     * @param \App\TeacherPlan $teachersPlans
      * @return mixed
      */
-    public function delete(User $user, TeachersPlans $teachersPlans)
+    public function delete(User $user, TeacherPlan $teachersPlans)
     {
-        return ($user->isGranted(User::ROLE_TEACHER || $user->isGranted(User::ROLE_SUPERADMIN)));
+        return ($user->isGranted(User::ROLE_TEACHER ));
     }
 
     /**
      * Determine whether the user can restore the teachers plans.
      *
      * @param \App\User $user
-     * @param \App\TeachersPlans $teachersPlans
+     * @param \App\TeacherPlan $teachersPlans
      * @return mixed
      */
-    public function restore(User $user, TeachersPlans $teachersPlans)
+    public function restore(User $user, TeacherPlan $teachersPlans)
     {
         //
     }
@@ -91,10 +91,10 @@ class TeachersPlansPolicy
      * Determine whether the user can permanently delete the teachers plans.
      *
      * @param \App\User $user
-     * @param \App\TeachersPlans $teachersPlans
+     * @param \App\TeacherPlan $teachersPlans
      * @return mixed
      */
-    public function forceDelete(User $user, TeachersPlans $teachersPlans)
+    public function forceDelete(User $user, TeacherPlan $teachersPlans)
     {
         return $user->isGranted(User::ROLE_SUPERADMIN);
     }
