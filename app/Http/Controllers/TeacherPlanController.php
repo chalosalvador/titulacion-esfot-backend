@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Teachers;
+use App\Teacher;
 use App\TeachersPlans;
 use Illuminate\Http\Request;
 use App\Http\Resources\TeacherPlanCollection;
@@ -54,12 +54,12 @@ class TeacherPlanController extends Controller
         return response()->json($teacherplan, 200);
     }
 
-    public function ideas(Teachers $teacher)
+    public function ideas(Teacher $teacher)
     {
         return response()->json(TeacherPlanResource::collection($teacher->ideas),200);
     }
 
-    public function idea(Teachers $teacher, TeachersPlans $idea)
+    public function idea(Teacher $teacher, TeachersPlans $idea)
     {
         $this->authorize('view',$idea);
         $ideas = $teacher->ideas()->where('id',$idea->id)->firstOrFail();

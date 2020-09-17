@@ -20,12 +20,12 @@ class Project extends Model
 
     public function students()
     {
-        return $this->belongsToMany('App\Students')->withTimestamps();
+        return $this->belongsToMany('App\Student')->withTimestamps();
     }
 
     public function teacher()
     {
-        return $this->belongsTo('App\Teachers', 'teachers_id');
+        return $this->belongsTo('App\Teacher');
     }
 
 

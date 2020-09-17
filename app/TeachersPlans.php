@@ -18,6 +18,6 @@ class TeachersPlans extends Model
 
     public function teacher()
     {
-        return $this->belongsTo('App\Teachers');
+        return $this->belongsTo('App\Teacher');
     }
 }

@@ -12,11 +12,11 @@ class ProjectsTableSeeder extends Seeder
      */
     public function run()
     {
-        //Project::truncate();
+        Project::truncate();
 
         $faker = \Faker\Factory::create();
 
-        $teachers = \App\Teachers::all();
+        $teachers = \App\Teacher::all();
 
 //        $image_name = $faker->image('storage/app/public/projects', 400, 300, null);
 
@@ -30,7 +30,7 @@ class ProjectsTableSeeder extends Seeder
                 'report_pdf'=>$faker->word,
                 'report_uploaded_at'=>$faker->dateTime,
                 'report_modified_at'=>$faker->dateTime,
-                'teachers_id'=>$teacher->id,
+                'teacher_id'=>$teacher->id,
 
             ]);
         }

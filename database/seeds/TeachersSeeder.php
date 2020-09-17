@@ -1,6 +1,6 @@
 <?php
 
-use App\Teachers;
+use App\Teacher;
 use Illuminate\Database\Seeder;
 
 class TeachersSeeder extends Seeder

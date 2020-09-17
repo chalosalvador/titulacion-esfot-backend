@@ -14,8 +14,8 @@ class CreateTeacherIdProjectsTable extends Migration
     public function up()
     {
         Schema::table('projects', function (Blueprint $table) {
-            $table->bigInteger('teachers_id')->unsigned();
-            $table->foreign('teachers_id')->references('id')->on('teachers')->onDelete('restrict');
+            $table->bigInteger('teacher_id')->unsigned();
+            $table->foreign('teacher_id')->references('id')->on('teachers')->onDelete('restrict');
         });
     }
 
@@ -27,7 +27,7 @@ class CreateTeacherIdProjectsTable extends Migration
     public function down()
     {
         Schema::table('projects',function (Blueprint $table) {
-            $table->dropForeign(['teachers_id']);
+            $table->dropForeign(['teacher_id']);
         });
     }
 }

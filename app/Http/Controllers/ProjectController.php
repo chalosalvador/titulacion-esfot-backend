@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Project;
-use App\Students;
+use App\Student;
 use App\Http\Resources\Project as ProjectResource;
 use App\Http\Resources\ProjectCollection;
 use Illuminate\Http\Request;

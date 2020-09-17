@@ -12,11 +12,11 @@ class TeachersPlansSeeder extends Seeder
      */
     public function run()
     {
-        //TeachersPlans::truncate();
+        TeachersPlans::truncate();
 
         $faker = \Faker\Factory::create();
 
-        $teachers = \App\Teachers::all();
+        $teachers = \App\Teacher::all();
 
         foreach ($teachers as $teacher){
             TeachersPlans::create([
