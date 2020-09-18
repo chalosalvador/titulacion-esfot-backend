@@ -41,17 +41,18 @@ class ProjectController extends Controller
         $request->validate([
             'title' => 'string|unique:projects|max:255',
             'teacher_id' => 'required|exists:teachers,id',
-            'schedule' => 'image',
+            'schedule' => 'nullable|image',
             'student_id_2' => 'nullable|exists:users,id'
         ], self::$messages);
 
         $project = new Project($request->except(['student_id_2']));
+        $user = Auth::user();
 
         $project->save();
         if($request->student_id_2!==null){
-            $project->students()->sync([Auth::id(), $request->student_id_2]);
+            $project->students()->sync([$user->userable->id, $request->student_id_2]);
         }else {
-            $project->students()->sync([Auth::id()]);
+            $project->students()->sync([$user->userable->id]);
         }
 
 

@@ -12,7 +12,7 @@ class ProjectsTableSeeder extends Seeder
      */
     public function run()
     {
-        //Project::truncate();
+        Project::truncate();
 
         $faker = \Faker\Factory::create();
 
@@ -30,7 +30,7 @@ class ProjectsTableSeeder extends Seeder
                 'research_line' => $faker->sentence('5'),
                 'knowledge_area' => $faker->sentence('5'),
                 'general_objective' => $faker->sentence(15),
-                'specifics_objectives' => $faker->sentence(25),
+                'specifics_objectives' => $faker->sentence(15),
                 'schedule' => $faker->imageUrl(400, 300, null, false),
                 'uploaded_at' => $faker->dateTime,
                 'report_pdf' => $faker->sentence('15'),
