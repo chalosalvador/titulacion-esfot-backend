@@ -26,6 +26,7 @@ Route::group(['middleware'=>['cors']],function () {
     Route::group(['middleware' => ['jwt.verify']], function () {
         //users
         Route::get('user', 'UserController@getAuthenticatedUser');
+        Route::post('logout', 'UserController@logout');
         //teachers plans
         Route::get('teachers-plans', 'TeacherPlanController@index');
         Route::get('teachers-plans/{teacherplan}', 'TeacherPlanController@show');

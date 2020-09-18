@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\User;
+use App\Mail\NewProjectStudent;
+use App\Mail\NewProjectUploadTeacher;
 use App\Project;
 use App\Student;
 use App\Http\Resources\Project as ProjectResource;
 use App\Http\Resources\ProjectCollection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use const Grpc\STATUS_OUT_OF_RANGE;
 
@@ -46,15 +50,18 @@ class ProjectController extends Controller
         ], self::$messages);
 
         $project = new Project($request->except(['student_id_2']));
-
+        $students[] = Auth::user();
         $project->save();
-        if($request->student_id_2!==null){
+        if($request->student_id_2 !== null){
             $project->students()->sync([Auth::id(), $request->student_id_2]);
+            $students[] = Student::find( $request->student_id_2)->user;
         }else {
             $project->students()->sync([Auth::id()]);
         }
 
 
+        Mail::to($project->teacher->user)->send(new NewProjectUploadTeacher($project));
+        Mail::to($students)->send(new NewProjectStudent($project));
         return response()->json(new ProjectResource($project), 201);
     }
 
