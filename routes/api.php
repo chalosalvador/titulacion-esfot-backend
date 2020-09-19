@@ -46,11 +46,11 @@ Route::group(['middleware'=>['cors']],function () {
 
 //student
         Route::get('students', 'StudentController@index');
-        Route::get('students/{student}', 'StudentController@show');
+        Route::get('students/project', 'StudentController@show');
         Route::put('students/{student}', 'StudentController@update');
         Route::delete('students/{student}', 'StudentController@delete');
 
-        Route::get('students/{student}/projects/{project}', 'StudentController@project');
+        Route::get('students/view-projects', 'StudentController@project');
 
 //project cronogram
 
