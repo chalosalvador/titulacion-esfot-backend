@@ -40,7 +40,7 @@ Route::group(['middleware'=>['cors']],function () {
         Route::get('projects', 'ProjectController@index');
         Route::get('projects/{project}', 'ProjectController@show');
         Route::post('students/projects', 'ProjectController@store');
-        Route::put('projects/{project}', 'ProjectController@update');
+        Route::post('projects/{project}', 'ProjectController@update');
         Route::delete('projects/{project}', 'ProjectController@delete');
 
 

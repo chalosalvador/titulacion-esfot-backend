@@ -28,6 +28,7 @@ class CreateProjectsTable extends Migration
             $table->string('research_line', 255)->nullable();
             $table->string('knowledge_area', 255)->nullable();
             $table->enum('status', [
+                'plan_saved',
                 'plan_sent',
                 'plan_approved_director',
                 'san_curriculum_1',
