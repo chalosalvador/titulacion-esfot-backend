@@ -9,7 +9,6 @@ use App\Http\Resources\ProjectCollection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use const Grpc\STATUS_OUT_OF_RANGE;
 
 class ProjectController extends Controller
 {
@@ -59,15 +58,19 @@ class ProjectController extends Controller
         return response()->json(new ProjectResource($project), 201);
     }
 
+    /**
+     * @param Request $request
+     * @param Project $project
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function update(Request $request, Project $project)
     {
         $this->authorize('update', $project);
         $request->validate([
-            'title' => 'required|string|unique:projects,title,' . $project->id . '|max:255',
-            'general_objective' => 'required',
-            'specifics_objectives' => 'required',
-
+            'title' => 'string|unique:projects,title,' . $project->id . '|max:255',
         ], self::$messages);
+
         $project->update($request->all());
         return response()->json($project, 200);
     }
