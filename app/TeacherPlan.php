@@ -7,12 +7,15 @@ use Illuminate\Support\Facades\Auth;
 
 class TeacherPlan extends Model
 {
-    protected $fillable = ['title','problem','solution'];
+    protected $fillable = ['title', 'problem', 'solution'];
+
     public static function boot()
     {
+
         parent::boot();
         static::creating(function ($project) {
-            $project->teachers_id = Auth::id();
+            $user = Auth::user();
+            $project->teachers_id = $user->userable->id;
         });
     }
 

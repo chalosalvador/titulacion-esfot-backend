@@ -27,11 +27,11 @@ Route::group(['middleware'=>['cors']],function () {
         //users
         Route::get('user', 'UserController@getAuthenticatedUser');
         //teachers plans
-        Route::get('teachers-plans', 'TeacherPlanController@index');
-        Route::get('teachers-plans/{teacherplan}', 'TeacherPlanController@show');
-        Route::post('teachers-plans', 'TeacherPlanController@store');
-        Route::put('teachers-plans/{teacherplan}', 'TeacherPlanController@update');
-        Route::delete('teachers-plans/{teacherplan}', 'TeacherPlanController@delete');
+        Route::get('teachers-ideas', 'TeacherPlanController@index');
+        Route::get('teachers-ideas/{teacherplan}', 'TeacherPlanController@show');
+        Route::post('teachers-ideas', 'TeacherPlanController@store');
+        Route::put('teachers-ideas/{teacherplan}', 'TeacherPlanController@update');
+        Route::delete('teachers-ideas/{teacherplan}', 'TeacherPlanController@delete');
         Route::get('teachers/{teacher}/ideas', 'TeacherPlanController@ideas');
         Route::get('teachers/{teacher}/ideas/{idea}', 'TeacherPlanController@idea');
 
