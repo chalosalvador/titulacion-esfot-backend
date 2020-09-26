@@ -31,7 +31,7 @@ class TeacherPlanController extends Controller
         $this->authorize('create', TeacherPlan::class);
 
         $validateData = $request->validate([
-            'title' => 'required|string|unique:teachers_plans|max:255',
+            'title' => 'required|string|unique:teacher_plans|max:255',
             'problem' => 'required',
             'solution' => 'required'
         ], self::$messages);
@@ -45,7 +45,7 @@ class TeacherPlanController extends Controller
     public function update(Request $request, TeacherPlan $teacherplan)
     {
         $request->validate([
-            'title' => 'required|string|unique:teachers_plans,title,' . $teacherplan->id . '|max:255',
+            'title' => 'required|string|unique:teacher_plans,title,' . $teacherplan->id . '|max:255',
             'problem' => 'required',
             'solution' => 'required'
         ], self::$messages);
