@@ -61,8 +61,8 @@ return [
     ],
 
     'to' => [
-        'address' => 'example@example.com',
-        'name' => 'Example'
+        'address' => 'chantal.morales@epn.edu.ec',
+        'name' => 'pruebas'
     ],
 
     /*
