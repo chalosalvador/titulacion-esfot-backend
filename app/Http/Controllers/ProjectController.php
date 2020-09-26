@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\User;
 use App\Mail\NewProjectStudent;
 use App\Mail\NewProjectUploadTeacher;
+use App\Mail\PlanApprovedByDirector;
 use App\Project;
 use App\Student;
 use App\Http\Resources\Project as ProjectResource;
@@ -75,6 +76,14 @@ class ProjectController extends Controller
 
         ], self::$messages);
         $project->update($request->all());
+        $students[] = Auth::user();
+        if($request->student_id_2 !== null){
+            $project->students()->sync([Auth::id(), $request->student_id_2]);
+            $students[] = Student::find( $request->student_id_2)->user;
+        }else {
+            $project->students()->sync([Auth::id()]);
+        }
+        Mail::to($students)->send(new PlanApprovedByDirector($project));
         return response()->json($project, 200);
     }
 
