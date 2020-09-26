@@ -15,7 +15,7 @@ class TeacherPlan extends JsonResource
      */
     public function toArray($request)
     {
-        $teacher = $this->teacher;
+        $teacher = $this->teacher->user;
         return [
             'id'=>$this->id,
             'title'=>$this->title,
@@ -24,7 +24,7 @@ class TeacherPlan extends JsonResource
             'created_at'=>$this->created_at,
             'updated_at'=>$this->updated_at,
             'teacher'=>'/api/teachers/'.$this->teachers_id,
-            'teacher_name'=>$teacher
+            'teacher_name'=>$teacher->name
         ];
     }
 }
