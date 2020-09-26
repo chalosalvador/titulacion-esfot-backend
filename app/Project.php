@@ -18,7 +18,10 @@ class Project extends Model
         'methodology',
         'work_plan',
         'research_line',
-        'knowledge_area'
+        'knowledge_area',
+        'bibliography',
+        'project_type',
+        'status'
     ];
 
     public static function boot()
