@@ -83,11 +83,9 @@ class ProjectController extends Controller
         $project->update($request->all());
         $students[] = Auth::user();
         if($request->student_id_2 !== null){
-            $project->students()->sync([Auth::id(), $request->student_id_2]);
             $students[] = Student::find( $request->student_id_2)->user;
-        }else {
-            $project->students()->sync([Auth::id()]);
         }
+
         Mail::to($students)->send(new PlanApprovedByDirector($project));
         return response()->json($project, 200);
     }
