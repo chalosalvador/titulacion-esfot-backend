@@ -13,7 +13,7 @@ class CreateTeachersPlansTable extends Migration
      */
     public function up()
     {
-        Schema::create('teachers_plans', function (Blueprint $table) {
+        Schema::create('teacher_plans', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('title');
             $table->text('problem');

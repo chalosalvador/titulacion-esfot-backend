@@ -73,7 +73,7 @@ class ProjectPolicy
             return true;
         } else {
             foreach ($project->students as $student) {
-                if ($student->id === $user->id) {
+                if ($student->id === $user->userable->id) {
                     return true;
                 }
             }

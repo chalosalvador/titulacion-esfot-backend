@@ -14,7 +14,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
-use const Grpc\STATUS_OUT_OF_RANGE;
 
 class ProjectController extends Controller
 {
@@ -46,18 +45,20 @@ class ProjectController extends Controller
         $request->validate([
             'title' => 'string|unique:projects|max:255',
             'teacher_id' => 'required|exists:teachers,id',
-            'schedule' => 'image',
+            'schedule' => 'nullable|image',
             'student_id_2' => 'nullable|exists:users,id'
         ], self::$messages);
 
         $project = new Project($request->except(['student_id_2']));
+
+        $user = Auth::user();
         $students[] = Auth::user();
         $project->save();
-        if($request->student_id_2 !== null){
-            $project->students()->sync([Auth::id(), $request->student_id_2]);
+        if($request->student_id_2!==null){
+            $project->students()->sync([$user->userable->id, $request->student_id_2]);
             $students[] = Student::find( $request->student_id_2)->user;
         }else {
-            $project->students()->sync([Auth::id()]);
+            $project->students()->sync([$user->userable->id]);
         }
 
 
@@ -66,15 +67,19 @@ class ProjectController extends Controller
         return response()->json(new ProjectResource($project), 201);
     }
 
+    /**
+     * @param Request $request
+     * @param Project $project
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function update(Request $request, Project $project)
     {
         $this->authorize('update', $project);
         $request->validate([
-            'title' => 'required|string|unique:projects,title,' . $project->id . '|max:255',
-            'general_objective' => 'required',
-            'specifics_objectives' => 'required',
-
+            'title' => 'string|unique:projects,title,' . $project->id . '|max:255',
         ], self::$messages);
+
         $project->update($request->all());
         $students[] = Auth::user();
         if($request->student_id_2 !== null){

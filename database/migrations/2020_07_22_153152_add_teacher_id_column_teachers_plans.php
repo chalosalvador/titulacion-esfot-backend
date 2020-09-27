@@ -13,9 +13,9 @@ class AddTeacherIdColumnTeachersPlans extends Migration
      */
     public function up()
     {
-        Schema::table('teachers_plans', function (Blueprint $table) {
-            $table->unsignedBigInteger('teachers_id');
-            $table->foreign('teachers_id')->references('id')->on('teachers')->onDelete('restrict');
+        Schema::table('teacher_plans', function (Blueprint $table) {
+            $table->unsignedBigInteger('teacher_id');
+            $table->foreign('teacher_id')->references('id')->on('teachers')->onDelete('restrict');
         });
     }
 
