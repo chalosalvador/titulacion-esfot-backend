@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\User;
+use App\Mail\NewProjectStudent;
+use App\Mail\NewProjectUploadTeacher;
+use App\Mail\PlanApprovedByDirector;
 use App\Project;
 use App\Student;
 use App\Http\Resources\Project as ProjectResource;
 use App\Http\Resources\ProjectCollection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
@@ -45,16 +50,20 @@ class ProjectController extends Controller
         ], self::$messages);
 
         $project = new Project($request->except(['student_id_2']));
-        $user = Auth::user();
 
+        $user = Auth::user();
+        $students[] = Auth::user();
         $project->save();
         if($request->student_id_2!==null){
             $project->students()->sync([$user->userable->id, $request->student_id_2]);
+            $students[] = Student::find( $request->student_id_2)->user;
         }else {
             $project->students()->sync([$user->userable->id]);
         }
 
 
+        Mail::to($project->teacher->user)->send(new NewProjectUploadTeacher($project));
+        Mail::to($students)->send(new NewProjectStudent($project));
         return response()->json(new ProjectResource($project), 201);
     }
 
@@ -72,6 +81,14 @@ class ProjectController extends Controller
         ], self::$messages);
 
         $project->update($request->all());
+        $students[] = Auth::user();
+        if($request->student_id_2 !== null){
+            $project->students()->sync([Auth::id(), $request->student_id_2]);
+            $students[] = Student::find( $request->student_id_2)->user;
+        }else {
+            $project->students()->sync([Auth::id()]);
+        }
+        Mail::to($students)->send(new PlanApprovedByDirector($project));
         return response()->json($project, 200);
     }
 
