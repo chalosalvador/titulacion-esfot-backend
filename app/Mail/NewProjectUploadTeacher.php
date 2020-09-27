@@ -19,6 +19,7 @@ class NewProjectUploadTeacher extends Mailable
      */
     public function __construct(Project $project)
     {
+        $project->teacher = $project->teacher->user;
         $this->project = $project;
     }
 

@@ -18,8 +18,9 @@ class PlanApprovedByDirector extends Mailable
      */
     public function __construct(Project $project)
     {
-        $this->project = $project;
+        $project->teacher = $project->teacher->user;
         $project->status='plan_approved_director';
+        $this->project = $project;
     }
 
     /**
