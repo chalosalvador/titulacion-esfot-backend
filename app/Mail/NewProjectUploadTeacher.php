@@ -12,10 +12,11 @@ class NewProjectUploadTeacher extends Mailable
 {
     use Queueable, SerializesModels;
     public $project;
+
     /**
      * Create a new message instance.
      *
-     * @return void
+     * @param Project $project
      */
     public function __construct(Project $project)
     {
