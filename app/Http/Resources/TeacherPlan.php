@@ -23,7 +23,7 @@ class TeacherPlan extends JsonResource
             'solution'=>$this->solution,
             'created_at'=>$this->created_at,
             'updated_at'=>$this->updated_at,
-            'teacher'=>'/api/teachers/'.$this->teachers_id,
+            'teacher'=>'/api/teachers/'.$this->teacher_id,
             'teacher_name'=>$teacher->name
         ];
     }
