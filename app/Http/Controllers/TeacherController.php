@@ -10,6 +10,7 @@ use App\Http\Resources\Project as ProjectResource;
 use App\Http\Resources\TeacherPlan as TeacherPlanResource;
 use App\Http\Resources\Teacher as TeacherResource;
 use App\Http\Resources\TeacherCollection;
+use Illuminate\Support\Facades\Auth;
 
 class TeacherController extends Controller
 {
@@ -18,9 +19,11 @@ class TeacherController extends Controller
         return new TeacherCollection(Teacher::paginate());
     }
 
-    public function show(Teacher $teacher)
+    public function show()
     {
-        return response()->json(new TeacherResource($teacher), 200);
+        $user=Auth::user();
+        $teacher = $user->userable;
+        return response()->json(ProjectResource::collection($teacher->projects), 200);
     }
 
     public function store(Request $request)
@@ -35,9 +38,11 @@ class TeacherController extends Controller
         return response()->json($teacher, 200);
     }
 
-    public function projects(Teacher $teacher)
+    public function projects()
     {
-        return response()->json(ProjectResource::collection($teacher->projects), 200);
+        $user=Auth::user();
+        $teacher = $user->userable;
+        return response()->json($teacher->projects, 200);
     }
 
     public function project(Teacher $teacher, Project $project)

@@ -30,6 +30,21 @@ class Project extends JsonResource
             'teacher'=>'/api/teachers/'.$this->teacher_id,
             'teacher_name' => $teacher->name,
             'schedule'=>$this->schedule,
+            'students' => $this->getStudents(),
         ];
+    }
+
+    private function getStudents() {
+        $students = [];
+
+        foreach($this->students as $student) {
+            $students[] = [
+                'id' => $student->id,
+                'name' => $student->user->name,
+                'lastname' => $student->user->lastname,
+            ];
+        }
+
+        return $students;
     }
 }

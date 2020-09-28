@@ -48,6 +48,7 @@ class TeachersPlansPolicy
      */
     public function create(User $user)
     {
+//        dd($user);
         return $user->isGranted(User::ROLE_TEACHER);
     }
 

@@ -56,10 +56,10 @@ Route::group(['middleware'=>['cors']],function () {
 
 //teacher
         Route::get('teachers', 'TeacherController@index');
-        Route::get('teachers/{teacher}', 'TeacherController@show');
+        Route::get('teacher-projects', 'TeacherController@show');
         Route::put('teachers/{teacher}', 'TeacherController@update');
         Route::delete('teachers/{teacher}', 'TeacherController@delete');
-        Route::get('teachers/{teacher}/projects', 'TeacherController@projects');
+        Route::get('teachers/projects', 'TeacherController@projects');
         Route::get('teachers/{teacher}/projects/{project}', 'TeacherController@project');
 
 
