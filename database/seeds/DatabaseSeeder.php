@@ -13,8 +13,8 @@ class DatabaseSeeder extends Seeder
     {
         \Illuminate\Support\Facades\Schema::disableForeignKeyConstraints();
         $this->call(UsersTableSeeder::class);
-        //$this->call(TeachersPlansSeeder::class);
         $this->call(ProjectsTableSeeder::class);
+//        $this->call(TeachersPlansSeeder::class);
         \Illuminate\Support\Facades\Schema::enableForeignKeyConstraints();
     }
 }

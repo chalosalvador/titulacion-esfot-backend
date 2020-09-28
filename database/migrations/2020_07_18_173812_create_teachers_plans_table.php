@@ -18,7 +18,10 @@ class CreateTeachersPlansTable extends Migration
             $table->string('title');
             $table->text('problem');
             $table->text('solution');
+            $table->text('status');
             $table->timestamps();
+            $table->bigInteger('teacher_id')->unsigned();
+            $table->foreign('teacher_id')->references('id')->on('teachers')->onDelete('restrict');
         });
     }
 
@@ -29,6 +32,8 @@ class CreateTeachersPlansTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('teachers_plans');
+        Schema::disableForeignKeyConstraints();
+        Schema::dropIfExists('teacher_plans');
+        Schema::enableForeignKeyConstraints();
     }
 }

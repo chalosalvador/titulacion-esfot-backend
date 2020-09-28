@@ -25,7 +25,8 @@ class TeachersPlansSeeder extends Seeder
                 'title' => $faker->sentence,
                 'problem' => $faker->paragraph,
                 'solution'=> $faker->paragraph,
-                'teachers_id'=>$teacher->id,
+                'status'=>$faker->state,
+                'teacher_id'=>$faker->numberBetween(1,10)
             ]);
         }
     }

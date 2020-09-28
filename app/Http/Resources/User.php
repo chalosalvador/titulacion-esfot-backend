@@ -19,7 +19,7 @@ class User extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
-//            'userable'=>$this->userable,
+            'userable'=>$this->userable,
 //            'unique_number'=>$this->when(Auth::user()->userable_type=='App\Student',$this->userable->unique_number),
             $this->merge($this->userable),
             'role'=>$this->role,
