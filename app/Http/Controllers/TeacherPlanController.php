@@ -7,6 +7,7 @@ use App\TeacherPlan;
 use Illuminate\Http\Request;
 use App\Http\Resources\TeacherPlanCollection;
 use App\Http\Resources\TeacherPlan as TeacherPlanResource;
+use Illuminate\Support\Facades\Auth;
 
 class TeacherPlanController extends Controller
 {
@@ -33,7 +34,8 @@ class TeacherPlanController extends Controller
         $validateData = $request->validate([
             'title' => 'required|string|unique:teacher_plans|max:255',
             'problem' => 'required',
-            'solution' => 'required'
+            'solution' => 'required',
+            'status'=>'nullable'
         ], self::$messages);
 
 
@@ -54,8 +56,10 @@ class TeacherPlanController extends Controller
         return response()->json($teacherplan, 200);
     }
 
-    public function ideas(Teacher $teacher)
+    public function ideas()
     {
+        $user = Auth::user();
+        $teacher = $user->userable;
         return response()->json(TeacherPlanResource::collection($teacher->ideas), 200);
     }
 

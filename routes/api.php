@@ -34,7 +34,7 @@ Route::group(['middleware'=>['cors']],function () {
         Route::post('teacher/teachers-ideas', 'TeacherPlanController@store');
         Route::put('teachers-ideas/{teacherplan}', 'TeacherPlanController@update');
         Route::delete('teachers-ideas/{teacherplan}', 'TeacherPlanController@delete');
-        Route::get('teacher/{teacher}/ideas', 'TeacherPlanController@ideas');
+        Route::get('teacher/ideas', 'TeacherPlanController@ideas');
         Route::get('teacher/{teacher}/ideas/{idea}', 'TeacherPlanController@idea');
 
 
