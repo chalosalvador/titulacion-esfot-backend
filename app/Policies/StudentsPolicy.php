@@ -37,7 +37,7 @@ class StudentsPolicy
      */
     public function view(User $user, Student $students)
     {
-        return ($user->isGranted(User::ROLE_STUDENT));
+        return ($user->isGranted(User::ROLE_STUDENT) || $user->isGranted(User::ROLE_TEACHER));
     }
 
     /**

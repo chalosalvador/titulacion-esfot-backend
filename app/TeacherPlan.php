@@ -12,7 +12,8 @@ class TeacherPlan extends Model
     {
         parent::boot();
         static::creating(function ($project) {
-            $project->teacher_id = Auth::id();
+            $user = Auth::user();
+            $project->teacher_id = $user->userable->id;
         });
     }
 

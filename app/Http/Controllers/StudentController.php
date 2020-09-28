@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ProjectCollection;
 use App\Project;
 use App\Student;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Resources\Project as ProjectResource;
 use App\Http\Resources\Student as StudentResource;
 use App\Http\Resources\StudentCollection;
+use Illuminate\Support\Facades\Auth;
 
 class StudentController extends Controller
 {
@@ -21,9 +24,10 @@ class StudentController extends Controller
         return new StudentCollection(Student::paginate());
     }
 
-    public function show(Student $student)
+    public function show()
     {
-        return response()->json(new StudentResource($student), 200);
+        $user=Auth::user();
+        return response()->json(ProjectResource::collection($user->userable->projects), 200);
     }
 
     public function store(Request $request)
@@ -51,11 +55,10 @@ class StudentController extends Controller
 
     }
 
-    public function project(Student $student, Project $project)
+    public function project()
     {
-        $this->authorize('view', $student);
-        $projects = $student->projects()->where('id', $project->id)->firstOrFail();
-        return response()->json($projects, 200);
+        $user=Auth::user();
+        return response()->json($user, 200);
     }
 
     public function delete(Student $student)

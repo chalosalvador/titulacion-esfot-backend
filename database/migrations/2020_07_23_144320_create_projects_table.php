@@ -25,9 +25,12 @@ class CreateProjectsTable extends Migration
             $table->text('justification')->nullable();
             $table->text('methodology')->nullable();
             $table->text('work_plan')->nullable();
+            $table->text('project_type')->nullable();
+            $table->text('bibliography')->nullable();
             $table->string('research_line', 255)->nullable();
             $table->string('knowledge_area', 255)->nullable();
             $table->enum('status', [
+                'plan_saved',
                 'plan_sent',
                 'plan_approved_director',
                 'san_curriculum_1',
