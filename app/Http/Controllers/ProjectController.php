@@ -61,9 +61,13 @@ class ProjectController extends Controller
             $project->students()->sync([$user->userable->id]);
         }
 
+        if($request->status==='plan_sent'){
+            Mail::to($project->teacher->user)->send(new NewProjectUploadTeacher($project));
+            Mail::to($students)->send(new NewProjectStudent($project));
+        }
 
-        Mail::to($project->teacher->user)->send(new NewProjectUploadTeacher($project));
-        Mail::to($students)->send(new NewProjectStudent($project));
+
+
         return response()->json(new ProjectResource($project), 201);
     }
 
@@ -85,8 +89,16 @@ class ProjectController extends Controller
         if($request->student_id_2 !== null){
             $students[] = Student::find( $request->student_id_2)->user;
         }
+        if($request->status==='plan_sent'){
+            Mail::to($project->teacher->user)->send(new NewProjectUploadTeacher($project));
+            Mail::to($students)->send(new NewProjectStudent($project));
+        }
 
-        Mail::to($students)->send(new PlanApprovedByDirector($project));
+        if($request->status==='plan_approved_director'){
+            Mail::to($students)->send(new PlanApprovedByDirector($project));
+        }
+
+
         return response()->json($project, 200);
     }
 
