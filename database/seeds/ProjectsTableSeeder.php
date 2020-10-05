@@ -32,6 +32,7 @@ class ProjectsTableSeeder extends Seeder
                 'general_objective' => $faker->sentence(15),
                 'specifics_objectives' => $faker->sentence(15),
                 'schedule' => $faker->imageUrl(400, 300, null, false),
+                'problem'=>$faker->paragraph,
                 'project_type' => $faker->sentence(15),
                 'bibliography' => $faker->sentence(30),
                 'uploaded_at' => $faker->dateTime,
