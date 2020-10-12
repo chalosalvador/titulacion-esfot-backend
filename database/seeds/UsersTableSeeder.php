@@ -3,6 +3,7 @@
 use App\Student;
 use App\Teacher;
 use App\User;
+use App\Secretary;
 use Illuminate\Database\Seeder;
 
 class UsersTableSeeder extends Seeder
@@ -34,6 +35,7 @@ class UsersTableSeeder extends Seeder
         for ($i = 0; $i < 10; $i++) {
             $student = Student::create(['apto' => $faker->boolean, 'unique_number' => $faker->word]);
             $teacher = Teacher::create(['titular' => $faker->boolean]);
+            $secretary = Secretary::create(['titular'=>$faker->boolean]);
             $student->user()->create([
                 'name' => $faker->name,
                 'email' => $faker->email,
@@ -45,6 +47,12 @@ class UsersTableSeeder extends Seeder
                 'email' => $faker->email,
                 'password' => $password,
                 'role'=>User::ROLE_TEACHER
+            ]);
+            $secretary->user()->create([
+               'name'=>$faker->name,
+               'email'=>$faker->email,
+               'password'=>$password,
+               'role'=>User::ROLE_SECRETARY
             ]);
 
         }

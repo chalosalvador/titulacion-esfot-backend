@@ -24,6 +24,7 @@ class User extends Authenticatable implements JWTSubject
     const ROLE_ADMIN = 'ROLE_ADMIN';
     const ROLE_STUDENT = 'ROLE_STUDENT';
     const ROLE_TEACHER = 'ROLE_TEACHER';
+    const ROLE_SECRETARY = 'ROLE_SECRETARY';
 //    const ROLE_USER = 'ROLE_USER';
 
     private const ROLE_HIERARCHY = [
@@ -31,6 +32,7 @@ class User extends Authenticatable implements JWTSubject
         self::ROLE_ADMIN => [self::ROLE_STUDENT, self::ROLE_TEACHER],
         self::ROLE_TEACHER => [],
         self::ROLE_STUDENT => [],
+        self::ROLE_SECRETARY => []
 //        self::ROLE_USER=>[]
     ];
 
