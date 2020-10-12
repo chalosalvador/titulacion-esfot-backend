@@ -31,11 +31,17 @@ class UsersTableSeeder extends Seeder
             'userable_id' => 0,
             'userable_type' => 'App\Admin',
             'role'=>User::ROLE_SUPERADMIN]);
+        $secretary = Secretary::create(['office'=>$faker->randomDigit]);
+        $secretary->user()->create([
+            'name'=>$faker->name,
+            'email'=>$faker->email,
+            'password'=>$password,
+            'role'=>User::ROLE_SECRETARY
+        ]);
 
         for ($i = 0; $i < 10; $i++) {
             $student = Student::create(['apto' => $faker->boolean, 'unique_number' => $faker->word]);
             $teacher = Teacher::create(['titular' => $faker->boolean]);
-            $secretary = Secretary::create(['titular'=>$faker->boolean]);
             $student->user()->create([
                 'name' => $faker->name,
                 'email' => $faker->email,
@@ -48,15 +54,7 @@ class UsersTableSeeder extends Seeder
                 'password' => $password,
                 'role'=>User::ROLE_TEACHER
             ]);
-            $secretary->user()->create([
-               'name'=>$faker->name,
-               'email'=>$faker->email,
-               'password'=>$password,
-               'role'=>User::ROLE_SECRETARY
-            ]);
-
         }
-
 
     }
 }

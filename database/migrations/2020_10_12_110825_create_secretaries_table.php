@@ -15,7 +15,7 @@ class CreateSecretariesTable extends Migration
     {
         Schema::create('secretaries', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->boolean('titular');
+            $table->string('office');
             $table->timestamps();
         });
     }

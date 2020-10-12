@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Secretary extends Model
 {
-    protected $fillable = ['titular'];
+    protected $fillable = ['office'];
 
     public function user()
     {
