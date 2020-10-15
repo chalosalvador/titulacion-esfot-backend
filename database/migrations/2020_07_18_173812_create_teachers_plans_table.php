@@ -18,7 +18,7 @@ class CreateTeachersPlansTable extends Migration
             $table->string('title');
             $table->text('problem');
             $table->text('solution');
-            $table->text('status');
+            $table->enum('status', ['not_assigned', 'assigned']);
             $table->timestamps();
             $table->bigInteger('teacher_id')->unsigned();
             $table->foreign('teacher_id')->references('id')->on('teachers')->onDelete('restrict');
