@@ -18,15 +18,24 @@ class CreateProjectsTable extends Migration
 //            $table->integer('director_id');
 //            $table->integer('coodirector_id');
             $table->string('title', 255)->nullable();
+            $table->text('title_comment')->nullable();
             $table->string('general_objective', 255)->nullable();
+            $table->text('general_objective_comment')->nullable();
             $table->string('specifics_objectives', 255)->nullable();
+            $table->text('specifics_objectives_comment')->nullable();
             $table->text('problem')->nullable();
+            $table->text('problem_comment')->nullable();
             $table->text('hypothesis')->nullable();
+            $table->text('hypothesis_comment')->nullable();
             $table->text('justification')->nullable();
+            $table->text('justification_comment')->nullable();
             $table->text('methodology')->nullable();
+            $table->text('methodology_comment')->nullable();
             $table->text('work_plan')->nullable();
+            $table->text('work_plan_comment')->nullable();
             $table->text('project_type')->nullable();
             $table->text('bibliography')->nullable();
+            $table->text('bibliography_comment')->nullable();
             $table->string('research_line', 255)->nullable();
             $table->string('knowledge_area', 255)->nullable();
             $table->enum('status', [
