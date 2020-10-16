@@ -62,6 +62,7 @@ class CreateProjectsTable extends Migration
             $table->timestamps();
             $table->dateTime('uploaded_at')->nullable();
             $table->string('schedule')->nullable();
+            $table->string('schedule_comment')->nullable();
             $table->string('report_pdf', 255)->nullable();
             $table->dateTime('report_uploaded_at')->nullable();
             $table->dateTime('report_modified_at')->nullable();
