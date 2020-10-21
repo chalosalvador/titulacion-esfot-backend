@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\User;
 use App\Mail\NewCommentTeacher;
+use App\Mail\NewCorrectionStudent;
 use App\Mail\NewProjectStudent;
 use App\Mail\NewProjectUploadTeacher;
 use App\Mail\PlanApprovedByDirector;
@@ -101,6 +102,10 @@ class ProjectController extends Controller
 
         if($request->status==='plan_review_teacher'){
             Mail::to($students)->send(new NewCommentTeacher($project));
+        }
+
+        if($request->status==='plan_corrections_done'){
+            Mail::to($project->teacher->user)->send(new NewCorrectionStudent($project));
         }
 
 
