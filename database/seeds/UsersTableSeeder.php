@@ -30,29 +30,29 @@ class UsersTableSeeder extends Seeder
             'password' => $password,
             'userable_id' => 0,
             'userable_type' => 'App\Admin',
-            'role'=>User::ROLE_SUPERADMIN]);
-        $secretary = Secretary::create(['office'=>$faker->randomDigit]);
+            'role' => User::ROLE_SUPERADMIN]);
+        $secretary = Secretary::create(['office' => $faker->randomDigit]);
         $secretary->user()->create([
-            'name'=>$faker->name,
-            'email'=>$faker->email,
-            'password'=>$password,
-            'role'=>User::ROLE_SECRETARY
+            'name' => $faker->name,
+            'email' => $faker->email,
+            'password' => $password,
+            'role' => User::ROLE_SECRETARY
         ]);
 
         for ($i = 0; $i < 10; $i++) {
             $student = Student::create(['apto' => $faker->boolean, 'unique_number' => $faker->word]);
-            $teacher = Teacher::create(['titular' => $faker->boolean]);
+            $teacher = Teacher::create(['titular' => $faker->boolean, 'committee' => $faker->boolean]);
             $student->user()->create([
                 'name' => $faker->name,
                 'email' => $faker->email,
                 'password' => $password,
-                'role'=>User::ROLE_STUDENT
+                'role' => User::ROLE_STUDENT
             ]);
             $teacher->user()->create([
                 'name' => $faker->name,
                 'email' => $faker->email,
                 'password' => $password,
-                'role'=>User::ROLE_TEACHER
+                'role' => User::ROLE_TEACHER
             ]);
         }
 

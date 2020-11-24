@@ -19,7 +19,8 @@ class Teacher extends JsonResource
             'titular'=>$this->titular,
             'created_at'=>$this->created_at,
             'updated_at'=>$this->updated_at,
-            'name' => $this->user->name
+            'name' => $this->user->name,
+            'committee'=>$this->committee
         ];
     }
 }
