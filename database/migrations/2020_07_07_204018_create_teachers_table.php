@@ -16,6 +16,7 @@ class CreateTeachersTable extends Migration
         Schema::create('teachers', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->boolean('titular');
+            $table->boolean('committee');
             $table->timestamps();
         });
     }
