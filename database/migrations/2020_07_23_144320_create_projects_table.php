@@ -46,6 +46,7 @@ class CreateProjectsTable extends Migration
                 'plan_approved_director',
                 'san_curriculum_1',
                 'plan_review_commission',
+                'plan_corrections_done2',
                 'plan_approved_commission',
                 'plan_rejected',
                 'project_uploaded',

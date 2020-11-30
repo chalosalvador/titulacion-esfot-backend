@@ -69,7 +69,7 @@ class ProjectPolicy
      */
     public function update(User $user, Project $project)
     {
-        if ($project->teacher_id === $user->userable->id && $user->isGranted(User::ROLE_TEACHER)) {
+        if ( $user->isGranted(User::ROLE_TEACHER)) {
             return true;
         } else {
             foreach ($project->students as $student) {
