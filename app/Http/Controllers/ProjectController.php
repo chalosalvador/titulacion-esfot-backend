@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\User;
+use App\Mail\NewCommentCommentCommission;
 use App\Mail\NewCommentTeacher;
 use App\Mail\NewCorrectionStudent;
+use App\Mail\NewPlanUploadCommission;
 use App\Mail\NewProjectStudent;
 use App\Mail\NewProjectUploadTeacher;
 use App\Mail\PlanApprovedByDirector;
@@ -56,18 +58,17 @@ class ProjectController extends Controller
         $user = Auth::user();
         $students[] = Auth::user();
         $project->save();
-        if($request->student_id_2!==null){
+        if ($request->student_id_2 !== null) {
             $project->students()->sync([$user->userable->id, $request->student_id_2]);
-            $students[] = Student::find( $request->student_id_2)->user;
-        }else {
+            $students[] = Student::find($request->student_id_2)->user;
+        } else {
             $project->students()->sync([$user->userable->id]);
         }
 
-        if($request->status==='plan_sent'){
+        if ($request->status === 'plan_sent') {
             Mail::to($project->teacher->user)->send(new NewProjectUploadTeacher($project));
             Mail::to($students)->send(new NewProjectStudent($project));
         }
-
 
 
         return response()->json(new ProjectResource($project), 201);
@@ -88,24 +89,32 @@ class ProjectController extends Controller
 
         $project->update($request->all());
         $students[] = Auth::user();
-        if($request->student_id_2 !== null){
-            $students[] = Student::find( $request->student_id_2)->user;
+        if ($request->student_id_2 !== null) {
+            $students[] = Student::find($request->student_id_2)->user;
         }
-        if($request->status==='plan_sent'){
+        if ($request->status === 'plan_sent') {
             Mail::to($project->teacher->user)->send(new NewProjectUploadTeacher($project));
             Mail::to($students)->send(new NewProjectStudent($project));
         }
 
-        if($request->status==='plan_approved_director'){
+        if ($request->status === 'plan_approved_director') {
             Mail::to($students)->send(new PlanApprovedByDirector($project));
         }
 
-        if($request->status==='plan_review_teacher'){
+        if ($request->status === 'plan_review_teacher') {
             Mail::to($students)->send(new NewCommentTeacher($project));
         }
 
-        if($request->status==='plan_corrections_done'){
+        if ($request->status === 'plan_corrections_done') {
             Mail::to($project->teacher->user)->send(new NewCorrectionStudent($project));
+        }
+
+        if ($request->status === 'plan_review_commission') {
+            Mail::to($students)->send(new NewCommentCommentCommission($project));
+        }
+
+        if ($request->status === 'san_curriculum_1' && $project->teacher->user->committee == 1) {
+            Mail::to($project->teacher->user)->send(new NewPlanUploadCommission($project));
         }
 
 
