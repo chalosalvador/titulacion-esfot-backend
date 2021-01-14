@@ -17,9 +17,12 @@ class Student extends JsonResource
         return [
             'id'=>$this->id,
             'apto'=>$this->apto,
+            //'name'=>$this->user->name,
             'unique_number'=>$this->unique_number,
             'created_at'=>$this->created_at,
-            'updated_at'=>$this->updated_at
+            'updated_at'=>$this->updated_at,
+            'project'=>$this->projects,
+            'user'=>$this->user
         ];
     }
 }
