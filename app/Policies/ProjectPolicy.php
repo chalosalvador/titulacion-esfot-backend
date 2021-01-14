@@ -69,7 +69,7 @@ class ProjectPolicy
      */
     public function update(User $user, Project $project)
     {
-        if ( $user->isGranted(User::ROLE_TEACHER)) {
+        if ($user->isGranted(User::ROLE_TEACHER) || $user->isGranted(User::ROLE_SECRETARY)) {
             return true;
         } else {
             foreach ($project->students as $student) {
