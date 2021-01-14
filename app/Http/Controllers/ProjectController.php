@@ -49,7 +49,7 @@ class ProjectController extends Controller
         $request->validate([
             'title' => 'string|unique:projects|max:255',
             'teacher_id' => 'required|exists:teachers,id',
-            'schedule' => 'nullable|image',
+            'schedule' => 'nullable',
             'student_id_2' => 'nullable|exists:users,id'
         ], self::$messages);
 
@@ -113,8 +113,10 @@ class ProjectController extends Controller
             Mail::to($students)->send(new NewCommentCommentCommission($project));
         }
 
-        if ($request->status === 'san_curriculum_1' && $project->teacher->user->committee == 1) {
-            Mail::to($project->teacher->user)->send(new NewPlanUploadCommission($project));
+        if ($request->status === 'san_curriculum_1') {
+            if($project->teacher->committee === 1){
+                Mail::to($project->teacher->user)->send(new NewPlanUploadCommission($project));
+            }
         }
 
 

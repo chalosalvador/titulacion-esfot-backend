@@ -16,7 +16,7 @@ class Project extends JsonResource
     public function toArray($request)
     {
         $teacher = $this->teacher->user;
-        $student = $this->students;
+        $students = $this->students;
         return [
             'id' => $this->id,
             'title' => $this->title,
@@ -54,7 +54,7 @@ class Project extends JsonResource
             'schedule_comment'=>$this->schedule_comment,
             //'students' => $this->getStudents(),
             //'student_name' => $student->student_id
-            'student'=>$student
+            'students'=>$students
         ];
     }
 
