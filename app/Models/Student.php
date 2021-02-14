@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,10 +10,10 @@ class Student extends Model
 
     public function projects()
     {
-        return $this->belongsToMany('App\Project')->withTimestamps();
+        return $this->belongsToMany('App\Models\Project')->withTimestamps();
     }
     public function user()
     {
-        return $this->morphOne('App\User', 'userable');
+        return $this->morphOne('App\Models\User', 'userable');
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,15 +10,15 @@ class Teacher extends Model
 
     public function user()
     {
-        return $this->morphOne('App\User', 'userable');
+        return $this->morphOne('App\Models\User', 'userable');
     }
     public function projects()
     {
-        return $this->hasMany('App\Project');
+        return $this->hasMany('App\Models\Project');
     }
 
     public function ideas()
     {
-        return $this->hasMany('App\TeacherPlan');
+        return $this->hasMany('App\Models\TeacherPlan');
     }
 }

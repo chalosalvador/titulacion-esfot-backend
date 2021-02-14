@@ -1,6 +1,8 @@
 <?php
 
-use App\TeacherPlan;
+namespace Database\Seeders;
+
+use App\Models\TeacherPlan;
 use Illuminate\Database\Seeder;
 
 class TeachersPlansSeeder extends Seeder
@@ -16,7 +18,7 @@ class TeachersPlansSeeder extends Seeder
 
         $faker = \Faker\Factory::create();
 
-        $teachers = \App\Teacher::all();
+        $teachers = \App\Models\Teacher::all();
 
 
 

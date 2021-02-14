@@ -1,6 +1,8 @@
 <?php
 
-use App\Project;
+namespace Database\Seeders;
+
+use App\Models\Project;
 use Illuminate\Database\Seeder;
 
 class ProjectsTableSeeder extends Seeder
@@ -16,7 +18,7 @@ class ProjectsTableSeeder extends Seeder
 
         $faker = \Faker\Factory::create();
 
-        $students = \App\Student::all();
+        $students = \App\Models\Student::all();
 
 //        $image_name = $faker->image('storage/app/public/projects', 400, 300, null);
 

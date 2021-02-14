@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\ProjectCollection;
-use App\Project;
-use App\Student;
-use App\User;
+use App\Models\Project;
+use App\Models\Student;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Resources\Project as ProjectResource;
 use App\Http\Resources\Student as StudentResource;

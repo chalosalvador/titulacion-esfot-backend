@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Teacher;
-use App\Project;
-use App\TeachersPlans;
+use App\Models\Teacher;
+use App\Models\Project;
+
 use Illuminate\Http\Request;
 use App\Http\Resources\Project as ProjectResource;
 use App\Http\Resources\TeacherPlan as TeacherPlanResource;
