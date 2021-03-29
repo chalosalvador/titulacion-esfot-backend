@@ -1,6 +1,8 @@
 <?php
 
-use App\Teacher;
+namespace Database\Seeders;
+
+use App\Models\Teacher;
 use Illuminate\Database\Seeder;
 
 class TeachersSeeder extends Seeder

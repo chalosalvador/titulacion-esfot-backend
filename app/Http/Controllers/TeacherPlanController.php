@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Teacher;
-use App\TeacherPlan;
+use App\Models\Teacher;
+use App\Models\TeacherPlan;
 use Illuminate\Http\Request;
 use App\Http\Resources\TeacherPlanCollection;
 use App\Http\Resources\TeacherPlan as TeacherPlanResource;

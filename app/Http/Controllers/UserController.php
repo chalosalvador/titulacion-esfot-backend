@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
+use App\Models\User;
 use App\Http\Resources\User as UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -27,7 +27,18 @@ class UserController extends Controller
         }
 
         $user = JWTAuth::user();
-        return response()->json(compact('token','user'));
+        return response()->json(compact('token','user'))
+            ->withCookie(
+                'token',
+                $token,
+                config('jwt.ttl'),
+                '/',
+                null,
+                config('app.env') !== 'local',
+                true,
+                false,
+                config('app.env') !== 'local' ? 'None' : 'Lax'
+            );
 
     }
 
@@ -51,7 +62,18 @@ class UserController extends Controller
 
         $token = JWTAuth::fromUser($user);
 
-        return response()->json(new UserResource('user', 'token'), 201);
+        return response()->json(new UserResource($user, $token), 201)
+            ->withCookie(
+                'token',
+                $token,
+                config('jwt.ttl'),
+                '/',
+                null,
+                config('app.env') !== 'local',
+                true,
+                false,
+                config('app.env') !== 'local' ? 'None' : 'Lax'
+            );
     }
 
     public function getAuthenticatedUser()
@@ -81,7 +103,16 @@ class UserController extends Controller
             return response()->json([
                 "status" => "success",
                 "message" => "User successfully logged out."
-            ], 200);
+            ], 200)
+                ->withCookie('token', null,
+                    config('jwt.ttl'),
+                    '/',
+                    null,
+                    config('app.env') !== 'local',
+                    true,
+                    false,
+                    config('app.env') !== 'local' ? 'None' : 'Lax'
+                );;
         } catch (JWTException $e) {
             // something went wrong whilst attempting to encode the token
             return response()->json(["message" => "No se pudo cerrar la sesión."], 500);

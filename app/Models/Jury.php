@@ -1,10 +1,10 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Administrative extends Model
+class Jury extends Model
 {
     protected $protected = ['users_id'];
 }

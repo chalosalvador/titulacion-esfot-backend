@@ -1,10 +1,13 @@
 <?php
 
-use App\Student;
-use App\Teacher;
-use App\User;
-use App\Secretary;
+namespace Database\Seeders;
+
+use App\Models\Student;
+use App\Models\Teacher;
+use App\Models\User;
+use App\Models\Secretary;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class UsersTableSeeder extends Seeder
 {
@@ -34,23 +37,30 @@ class UsersTableSeeder extends Seeder
         $secretary = Secretary::create(['office' => $faker->randomDigit]);
         $secretary->user()->create([
             'name' => $faker->name,
-            'email' => $faker->email,
+            'email' => 'secretaria@epn.edu.ec',
             'password' => $password,
             'role' => User::ROLE_SECRETARY
         ]);
 
         for ($i = 0; $i < 10; $i++) {
             $student = Student::create(['apto' => $faker->boolean, 'unique_number' => $faker->word]);
-            $teacher = Teacher::create(['titular' => $faker->boolean, 'committee' => $faker->boolean]);
+            $teacher = Teacher::create(['titular' => $faker->boolean, 'committee' => false]);
+            $commission = Teacher::create(['titular' => $faker->boolean, 'committee' => true]);
             $student->user()->create([
                 'name' => $faker->name,
-                'email' => $faker->email,
+                'email' => "estudiante$i@epn.edu.ec",
                 'password' => $password,
                 'role' => User::ROLE_STUDENT
             ]);
             $teacher->user()->create([
                 'name' => $faker->name,
-                'email' => $faker->email,
+                'email' => "profesor$i@epn.edu.ec",
+                'password' => $password,
+                'role' => User::ROLE_TEACHER
+            ]);
+            $commission->user()->create([
+                'name' => $faker->name,
+                'email' => "comision$i@epn.edu.ec",
                 'password' => $password,
                 'role' => User::ROLE_TEACHER
             ]);

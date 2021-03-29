@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -14,12 +14,12 @@ class TeacherPlan extends Model
         static::creating(function ($project) {
             $user = Auth::user();
             $project->teacher_id = $user->userable->id;
-            $project->status = 'idea_unassigned';
+            $project->status = 'not_assigned';
         });
     }
 
     public function teacher()
     {
-        return $this->belongsTo('App\Teacher');
+        return $this->belongsTo('App\Models\Teacher');
     }
 }
