@@ -48,6 +48,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get('projects/{project}', [ProjectController::class, 'show']);
     Route::post('students/projects', [ProjectController::class, 'store']);
     Route::post('projects/{project}', [ProjectController::class, 'update']);
+    Route::put('projects/{project}/pdf', [ProjectController::class, 'updatePdf']);
     Route::delete('projects/{project}', [ProjectController::class, 'delete']);
 
 

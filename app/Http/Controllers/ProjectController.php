@@ -84,11 +84,11 @@ class ProjectController extends Controller
     {
         $this->authorize('update', $project);
         $request->validate([
-            'title' => 'string|unique:projects,title,' . $project->id . '|max:255',
+            'title' => 'string|max:255',
         ], self::$messages);
 
-        $project->update($request->all());
         $students[] = Auth::user();
+
         if ($request->student_id_2 !== null) {
             $students[] = Student::find($request->student_id_2)->user;
         }
@@ -114,11 +114,22 @@ class ProjectController extends Controller
         }
 
         if ($request->status === 'san_curriculum_1') {
-            if($project->teacher->committee === 1){
+            if ($project->teacher->committee === 1) {
                 Mail::to($project->teacher->user)->send(new NewPlanUploadCommission($project));
             }
         }
 
+
+
+    }
+
+    public function updatePdf(Request $request, Project $project){
+        $user = Auth::user();
+        $student_id = $user->userable->id;
+        $fileNameToStore = "project.pdf";
+        $pathPdf = $request->report_pdf->storeAs("public/reports/{$student_id}", $fileNameToStore);
+        $project->report_pdf = $pathPdf;
+        $project->update(["report_pdf"=>$pathPdf]);
 
         return response()->json($project, 200);
     }
