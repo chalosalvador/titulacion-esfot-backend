@@ -18,6 +18,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use Barryvdh\DomPDF\PDF;
+use PhpParser\Error;
 
 class ProjectController extends Controller
 {
@@ -57,6 +59,8 @@ class ProjectController extends Controller
 
         $user = Auth::user();
         $students[] = Auth::user();
+        $path_image = $request->schedule->store('public/schedules');
+        $project->schedule = $path_image;
         $project->save();
         if ($request->student_id_2 !== null) {
             $project->students()->sync([$user->userable->id, $request->student_id_2]);
@@ -87,14 +91,25 @@ class ProjectController extends Controller
             'title' => 'string|unique:projects,title,' . $project->id . '|max:255',
         ], self::$messages);
 
+
         $project->update($request->all());
         $students[] = Auth::user();
         if ($request->student_id_2 !== null) {
             $students[] = Student::find($request->student_id_2)->user;
         }
         if ($request->status === 'plan_sent') {
-            Mail::to($project->teacher->user)->send(new NewProjectUploadTeacher($project));
-            Mail::to($students)->send(new NewProjectStudent($project));
+//            Mail::to($project->teacher->user)->send(new NewProjectUploadTeacher($project));
+            try {
+                Mail::send(new NewProjectUploadTeacher($project), [], function ($message) {
+                    $pdf = PDF::loadView("email.projects.reports.planpdf", compact('project'));
+                    $message->to("example@gmail.com", "Secretaria")->subject("Plan enviado");
+                    $message->attachData($pdf->output(), "plan-pdf.pdf");
+                });
+                Mail::to($students)->send(new NewProjectStudent($project));
+            }catch (Error $error){
+                return response()->json(["error"=>$error],500);
+            }
+
         }
 
         if ($request->status === 'plan_approved_director') {
