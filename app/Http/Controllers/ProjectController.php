@@ -18,6 +18,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 class ProjectController extends Controller
 {
@@ -125,11 +126,12 @@ class ProjectController extends Controller
 
     public function updatePdf(Request $request, Project $project){
         $user = Auth::user();
+        $date = Carbon::now();
         $student_id = $user->userable->id;
         $fileNameToStore = "project.pdf";
         $pathPdf = $request->report_pdf->storeAs("public/reports/{$student_id}", $fileNameToStore);
         $project->report_pdf = $pathPdf;
-        $project->update(["report_pdf"=>$pathPdf]);
+        $project->update(["report_pdf"=>$pathPdf, "status"=>"project_uploaded", "report_uploaded_at"=> $date->toDateTimeString()]);
 
         return response()->json($project, 200);
     }
