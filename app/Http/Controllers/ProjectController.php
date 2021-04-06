@@ -14,6 +14,7 @@ use App\Models\Project;
 use App\Models\Student;
 use App\Http\Resources\Project as ProjectResource;
 use App\Http\Resources\ProjectCollection;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -126,12 +127,12 @@ class ProjectController extends Controller
 
     public function updatePdf(Request $request, Project $project){
         $user = Auth::user();
-        $date = Carbon::now();
+        $date = new DateTime();
         $student_id = $user->userable->id;
         $fileNameToStore = "project.pdf";
         $pathPdf = $request->report_pdf->storeAs("public/reports/{$student_id}", $fileNameToStore);
         $project->report_pdf = $pathPdf;
-        $project->update(["report_pdf"=>$pathPdf, "status"=>"project_uploaded", "report_uploaded_at"=> $date->toDateTimeString()]);
+        $project->update(["report_pdf"=>$pathPdf, "status"=>"project_uploaded", "report_uploaded_at"=> $date->getTimestamp()]);
 
         return response()->json($project, 200);
     }
