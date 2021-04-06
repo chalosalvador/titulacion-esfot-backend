@@ -86,7 +86,7 @@ class ProjectController extends Controller
     {
         $this->authorize('update', $project);
         $request->validate([
-            'title' => 'string|max:255',
+            'title' => 'string|unique:projects,title,' . $project->id . '|max:255',
         ], self::$messages);
 
         $students[] = Auth::user();
