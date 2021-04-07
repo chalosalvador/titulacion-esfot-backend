@@ -14,10 +14,12 @@ use App\Models\Project;
 use App\Models\Student;
 use App\Http\Resources\Project as ProjectResource;
 use App\Http\Resources\ProjectCollection;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 class ProjectController extends Controller
 {
@@ -87,8 +89,8 @@ class ProjectController extends Controller
             'title' => 'string|unique:projects,title,' . $project->id . '|max:255',
         ], self::$messages);
 
-        $project->update($request->all());
         $students[] = Auth::user();
+
         if ($request->student_id_2 !== null) {
             $students[] = Student::find($request->student_id_2)->user;
         }
@@ -114,11 +116,23 @@ class ProjectController extends Controller
         }
 
         if ($request->status === 'san_curriculum_1') {
-            if($project->teacher->committee === 1){
+            if ($project->teacher->committee === 1) {
                 Mail::to($project->teacher->user)->send(new NewPlanUploadCommission($project));
             }
         }
 
+
+
+    }
+
+    public function updatePdf(Request $request, Project $project){
+        $user = Auth::user();
+        $date = new DateTime();
+        $student_id = $user->userable->id;
+        $fileNameToStore = "project.pdf";
+        $pathPdf = $request->report_pdf->storeAs("public/reports/{$student_id}", $fileNameToStore);
+        $project->report_pdf = $pathPdf;
+        $project->update(["report_pdf"=>$pathPdf, "status"=>"project_uploaded", "report_uploaded_at"=> $date->getTimestamp()]);
 
         return response()->json($project, 200);
     }
