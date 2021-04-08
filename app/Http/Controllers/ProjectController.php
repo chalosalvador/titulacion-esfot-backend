@@ -19,7 +19,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Barryvdh\DomPDF\PDF;
-use PhpParser\Error;
 
 class ProjectController extends Controller
 {
@@ -98,18 +97,8 @@ class ProjectController extends Controller
             $students[] = Student::find($request->student_id_2)->user;
         }
         if ($request->status === 'plan_sent') {
-//            Mail::to($project->teacher->user)->send(new NewProjectUploadTeacher($project));
-            try {
-                Mail::send(new NewProjectUploadTeacher($project), [], function ($message) {
-                    $pdf = PDF::loadView("email.projects.reports.planpdf", compact('project'));
-                    $message->to("example@gmail.com", "Secretaria")->subject("Plan enviado");
-                    $message->attachData($pdf->output(), "plan-pdf.pdf");
-                });
-                Mail::to($students)->send(new NewProjectStudent($project));
-            }catch (Error $error){
-                return response()->json(["error"=>$error],500);
-            }
-
+            Mail::to($project->teacher->user)->send(new NewProjectUploadTeacher($project));
+            Mail::to($students)->send(new NewProjectStudent($project));
         }
 
         if ($request->status === 'plan_approved_director') {
@@ -129,7 +118,7 @@ class ProjectController extends Controller
         }
 
         if ($request->status === 'san_curriculum_1') {
-            if($project->teacher->committee === 1){
+            if ($project->teacher->committee === 1) {
                 Mail::to($project->teacher->user)->send(new NewPlanUploadCommission($project));
             }
         }
