@@ -7,16 +7,21 @@ use App\Http\Resources\User as UserResource;
 
 class Project extends JsonResource
 {
+
     /**
      * Transform the resource into an array.
      *
      * @param \Illuminate\Http\Request $request
      * @return array
      */
+
     public function toArray($request)
     {
         $teacher = $this->teacher->user;
-        $students = $this->students;
+        $students_value = $this->students()->where('project_id',$this->id)->first();
+        $student = $students_value->user;
+
+
         return [
             'id' => $this->id,
             'title' => $this->title,
@@ -50,25 +55,10 @@ class Project extends JsonResource
             'teacher' => '/api/teachers/' . $this->teacher_id,
             'teacher_name' => $teacher->name,
             'teacher_id' => $this->teacher_id,
-            'schedule'=>$this->schedule,
-            'schedule_comment'=>$this->schedule_comment,
-            //'students' => $this->getStudents(),
-            //'student_name' => $student->student_id
-            'students'=>$students
+            'schedule' => $this->schedule,
+            'schedule_comment' => $this->schedule_comment,
+            'student_name' => $student->name,
         ];
     }
 
-    private function getStudents() {
-        $students = [];
-
-        foreach($this->students as $student) {
-            $students[] = [
-                'id' => $student->id,
-                'name' => $student->project_student->user->name,
-                //'lastname' => $student->user->lastname,
-            ];
-        }
-
-        return $students;
-    }
 }
