@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Resources\User;
 use App\Mail\NewCommentCommentCommission;
 use App\Mail\NewCommentTeacher;
+use App\Mail\NewCorrectionOnPdfStudent;
 use App\Mail\NewCorrectionStudent;
 use App\Mail\NewPlanUploadCommission;
 use App\Mail\NewProjectStudent;
 use App\Mail\NewProjectUploadTeacher;
+use App\Mail\PdfApprovedByDirector;
 use App\Mail\PlanApprovedByDirector;
 use App\Models\Project;
 use App\Models\Student;
@@ -121,6 +123,13 @@ class ProjectController extends Controller
             }
         }
 
+        if ($request->status === 'project_review_teacher') {
+            Mail::to($students)->send(new NewCorrectionOnPdfStudent($project));
+        }
+
+        if ($request->status === 'project_approved_director') {
+            Mail::to($students)->send(new PdfApprovedByDirector($project));
+        }
 
 
     }
