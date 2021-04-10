@@ -6,6 +6,7 @@ use App\Http\Resources\User;
 use App\Mail\NewCommentCommentCommission;
 use App\Mail\NewCommentTeacher;
 use App\Mail\NewCorrectionStudent;
+use App\Mail\NewPdfUpload;
 use App\Mail\NewPlanUploadCommission;
 use App\Mail\NewProjectStudent;
 use App\Mail\NewProjectUploadTeacher;
@@ -119,6 +120,10 @@ class ProjectController extends Controller
             if ($project->teacher->committee === 1) {
                 Mail::to($project->teacher->user)->send(new NewPlanUploadCommission($project));
             }
+        }
+
+        if ($request->status === 'project_uploaded') {
+            Mail::to($project->teacher->user)->send(new NewPdfUpload($project));
         }
 
 
