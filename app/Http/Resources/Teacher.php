@@ -14,12 +14,16 @@ class Teacher extends JsonResource
      */
     public function toArray($request)
     {
+        $career = $this->career;
+
         return [
             'id'=>$this->id,
             'titular'=>$this->titular,
             'created_at'=>$this->created_at,
             'updated_at'=>$this->updated_at,
             'name' => $this->user->name,
+            'email' => $this->user->email,
+            'career' => $career->name,
             'committee'=>$this->committee
         ];
     }

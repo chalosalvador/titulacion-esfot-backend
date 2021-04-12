@@ -16,4 +16,9 @@ class Student extends Model
     {
         return $this->morphOne('App\Models\User', 'userable');
     }
+
+    public function career()
+    {
+        return $this->belongsTo('App\Models\Careers', 'career_id');
+    }
 }

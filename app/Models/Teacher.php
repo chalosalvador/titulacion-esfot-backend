@@ -21,4 +21,9 @@ class Teacher extends Model
     {
         return $this->hasMany('App\Models\TeacherPlan');
     }
+
+    public function career()
+    {
+        return $this->belongsTo('App\Models\Careers', 'career_id');
+    }
 }
