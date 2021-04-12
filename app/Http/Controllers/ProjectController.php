@@ -123,9 +123,7 @@ class ProjectController extends Controller
             }
         }
 
-        if ($request->status === 'project_uploaded') {
-            Mail::to($project->teacher->user)->send(new NewPdfUpload($project));
-        }
+
 
         return response()->json($project, 200);
 
@@ -139,6 +137,8 @@ class ProjectController extends Controller
         $pathPdf = $request->report_pdf->storeAs("public/reports/{$student_id}", $fileNameToStore);
         $project->report_pdf = $pathPdf;
         $project->update(["report_pdf"=>$pathPdf, "status"=>"project_uploaded", "report_uploaded_at"=> $date->getTimestamp()]);
+
+        Mail::to($project->teacher->user)->send(new NewPdfUpload($project));
 
         return response()->json($project, 200);
     }
