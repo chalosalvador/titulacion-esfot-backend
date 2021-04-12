@@ -91,6 +91,7 @@ class ProjectController extends Controller
         ], self::$messages);
 
         $students[] = Auth::user();
+        $project->update($request->all());
 
         if ($request->student_id_2 !== null) {
             $students[] = Student::find($request->student_id_2)->user;
@@ -126,7 +127,7 @@ class ProjectController extends Controller
             Mail::to($project->teacher->user)->send(new NewPdfUpload($project));
         }
 
-
+        return response()->json($project, 200);
 
     }
 
