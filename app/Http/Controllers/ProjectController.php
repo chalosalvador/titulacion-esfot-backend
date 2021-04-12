@@ -6,6 +6,7 @@ use App\Http\Resources\User;
 use App\Mail\NewCommentCommentCommission;
 use App\Mail\NewCommentTeacher;
 use App\Mail\NewCorrectionStudent;
+use App\Mail\NewPdfUpload;
 use App\Mail\NewPlanUploadCommission;
 use App\Mail\NewProjectStudent;
 use App\Mail\NewProjectUploadTeacher;
@@ -122,6 +123,8 @@ class ProjectController extends Controller
             }
         }
 
+
+
         return response()->json($project, 200);
 
     }
@@ -134,6 +137,8 @@ class ProjectController extends Controller
         $pathPdf = $request->report_pdf->storeAs("public/reports/{$student_id}", $fileNameToStore);
         $project->report_pdf = $pathPdf;
         $project->update(["report_pdf"=>$pathPdf, "status"=>"project_uploaded", "report_uploaded_at"=> $date->getTimestamp()]);
+
+        Mail::to($project->teacher->user)->send(new NewPdfUpload($project));
 
         return response()->json($project, 200);
     }
