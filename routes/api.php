@@ -46,6 +46,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
 //project
     Route::get('projects', [ProjectController::class, 'index']);
     Route::get('projects/{project}', [ProjectController::class, 'show']);
+    Route::get('project/getPDF/{project}', [ProjectController::class,'getProjectPDF']);
     Route::post('students/projects', [ProjectController::class, 'store']);
     Route::post('projects/{project}', [ProjectController::class, 'update']);
     Route::post('projects/{project}/pdf', [ProjectController::class, 'updatePdf']);

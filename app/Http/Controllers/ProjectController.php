@@ -46,6 +46,10 @@ class ProjectController extends Controller
         return response()->download(public_path(Storage::url($project->schedule)), $project->title);
     }
 
+    public function getProjectPDF(Project $project){
+        return public_path(Storage::url($project->report_pdf));
+    }
+
     public function store(Request $request)
     {
         $this->authorize('create', Project::class);
