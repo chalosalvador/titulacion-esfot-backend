@@ -47,7 +47,8 @@ class ProjectController extends Controller
     }
 
     public function getProjectPDF(Project $project){
-        return public_path(Storage::url($project->report_pdf));
+        $file = storage_path("app/$project->report_pdf");
+        return response()->file($file);
     }
 
     public function store(Request $request)

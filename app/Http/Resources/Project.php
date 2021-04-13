@@ -21,7 +21,6 @@ class Project extends JsonResource
         $students_value = $this->students()->where('project_id',$this->id)->first();
         $student = $students_value->user;
 
-
         return [
             'id' => $this->id,
             'title' => $this->title,
