@@ -18,6 +18,8 @@ use App\Models\Student;
 use App\Http\Resources\Project as ProjectResource;
 use App\Http\Resources\ProjectCollection;
 use DateTime;
+use Dompdf\Exception;
+use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -92,51 +94,214 @@ class ProjectController extends Controller
             'title' => 'string|unique:projects,title,' . $project->id . '|max:255',
         ], self::$messages);
 
-        $students[] = Auth::user();
         $project->update($request->all());
-
-        if ($request->student_id_2 !== null) {
-            $students[] = Student::find($request->student_id_2)->user;
-        }
-        if ($request->status === 'plan_sent') {
-            Mail::to($project->teacher->user)->send(new NewProjectUploadTeacher($project));
-            Mail::to($students)->send(new NewProjectStudent($project));
-        }
-
-        if ($request->status === 'plan_approved_director') {
-            Mail::to($students)->send(new PlanApprovedByDirector($project));
-        }
-
-        if ($request->status === 'plan_review_teacher') {
-            Mail::to($students)->send(new NewCommentTeacher($project));
-        }
-
-        if ($request->status === 'plan_corrections_done') {
-            Mail::to($project->teacher->user)->send(new NewCorrectionStudent($project));
-        }
-
-        if ($request->status === 'plan_review_commission') {
-            Mail::to($students)->send(new NewCommentCommentCommission($project));
-        }
-
-        if ($request->status === 'san_curriculum_1') {
-            if ($project->teacher->committee === 1) {
-                Mail::to($project->teacher->user)->send(new NewPlanUploadCommission($project));
-            }
-        }
-
-        if ($request->status === 'project_review_teacher') {
-            Mail::to($students)->send(new NewCorrectionOnPdfStudent($project));
-        }
-
-        if ($request->status === 'project_approved_director') {
-            Mail::to($students)->send(new PdfApprovedByDirector($project));
-        }
 
 
         return response()->json($project, 200);
 
     }
+
+    public function planSent(Project $project){
+        $mail = new NewProjectStudent($project);
+        $students[] = Auth::user();
+        if ($project->student_id_2 !== null) {
+            $students[] = Student::find($project->student_id_2)->user;
+        }
+        try{
+            $this->changeStatus($project, $mail,$students, "plan_sent", "plan_saved");
+//            Mail::to($project->teacher->user)->send(new NewProjectUploadTeacher($project));
+        } catch (Exception $e){
+            // TODO ver posibilidad de enviar un correo de error
+        }
+
+    }
+
+    public function planReviewTeacher(Project $project){
+        $mail = new NewCommentTeacher($project);
+        $students[] = Auth::user();
+        if ($project->student_id_2 !== null) {
+            $students[] = Student::find($project->student_id_2)->user;
+        }
+        try{
+            $this->changeStatus($project, $mail,$students, "plan_review_teacher", "plan_sent");
+        } catch (Exception $e){
+            // TODO ver posibilidad de enviar un correo de error
+        }
+    }
+
+    public function planCorrectionsDone(Project $project){
+        $mail = new NewCorrectionStudent($project);
+        try{
+            $this->changeStatus($project, $mail, $project->teacher->user, "plan_corrections_done", "plan_review_teacher");
+        } catch (Exception $e){
+
+        }
+    }
+
+    public function planApprovedDirector(Project $project){
+        $mail = new PlanApprovedByDirector($project);
+        $students[] = Auth::user();
+        if ($project->student_id_2 !== null) {
+            $students[] = Student::find($project->student_id_2)->user;
+        }
+        try{
+            $this->changeStatus($project,$mail, $students,"plan_approved_director", "plan_corrections_done");
+        } catch (Exception $e){
+            // TODO ver posibilidad de enviar un correo de error
+        }
+    }
+
+    public function sanCurriculum1(Project $project){
+        $mail = new NewPlanUploadCommission($project);
+        try{
+            $this->changeStatus($project, $mail, $project->teacher->user, "san_curriculum_1", "plan_approved_director");
+        } catch (Exception $e){
+            // TODO ver posibilidad de enviar un correo de error
+        }
+    }
+
+    public function planReviewCommission(Project $project){
+        $mail=new NewCommentCommentCommission($project);
+        $students[] = Auth::user();
+        if ($project->student_id_2 !== null) {
+            $students[] = Student::find($project->student_id_2)->user;
+        }
+        try{
+            $this->changeStatus($project,$mail,$students,"plan_review_commission", "san_curriculum_1");
+        } catch (Exception $e){
+            // TODO ver posibilidad de enviar un correo de error
+        }
+    }
+
+    public function planCorrectionsDone2(Project $project){
+        $mail = new NewCorrectionStudent($project); // TODO cambiar la estructura del correo
+        try{
+            $this->changeStatus($project, $mail, $project->teacher->user, "plan_corrections_done2", "plan_review_commission");
+        }catch (Exception $e){
+            // TODO ver posibilidad de enviar un correo de error
+        }
+
+    }
+
+    public function planApprovedCommission(Project $project){
+        $mail = new NewCorrectionStudent($project); //TODO cambiar la estructura del correo
+        $students[] = Auth::user();
+        if ($project->student_id_2 !== null) {
+            $students[] = Student::find($project->student_id_2)->user;
+        }
+        try{
+            $this->changeStatus($project, $mail,$students,"plan_approved_commission", "plan_corrections_done2");
+        } catch (Exception $e){
+            // TODO ver posibilidad de enviar un correo de error
+        }
+    }
+
+    public function projectUploaded(Project $project){
+        $mail = new NewCorrectionStudent($project); //TODO cambiar la estructura del correo
+        try{
+            $this->changeStatus($project, $mail, $project->teacher->user, "project_uploaded", "plan_approved_commission");
+        }catch (Exception $e){
+            // TODO ver posibilidad de enviar un correo de error
+        }
+    }
+
+    public function projectReviewTeacher(Project $project){
+        $mail = new NewCorrectionStudent($project); //TODO cambiar la estructura del correo
+        $students[] = Auth::user();
+        if ($project->student_id_2 !== null) {
+            $students[] = Student::find($project->student_id_2)->user;
+        }
+        try{
+            $this->changeStatus($project, $mail, $students,"project_review_teacher", "project_uploaded");
+        } catch (Exception $e){
+            // TODO ver posibilidad de enviar un correo de error
+        }
+    }
+
+    public function projectCorrectionsDone(Project $project){
+        $mail = new NewCorrectionStudent($project); //TODO cambiar la estructura del correo
+        try{
+            $this->changeStatus($project, $mail, $project->teacher->user, "project_corrections_done", "project_review_teacher");
+        }catch (Exception $e){
+            // TODO ver posibilidad de enviar un correo de error
+        }
+    }
+
+    public function projectApprovedDirector(Project $project){
+        $mail = new NewCorrectionStudent($project); //TODO cambiar la estructura del correo
+        $students[] = Auth::user();
+        if ($project->student_id_2 !== null) {
+            $students[] = Student::find($project->student_id_2)->user;
+        }
+        try{
+            $this->changeStatus($project, $mail, $students,"project_approved_director", "project_corrections_done");
+        } catch (Exception $e){
+            // TODO ver posibilidad de enviar un correo de error
+        }
+    }
+
+    public function sanCurriculum2(Project $project){
+        $mail = new NewPlanUploadCommission($project); // TODO cambiar la estructura del correo
+        try{
+            $this->changeStatus($project, $mail, $project->teacher->user, "san_curriculum_2", "project_approved_director");
+        } catch (Exception $e){
+            // TODO ver posibilidad de enviar un correo de error
+        }
+    }
+
+    public function testDefenseApt(Project $project){
+        $mail = new NewCorrectionStudent($project); //TODO cambiar la estructura del correo
+        $students[] = Auth::user();
+        if ($project->student_id_2 !== null) {
+            $students[] = Student::find($project->student_id_2)->user;
+        }
+        try{
+            $this->changeStatus($project, $mail, $students,"test_defense_apt", "san_curriculum_2");
+        } catch (Exception $e){
+            // TODO ver posibilidad de enviar un correo de error
+        }
+    }
+
+    public function tribunalAssigned(Project $project){
+        $mail = new NewCorrectionStudent($project); //TODO cambiar la estructura del correo
+        $students[] = Auth::user();
+        if ($project->student_id_2 !== null) {
+            $students[] = Student::find($project->student_id_2)->user;
+        }
+        try{
+            $this->changeStatus($project, $mail, $students,"tribunal_assigned", "test_defense_apt");
+        } catch (Exception $e){
+            // TODO ver posibilidad de enviar un correo de error
+        }
+    }
+
+    public function dateDefenseAssigned(Project $project){
+        $mail = new NewCorrectionStudent($project); //TODO cambiar la estructura del correo
+        $students[] = Auth::user();
+        if ($project->student_id_2 !== null) {
+            $students[] = Student::find($project->student_id_2)->user;
+        }
+        try{
+            $this->changeStatus($project, $mail, $students,"date_defense_assigned", "tribunal_assigned");
+        } catch (Exception $e){
+            // TODO ver posibilidad de enviar un correo de error
+        }
+    }
+
+    public function projectGraded(Project $project){
+        $mail = new NewCorrectionStudent($project); //TODO cambiar la estructura del correo
+        $students[] = Auth::user();
+        if ($project->student_id_2 !== null) {
+            $students[] = Student::find($project->student_id_2)->user;
+        }
+        try{
+            $this->changeStatus($project, $mail, $students,"project_approved_director", "project_corrections_done");
+        } catch (Exception $e){
+            // TODO ver posibilidad de enviar un correo de error
+        }
+    }
+
+
 
     public function updatePdf(Request $request, Project $project){
         $user = Auth::user();
@@ -156,5 +321,14 @@ class ProjectController extends Controller
     {
         $project->delete();
         return response()->json(null, 204);
+    }
+
+    private function changeStatus(Project $project, $mail, $mailTo, $newStatus, $prevStatus){
+        if($project->status===$prevStatus){
+            $project->update(["status"=>$newStatus]);
+            Mail::to($mailTo)->send($mail);
+            return response()->json(["message"=>"status_changed"],200);
+        }
+        return response()->json(["error"=>"incorrect_status"],500);
     }
 }
