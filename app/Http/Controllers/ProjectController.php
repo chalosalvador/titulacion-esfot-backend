@@ -108,7 +108,7 @@ class ProjectController extends Controller
             $students[] = Student::find($project->student_id_2)->user;
         }
         try{
-            $this->changeStatus($project, $mail,$students, "plan_sent", "plan_saved");
+            $this->changeStatus($project->id, $mail,$students, "plan_sent", "plan_saved");
 //            Mail::to($project->teacher->user)->send(new NewProjectUploadTeacher($project));
         } catch (Exception $e){
             // TODO ver posibilidad de enviar un correo de error
@@ -123,7 +123,7 @@ class ProjectController extends Controller
             $students[] = Student::find($project->student_id_2)->user;
         }
         try{
-            $this->changeStatus($project, $mail,$students, "plan_review_teacher", "plan_sent");
+            $this->changeStatus($project->id, $mail,$students, "plan_review_teacher", "plan_sent");
         } catch (Exception $e){
             // TODO ver posibilidad de enviar un correo de error
         }
@@ -132,7 +132,7 @@ class ProjectController extends Controller
     public function planCorrectionsDone(Project $project){
         $mail = new NewCorrectionStudent($project);
         try{
-            $this->changeStatus($project, $mail, $project->teacher->user, "plan_corrections_done", "plan_review_teacher");
+            $this->changeStatus($project->id, $mail, $project->teacher->user, "plan_corrections_done", "plan_review_teacher");
         } catch (Exception $e){
 
         }
@@ -145,7 +145,7 @@ class ProjectController extends Controller
             $students[] = Student::find($project->student_id_2)->user;
         }
         try{
-            $this->changeStatus($project,$mail, $students,"plan_approved_director", "plan_corrections_done");
+            $this->changeStatus($project->id,$mail, $students,"plan_approved_director", "plan_corrections_done");
         } catch (Exception $e){
             // TODO ver posibilidad de enviar un correo de error
         }
@@ -154,7 +154,7 @@ class ProjectController extends Controller
     public function sanCurriculum1(Project $project){
         $mail = new NewPlanUploadCommission($project);
         try{
-            $this->changeStatus($project, $mail, $project->teacher->user, "san_curriculum_1", "plan_approved_director");
+            $this->changeStatus($project->id, $mail, $project->teacher->user, "san_curriculum_1", "plan_approved_director");
         } catch (Exception $e){
             // TODO ver posibilidad de enviar un correo de error
         }
@@ -167,7 +167,7 @@ class ProjectController extends Controller
             $students[] = Student::find($project->student_id_2)->user;
         }
         try{
-            $this->changeStatus($project,$mail,$students,"plan_review_commission", "san_curriculum_1");
+            $this->changeStatus($project->id,$mail,$students,"plan_review_commission", "san_curriculum_1");
         } catch (Exception $e){
             // TODO ver posibilidad de enviar un correo de error
         }
@@ -176,7 +176,7 @@ class ProjectController extends Controller
     public function planCorrectionsDone2(Project $project){
         $mail = new NewCorrectionStudent($project); // TODO cambiar la estructura del correo
         try{
-            $this->changeStatus($project, $mail, $project->teacher->user, "plan_corrections_done2", "plan_review_commission");
+            $this->changeStatus($project->id, $mail, $project->teacher->user, "plan_corrections_done2", "plan_review_commission");
         }catch (Exception $e){
             // TODO ver posibilidad de enviar un correo de error
         }
@@ -190,7 +190,7 @@ class ProjectController extends Controller
             $students[] = Student::find($project->student_id_2)->user;
         }
         try{
-            $this->changeStatus($project, $mail,$students,"plan_approved_commission", "plan_corrections_done2");
+            $this->changeStatus($project->id, $mail,$students,"plan_approved_commission", "plan_corrections_done2");
         } catch (Exception $e){
             // TODO ver posibilidad de enviar un correo de error
         }
@@ -199,7 +199,7 @@ class ProjectController extends Controller
     public function projectUploaded(Project $project){
         $mail = new NewCorrectionStudent($project); //TODO cambiar la estructura del correo
         try{
-            $this->changeStatus($project, $mail, $project->teacher->user, "project_uploaded", "plan_approved_commission");
+            $this->changeStatus($project->id, $mail, $project->teacher->user, "project_uploaded", "plan_approved_commission");
         }catch (Exception $e){
             // TODO ver posibilidad de enviar un correo de error
         }
@@ -212,7 +212,7 @@ class ProjectController extends Controller
             $students[] = Student::find($project->student_id_2)->user;
         }
         try{
-            $this->changeStatus($project, $mail, $students,"project_review_teacher", "project_uploaded");
+            $this->changeStatus($project->id, $mail, $students,"project_review_teacher", "project_uploaded");
         } catch (Exception $e){
             // TODO ver posibilidad de enviar un correo de error
         }
@@ -221,7 +221,7 @@ class ProjectController extends Controller
     public function projectCorrectionsDone(Project $project){
         $mail = new NewCorrectionStudent($project); //TODO cambiar la estructura del correo
         try{
-            $this->changeStatus($project, $mail, $project->teacher->user, "project_corrections_done", "project_review_teacher");
+            $this->changeStatus($project->id, $mail, $project->teacher->user, "project_corrections_done", "project_review_teacher");
         }catch (Exception $e){
             // TODO ver posibilidad de enviar un correo de error
         }
@@ -234,7 +234,7 @@ class ProjectController extends Controller
             $students[] = Student::find($project->student_id_2)->user;
         }
         try{
-            $this->changeStatus($project, $mail, $students,"project_approved_director", "project_corrections_done");
+            $this->changeStatus($project->id, $mail, $students,"project_approved_director", "project_corrections_done");
         } catch (Exception $e){
             // TODO ver posibilidad de enviar un correo de error
         }
@@ -243,7 +243,7 @@ class ProjectController extends Controller
     public function sanCurriculum2(Project $project){
         $mail = new NewPlanUploadCommission($project); // TODO cambiar la estructura del correo
         try{
-            $this->changeStatus($project, $mail, $project->teacher->user, "san_curriculum_2", "project_approved_director");
+            $this->changeStatus($project->id, $mail, $project->teacher->user, "san_curriculum_2", "project_approved_director");
         } catch (Exception $e){
             // TODO ver posibilidad de enviar un correo de error
         }
@@ -256,7 +256,7 @@ class ProjectController extends Controller
             $students[] = Student::find($project->student_id_2)->user;
         }
         try{
-            $this->changeStatus($project, $mail, $students,"test_defense_apt", "san_curriculum_2");
+            $this->changeStatus($project->id, $mail, $students,"test_defense_apt", "san_curriculum_2");
         } catch (Exception $e){
             // TODO ver posibilidad de enviar un correo de error
         }
@@ -269,7 +269,7 @@ class ProjectController extends Controller
             $students[] = Student::find($project->student_id_2)->user;
         }
         try{
-            $this->changeStatus($project, $mail, $students,"tribunal_assigned", "test_defense_apt");
+            $this->changeStatus($project->id, $mail, $students,"tribunal_assigned", "test_defense_apt");
         } catch (Exception $e){
             // TODO ver posibilidad de enviar un correo de error
         }
@@ -282,7 +282,7 @@ class ProjectController extends Controller
             $students[] = Student::find($project->student_id_2)->user;
         }
         try{
-            $this->changeStatus($project, $mail, $students,"date_defense_assigned", "tribunal_assigned");
+            $this->changeStatus($project->id, $mail, $students,"date_defense_assigned", "tribunal_assigned");
         } catch (Exception $e){
             // TODO ver posibilidad de enviar un correo de error
         }
@@ -295,7 +295,7 @@ class ProjectController extends Controller
             $students[] = Student::find($project->student_id_2)->user;
         }
         try{
-            $this->changeStatus($project, $mail, $students,"project_approved_director", "project_corrections_done");
+            $this->changeStatus($project->id, $mail, $students,"project_approved_director", "project_corrections_done");
         } catch (Exception $e){
             // TODO ver posibilidad de enviar un correo de error
         }
@@ -323,12 +323,17 @@ class ProjectController extends Controller
         return response()->json(null, 204);
     }
 
-    private function changeStatus(Project $project, $mail, $mailTo, $newStatus, $prevStatus){
+    private function changeStatus($project_id, $mail, $mailTo, $newStatus, $prevStatus){
+        $project=Project::find($project_id);
         if($project->status===$prevStatus){
-            $project->update(["status"=>$newStatus]);
-            Mail::to($mailTo)->send($mail);
+//            $project->update(["status"=>$newStatus]);
+            $project->status=$newStatus;
+            $project->save();
+//            Mail::to($mailTo)->send($mail);
             return response()->json(["message"=>"status_changed"],200);
+        }else{
+            return response()->json(["error"=>"incorrect_status"],500);
         }
-        return response()->json(["error"=>"incorrect_status"],500);
+
     }
 }
