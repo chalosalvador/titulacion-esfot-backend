@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Teacher;
 use App\Models\Project;
-
 use Illuminate\Http\Request;
 use App\Http\Resources\Project as ProjectResource;
 use App\Http\Resources\TeacherPlan as TeacherPlanResource;
@@ -16,7 +15,7 @@ class TeacherController extends Controller
 {
     public function index()
     {
-        return new TeacherCollection(Teacher::paginate());
+        return new TeacherCollection(Teacher::all());
     }
 
     public function show()

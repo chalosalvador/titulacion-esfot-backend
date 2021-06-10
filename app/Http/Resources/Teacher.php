@@ -23,7 +23,7 @@ class Teacher extends JsonResource
             'updated_at'=>$this->updated_at,
             'name' => $this->user->name,
             'email' => $this->user->email,
-            'career' => $career->name,
+//            'career' => $career->name,
             'committee'=>$this->committee
         ];
     }
