@@ -108,13 +108,8 @@ class ProjectController extends Controller
         if ($project->student_id_2 !== null) {
             $students[] = Student::find($project->student_id_2)->user;
         }
-        if ($this->changeStatus($project->id, $mail, $students, "plan_sent", "plan_saved")) {
-            //Mail::to($project->teacher->user)->send(new NewProjectUploadTeacher($project));
-            return response()->json(["message" => "status_changed"], 200);
-        }
-
-        return response()->json(["error" => "incorrect_status"], 500);
-
+        //Mail::to($project->teacher->user)->send(new NewProjectUploadTeacher($project));
+        return $this->changeStatus($project->id, $mail, $students, "plan_sent", "plan_saved");
     }
 
     public function planReviewTeacher(Project $project)
@@ -124,21 +119,13 @@ class ProjectController extends Controller
         if ($project->student_id_2 !== null) {
             $students[] = Student::find($project->student_id_2)->user;
         }
-        if ($this->changeStatus($project->id, $mail, $students, "plan_review_teacher", "plan_sent")) {
-            return response()->json(["message" => "status_changed"], 200);
-        }
-        return response()->json(["error" => "incorrect_status"], 500);
-
+        return $this->changeStatus($project->id, $mail, $students, "plan_review_teacher", "plan_sent");
     }
 
     public function planCorrectionsDone(Project $project)
     {
         $mail = new NewCorrectionStudent($project);
-
-        if ($this->changeStatus($project->id, $mail, $project->teacher->user, "plan_corrections_done", "plan_review_teacher")) {
-            return response()->json(["message" => "status_changed"], 200);
-        }
-        return response()->json(["error" => "incorrect_status"], 500);
+        return $this->changeStatus($project->id, $mail, $project->teacher->user, "plan_corrections_done", "plan_review_teacher");
     }
 
     public function planApprovedDirector(Project $project)
@@ -148,19 +135,13 @@ class ProjectController extends Controller
         if ($project->student_id_2 !== null) {
             $students[] = Student::find($project->student_id_2)->user;
         }
-        if ($this->changeStatus($project->id, $mail, $students, "plan_approved_director", "plan_corrections_done")) {
-            return response()->json(["message" => "status_changed"], 200);
-        }
-        return response()->json(["error" => "incorrect_status"], 500);
+        return $this->changeStatus($project->id, $mail, $students, "plan_approved_director", "plan_corrections_done");
     }
 
     public function sanCurriculum1(Project $project)
     {
         $mail = new NewPlanUploadCommission($project);
-        if ($this->changeStatus($project->id, $mail, $project->teacher->user, "san_curriculum_1", "plan_approved_director")) {
-            return response()->json(["message" => "status_changed"], 200);
-        }
-        return response()->json(["error" => "incorrect_status"], 500);
+        return $this->changeStatus($project->id, $mail, $project->teacher->user, "san_curriculum_1", "plan_approved_director");
     }
 
     public function planReviewCommission(Project $project)
@@ -170,25 +151,13 @@ class ProjectController extends Controller
         if ($project->student_id_2 !== null) {
             $students[] = Student::find($project->student_id_2)->user;
         }
-
-        if ($this->changeStatus($project->id, $mail, $students, "plan_review_commission", "san_curriculum_1")) {
-            return response()->json(["message" => "status_changed"], 200);
-        }
-
-
-        return response()->json(["error" => "incorrect_status"], 500);
-
+        return $this->changeStatus($project->id, $mail, $students, "plan_review_commission", "san_curriculum_1");
     }
 
     public function planCorrectionsDone2(Project $project)
     {
         $mail = new NewCorrectionStudent($project); // TODO cambiar la estructura del correo
-        if ($this->changeStatus($project->id, $mail, $project->teacher->user, "plan_corrections_done2", "plan_review_commission")) {
-            return response()->json(["message" => "status_changed"], 200);
-        }
-
-        return response()->json(["error" => "incorrect_status"], 500);
-
+        return $this->changeStatus($project->id, $mail, $project->teacher->user, "plan_corrections_done2", "plan_review_commission");
     }
 
     public function planApprovedCommission(Project $project)
@@ -198,20 +167,13 @@ class ProjectController extends Controller
         if ($project->student_id_2 !== null) {
             $students[] = Student::find($project->student_id_2)->user;
         }
-        if ($this->changeStatus($project->id, $mail, $students, "plan_approved_commission", "plan_corrections_done2")) {
-            return response()->json(["message" => "status_changed"], 200);
-        }
-
-        return response()->json(["error" => "incorrect_status"], 500);
+        return $this->changeStatus($project->id, $mail, $students, "plan_approved_commission", "plan_corrections_done2");
     }
 
     public function projectUploaded(Project $project)
     {
         $mail = new NewCorrectionStudent($project); //TODO cambiar la estructura del correo
-        if ($this->changeStatus($project->id, $mail, $project->teacher->user, "project_uploaded", "plan_approved_commission")) {
-            return response()->json(["message" => "status_changed"], 200);
-        }
-        return response()->json(["error" => "incorrect_status"], 500);
+        return $this->changeStatus($project->id, $mail, $project->teacher->user, "project_uploaded", "plan_approved_commission");
     }
 
     public function projectReviewTeacher(Project $project)
@@ -221,19 +183,13 @@ class ProjectController extends Controller
         if ($project->student_id_2 !== null) {
             $students[] = Student::find($project->student_id_2)->user;
         }
-        if ($this->changeStatus($project->id, $mail, $students, "project_review_teacher", "project_uploaded")) {
-            return response()->json(["message" => "status_changed"], 200);
-        }
-        return response()->json(["error" => "incorrect_status"], 500);
+        return $this->changeStatus($project->id, $mail, $students, "project_review_teacher", "project_uploaded");
     }
 
     public function projectCorrectionsDone(Project $project)
     {
         $mail = new NewCorrectionStudent($project); //TODO cambiar la estructura del correo
-        if ($this->changeStatus($project->id, $mail, $project->teacher->user, "project_corrections_done", "project_review_teacher")) {
-            return response()->json(["message" => "status_changed"], 200);
-        }
-        return response()->json(["error" => "incorrect_status"], 500);
+        return $this->changeStatus($project->id, $mail, $project->teacher->user, "project_corrections_done", "project_review_teacher");
     }
 
     public function projectApprovedDirector(Project $project)
@@ -243,19 +199,13 @@ class ProjectController extends Controller
         if ($project->student_id_2 !== null) {
             $students[] = Student::find($project->student_id_2)->user;
         }
-        if ($this->changeStatus($project->id, $mail, $students, "project_approved_director", "project_corrections_done")) {
-            return response()->json(["message" => "status_changed"], 200);
-        }
-        return response()->json(["error" => "incorrect_status"], 500);
+        return $this->changeStatus($project->id, $mail, $students, "project_approved_director", "project_corrections_done");
     }
 
     public function sanCurriculum2(Project $project)
     {
         $mail = new NewPlanUploadCommission($project); // TODO cambiar la estructura del correo
-        if ($this->changeStatus($project->id, $mail, $project->teacher->user, "san_curriculum_2", "project_approved_director")) {
-            return response()->json(["message" => "status_changed"], 200);
-        }
-        return response()->json(["error" => "incorrect_status"], 500);
+        return $this->changeStatus($project->id, $mail, $project->teacher->user, "san_curriculum_2", "project_approved_director");
     }
 
     public function testDefenseApt(Project $project)
@@ -265,10 +215,7 @@ class ProjectController extends Controller
         if ($project->student_id_2 !== null) {
             $students[] = Student::find($project->student_id_2)->user;
         }
-        if ($this->changeStatus($project->id, $mail, $students, "test_defense_apt", "san_curriculum_2")) {
-            return response()->json(["message" => "status_changed"], 200);
-        }
-        return response()->json(["error" => "incorrect_status"], 500);
+        return $this->changeStatus($project->id, $mail, $students, "test_defense_apt", "san_curriculum_2");
     }
 
     public function tribunalAssigned(Project $project)
@@ -278,10 +225,7 @@ class ProjectController extends Controller
         if ($project->student_id_2 !== null) {
             $students[] = Student::find($project->student_id_2)->user;
         }
-        if ($this->changeStatus($project->id, $mail, $students, "tribunal_assigned", "test_defense_apt")) {
-            return response()->json(["message" => "status_changed"], 200);
-        }
-        return response()->json(["error" => "incorrect_status"], 500);
+        return $this->changeStatus($project->id, $mail, $students, "tribunal_assigned", "test_defense_apt");
     }
 
     public function dateDefenseAssigned(Project $project)
@@ -291,11 +235,7 @@ class ProjectController extends Controller
         if ($project->student_id_2 !== null) {
             $students[] = Student::find($project->student_id_2)->user;
         }
-        if ($this->changeStatus($project->id, $mail, $students, "date_defense_assigned", "tribunal_assigned")) {
-            return response()->json(["message" => "status_changed"], 200);
-
-        }
-        return response()->json(["error" => "incorrect_status"], 500);
+        return $this->changeStatus($project->id, $mail, $students, "date_defense_assigned", "tribunal_assigned");
     }
 
     public function projectGraded(Project $project)
@@ -305,10 +245,7 @@ class ProjectController extends Controller
         if ($project->student_id_2 !== null) {
             $students[] = Student::find($project->student_id_2)->user;
         }
-        if ($this->changeStatus($project->id, $mail, $students, "project_approved_director", "project_corrections_done")) {
-            return response()->json(["message" => "status_changed"], 200);
-        }
-        return response()->json(["error" => "incorrect_status"], 500);
+        return $this->changeStatus($project->id, $mail, $students, "project_approved_director", "project_corrections_done");
     }
 
 
@@ -341,8 +278,8 @@ class ProjectController extends Controller
             $project->status = $newStatus;
             $project->save();
 //            Mail::to($mailTo)->send($mail);
-            return true;
+            return response()->json(["message" => "status_changed"], 200);
         }
-        return false;
+        return response()->json(["error" => "incorrect_status"], 500);
     }
 }
