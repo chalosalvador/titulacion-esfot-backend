@@ -18,6 +18,8 @@ use App\Models\Student;
 use App\Http\Resources\Project as ProjectResource;
 use App\Http\Resources\ProjectCollection;
 use DateTime;
+use Dompdf\Exception;
+use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -92,60 +94,170 @@ class ProjectController extends Controller
             'title' => 'string|unique:projects,title,' . $project->id . '|max:255',
         ], self::$messages);
 
-        $students[] = Auth::user();
         $project->update($request->all());
-
-        if ($request->student_id_2 !== null) {
-            $students[] = Student::find($request->student_id_2)->user;
-        }
-        if ($request->status === 'plan_sent') {
-            Mail::to($project->teacher->user)->send(new NewProjectUploadTeacher($project));
-            Mail::to($students)->send(new NewProjectStudent($project));
-        }
-
-        if ($request->status === 'plan_approved_director') {
-            Mail::to($students)->send(new PlanApprovedByDirector($project));
-        }
-
-        if ($request->status === 'plan_review_teacher') {
-            Mail::to($students)->send(new NewCommentTeacher($project));
-        }
-
-        if ($request->status === 'plan_corrections_done') {
-            Mail::to($project->teacher->user)->send(new NewCorrectionStudent($project));
-        }
-
-        if ($request->status === 'plan_review_commission') {
-            Mail::to($students)->send(new NewCommentCommentCommission($project));
-        }
-
-        if ($request->status === 'san_curriculum_1') {
-            if ($project->teacher->committee === 1) {
-                Mail::to($project->teacher->user)->send(new NewPlanUploadCommission($project));
-            }
-        }
-
-        if ($request->status === 'project_review_teacher') {
-            Mail::to($students)->send(new NewCorrectionOnPdfStudent($project));
-        }
-
-        if ($request->status === 'project_approved_director') {
-            Mail::to($students)->send(new PdfApprovedByDirector($project));
-        }
 
 
         return response()->json($project, 200);
 
     }
 
-    public function updatePdf(Request $request, Project $project){
+    public function planSent(Project $project)
+    {
+        $mail = new NewProjectStudent($project);
+        $students[] = Auth::user();
+        if ($project->student_id_2 !== null) {
+            $students[] = Student::find($project->student_id_2)->user;
+        }
+        //Mail::to($project->teacher->user)->send(new NewProjectUploadTeacher($project));
+        return $this->changeStatus($project->id, $mail, $students, "plan_sent", "plan_saved");
+    }
+
+    public function planReviewTeacher(Project $project)
+    {
+        $mail = new NewCommentTeacher($project);
+        $students[] = Auth::user();
+        if ($project->student_id_2 !== null) {
+            $students[] = Student::find($project->student_id_2)->user;
+        }
+        return $this->changeStatus($project->id, $mail, $students, "plan_review_teacher", "plan_sent");
+    }
+
+    public function planCorrectionsDone(Project $project)
+    {
+        $mail = new NewCorrectionStudent($project);
+        return $this->changeStatus($project->id, $mail, $project->teacher->user, "plan_corrections_done", "plan_review_teacher");
+    }
+
+    public function planApprovedDirector(Project $project)
+    {
+        $mail = new PlanApprovedByDirector($project);
+        $students[] = Auth::user();
+        if ($project->student_id_2 !== null) {
+            $students[] = Student::find($project->student_id_2)->user;
+        }
+        return $this->changeStatus($project->id, $mail, $students, "plan_approved_director", "plan_corrections_done");
+    }
+
+    public function sanCurriculum1(Project $project)
+    {
+        $mail = new NewPlanUploadCommission($project);
+        return $this->changeStatus($project->id, $mail, $project->teacher->user, "san_curriculum_1", "plan_approved_director");
+    }
+
+    public function planReviewCommission(Project $project)
+    {
+        $mail = new NewCommentCommentCommission($project);
+        $students[] = Auth::user();
+        if ($project->student_id_2 !== null) {
+            $students[] = Student::find($project->student_id_2)->user;
+        }
+        return $this->changeStatus($project->id, $mail, $students, "plan_review_commission", "san_curriculum_1");
+    }
+
+    public function planCorrectionsDone2(Project $project)
+    {
+        $mail = new NewCorrectionStudent($project); // TODO cambiar la estructura del correo
+        return $this->changeStatus($project->id, $mail, $project->teacher->user, "plan_corrections_done2", "plan_review_commission");
+    }
+
+    public function planApprovedCommission(Project $project)
+    {
+        $mail = new NewCorrectionStudent($project); //TODO cambiar la estructura del correo
+        $students[] = Auth::user();
+        if ($project->student_id_2 !== null) {
+            $students[] = Student::find($project->student_id_2)->user;
+        }
+        return $this->changeStatus($project->id, $mail, $students, "plan_approved_commission", "plan_corrections_done2");
+    }
+
+    public function projectUploaded(Project $project)
+    {
+        $mail = new NewCorrectionStudent($project); //TODO cambiar la estructura del correo
+        return $this->changeStatus($project->id, $mail, $project->teacher->user, "project_uploaded", "plan_approved_commission");
+    }
+
+    public function projectReviewTeacher(Project $project)
+    {
+        $mail = new NewCorrectionStudent($project); //TODO cambiar la estructura del correo
+        $students[] = Auth::user();
+        if ($project->student_id_2 !== null) {
+            $students[] = Student::find($project->student_id_2)->user;
+        }
+        return $this->changeStatus($project->id, $mail, $students, "project_review_teacher", "project_uploaded");
+    }
+
+    public function projectCorrectionsDone(Project $project)
+    {
+        $mail = new NewCorrectionStudent($project); //TODO cambiar la estructura del correo
+        return $this->changeStatus($project->id, $mail, $project->teacher->user, "project_corrections_done", "project_review_teacher");
+    }
+
+    public function projectApprovedDirector(Project $project)
+    {
+        $mail = new NewCorrectionStudent($project); //TODO cambiar la estructura del correo
+        $students[] = Auth::user();
+        if ($project->student_id_2 !== null) {
+            $students[] = Student::find($project->student_id_2)->user;
+        }
+        return $this->changeStatus($project->id, $mail, $students, "project_approved_director", "project_corrections_done");
+    }
+
+    public function sanCurriculum2(Project $project)
+    {
+        $mail = new NewPlanUploadCommission($project); // TODO cambiar la estructura del correo
+        return $this->changeStatus($project->id, $mail, $project->teacher->user, "san_curriculum_2", "project_approved_director");
+    }
+
+    public function testDefenseApt(Project $project)
+    {
+        $mail = new NewCorrectionStudent($project); //TODO cambiar la estructura del correo
+        $students[] = Auth::user();
+        if ($project->student_id_2 !== null) {
+            $students[] = Student::find($project->student_id_2)->user;
+        }
+        return $this->changeStatus($project->id, $mail, $students, "test_defense_apt", "san_curriculum_2");
+    }
+
+    public function tribunalAssigned(Project $project)
+    {
+        $mail = new NewCorrectionStudent($project); //TODO cambiar la estructura del correo
+        $students[] = Auth::user();
+        if ($project->student_id_2 !== null) {
+            $students[] = Student::find($project->student_id_2)->user;
+        }
+        return $this->changeStatus($project->id, $mail, $students, "tribunal_assigned", "test_defense_apt");
+    }
+
+    public function dateDefenseAssigned(Project $project)
+    {
+        $mail = new NewCorrectionStudent($project); //TODO cambiar la estructura del correo
+        $students[] = Auth::user();
+        if ($project->student_id_2 !== null) {
+            $students[] = Student::find($project->student_id_2)->user;
+        }
+        return $this->changeStatus($project->id, $mail, $students, "date_defense_assigned", "tribunal_assigned");
+    }
+
+    public function projectGraded(Project $project)
+    {
+        $mail = new NewCorrectionStudent($project); //TODO cambiar la estructura del correo
+        $students[] = Auth::user();
+        if ($project->student_id_2 !== null) {
+            $students[] = Student::find($project->student_id_2)->user;
+        }
+        return $this->changeStatus($project->id, $mail, $students, "project_approved_director", "project_corrections_done");
+    }
+
+
+    public function updatePdf(Request $request, Project $project)
+    {
         $user = Auth::user();
         $date = new DateTime();
         $student_id = $user->userable->id;
         $fileNameToStore = "project.pdf";
         $pathPdf = $request->report_pdf->storeAs("public/reports/{$student_id}", $fileNameToStore);
         $project->report_pdf = $pathPdf;
-        $project->update(["report_pdf"=>$pathPdf, "status"=>"project_uploaded", "report_uploaded_at"=> $date->getTimestamp()]);
+        $project->update(["report_pdf" => $pathPdf, "status" => "project_uploaded", "report_uploaded_at" => $date->getTimestamp()]);
 
         Mail::to($project->teacher->user)->send(new NewPdfUpload($project));
 
@@ -156,5 +268,18 @@ class ProjectController extends Controller
     {
         $project->delete();
         return response()->json(null, 204);
+    }
+
+    private function changeStatus($project_id, $mail, $mailTo, $newStatus, $prevStatus)
+    {
+        $project = Project::find($project_id);
+        if ($project->status === $prevStatus) {
+//            $project->update(["status"=>$newStatus]);
+            $project->status = $newStatus;
+            $project->save();
+//            Mail::to($mailTo)->send($mail);
+            return response()->json(["message" => "status_changed"], 200);
+        }
+        return response()->json(["error" => "incorrect_status"], 500);
     }
 }
