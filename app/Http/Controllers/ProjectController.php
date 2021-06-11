@@ -101,216 +101,226 @@ class ProjectController extends Controller
 
     }
 
-    public function planSent(Project $project){
+    public function planSent(Project $project)
+    {
         $mail = new NewProjectStudent($project);
         $students[] = Auth::user();
         if ($project->student_id_2 !== null) {
             $students[] = Student::find($project->student_id_2)->user;
         }
-        try{
-            $this->changeStatus($project->id, $mail,$students, "plan_sent", "plan_saved");
-//            Mail::to($project->teacher->user)->send(new NewProjectUploadTeacher($project));
-        } catch (Exception $e){
-            // TODO ver posibilidad de enviar un correo de error
+        if ($this->changeStatus($project->id, $mail, $students, "plan_sent", "plan_saved")) {
+            //Mail::to($project->teacher->user)->send(new NewProjectUploadTeacher($project));
+            return response()->json(["message" => "status_changed"], 200);
         }
+
+        return response()->json(["error" => "incorrect_status"], 500);
 
     }
 
-    public function planReviewTeacher(Project $project){
+    public function planReviewTeacher(Project $project)
+    {
         $mail = new NewCommentTeacher($project);
         $students[] = Auth::user();
         if ($project->student_id_2 !== null) {
             $students[] = Student::find($project->student_id_2)->user;
         }
-        try{
-            $this->changeStatus($project->id, $mail,$students, "plan_review_teacher", "plan_sent");
-        } catch (Exception $e){
-            // TODO ver posibilidad de enviar un correo de error
+        if ($this->changeStatus($project->id, $mail, $students, "plan_review_teacher", "plan_sent")) {
+            return response()->json(["message" => "status_changed"], 200);
         }
+        return response()->json(["error" => "incorrect_status"], 500);
+
     }
 
-    public function planCorrectionsDone(Project $project){
+    public function planCorrectionsDone(Project $project)
+    {
         $mail = new NewCorrectionStudent($project);
-        try{
-            $this->changeStatus($project->id, $mail, $project->teacher->user, "plan_corrections_done", "plan_review_teacher");
-        } catch (Exception $e){
 
+        if ($this->changeStatus($project->id, $mail, $project->teacher->user, "plan_corrections_done", "plan_review_teacher")) {
+            return response()->json(["message" => "status_changed"], 200);
         }
+        return response()->json(["error" => "incorrect_status"], 500);
     }
 
-    public function planApprovedDirector(Project $project){
+    public function planApprovedDirector(Project $project)
+    {
         $mail = new PlanApprovedByDirector($project);
         $students[] = Auth::user();
         if ($project->student_id_2 !== null) {
             $students[] = Student::find($project->student_id_2)->user;
         }
-        try{
-            $this->changeStatus($project->id,$mail, $students,"plan_approved_director", "plan_corrections_done");
-        } catch (Exception $e){
-            // TODO ver posibilidad de enviar un correo de error
+        if ($this->changeStatus($project->id, $mail, $students, "plan_approved_director", "plan_corrections_done")) {
+            return response()->json(["message" => "status_changed"], 200);
         }
+        return response()->json(["error" => "incorrect_status"], 500);
     }
 
-    public function sanCurriculum1(Project $project){
+    public function sanCurriculum1(Project $project)
+    {
         $mail = new NewPlanUploadCommission($project);
-        try{
-            $this->changeStatus($project->id, $mail, $project->teacher->user, "san_curriculum_1", "plan_approved_director");
-        } catch (Exception $e){
-            // TODO ver posibilidad de enviar un correo de error
+        if ($this->changeStatus($project->id, $mail, $project->teacher->user, "san_curriculum_1", "plan_approved_director")) {
+            return response()->json(["message" => "status_changed"], 200);
         }
+        return response()->json(["error" => "incorrect_status"], 500);
     }
 
-    public function planReviewCommission(Project $project){
-        $mail=new NewCommentCommentCommission($project);
+    public function planReviewCommission(Project $project)
+    {
+        $mail = new NewCommentCommentCommission($project);
         $students[] = Auth::user();
         if ($project->student_id_2 !== null) {
             $students[] = Student::find($project->student_id_2)->user;
         }
-        try{
-            $this->changeStatus($project->id,$mail,$students,"plan_review_commission", "san_curriculum_1");
-        } catch (Exception $e){
-            // TODO ver posibilidad de enviar un correo de error
+
+        if ($this->changeStatus($project->id, $mail, $students, "plan_review_commission", "san_curriculum_1")) {
+            return response()->json(["message" => "status_changed"], 200);
         }
+
+
+        return response()->json(["error" => "incorrect_status"], 500);
+
     }
 
-    public function planCorrectionsDone2(Project $project){
+    public function planCorrectionsDone2(Project $project)
+    {
         $mail = new NewCorrectionStudent($project); // TODO cambiar la estructura del correo
-        try{
-            $this->changeStatus($project->id, $mail, $project->teacher->user, "plan_corrections_done2", "plan_review_commission");
-        }catch (Exception $e){
-            // TODO ver posibilidad de enviar un correo de error
+        if ($this->changeStatus($project->id, $mail, $project->teacher->user, "plan_corrections_done2", "plan_review_commission")) {
+            return response()->json(["message" => "status_changed"], 200);
         }
+
+        return response()->json(["error" => "incorrect_status"], 500);
 
     }
 
-    public function planApprovedCommission(Project $project){
+    public function planApprovedCommission(Project $project)
+    {
         $mail = new NewCorrectionStudent($project); //TODO cambiar la estructura del correo
         $students[] = Auth::user();
         if ($project->student_id_2 !== null) {
             $students[] = Student::find($project->student_id_2)->user;
         }
-        try{
-            $this->changeStatus($project->id, $mail,$students,"plan_approved_commission", "plan_corrections_done2");
-        } catch (Exception $e){
-            // TODO ver posibilidad de enviar un correo de error
+        if ($this->changeStatus($project->id, $mail, $students, "plan_approved_commission", "plan_corrections_done2")) {
+            return response()->json(["message" => "status_changed"], 200);
         }
+
+        return response()->json(["error" => "incorrect_status"], 500);
     }
 
-    public function projectUploaded(Project $project){
+    public function projectUploaded(Project $project)
+    {
         $mail = new NewCorrectionStudent($project); //TODO cambiar la estructura del correo
-        try{
-            $this->changeStatus($project->id, $mail, $project->teacher->user, "project_uploaded", "plan_approved_commission");
-        }catch (Exception $e){
-            // TODO ver posibilidad de enviar un correo de error
+        if ($this->changeStatus($project->id, $mail, $project->teacher->user, "project_uploaded", "plan_approved_commission")) {
+            return response()->json(["message" => "status_changed"], 200);
         }
+        return response()->json(["error" => "incorrect_status"], 500);
     }
 
-    public function projectReviewTeacher(Project $project){
-        $mail = new NewCorrectionStudent($project); //TODO cambiar la estructura del correo
-        $students[] = Auth::user();
-        if ($project->student_id_2 !== null) {
-            $students[] = Student::find($project->student_id_2)->user;
-        }
-        try{
-            $this->changeStatus($project->id, $mail, $students,"project_review_teacher", "project_uploaded");
-        } catch (Exception $e){
-            // TODO ver posibilidad de enviar un correo de error
-        }
-    }
-
-    public function projectCorrectionsDone(Project $project){
-        $mail = new NewCorrectionStudent($project); //TODO cambiar la estructura del correo
-        try{
-            $this->changeStatus($project->id, $mail, $project->teacher->user, "project_corrections_done", "project_review_teacher");
-        }catch (Exception $e){
-            // TODO ver posibilidad de enviar un correo de error
-        }
-    }
-
-    public function projectApprovedDirector(Project $project){
+    public function projectReviewTeacher(Project $project)
+    {
         $mail = new NewCorrectionStudent($project); //TODO cambiar la estructura del correo
         $students[] = Auth::user();
         if ($project->student_id_2 !== null) {
             $students[] = Student::find($project->student_id_2)->user;
         }
-        try{
-            $this->changeStatus($project->id, $mail, $students,"project_approved_director", "project_corrections_done");
-        } catch (Exception $e){
-            // TODO ver posibilidad de enviar un correo de error
+        if ($this->changeStatus($project->id, $mail, $students, "project_review_teacher", "project_uploaded")) {
+            return response()->json(["message" => "status_changed"], 200);
         }
+        return response()->json(["error" => "incorrect_status"], 500);
     }
 
-    public function sanCurriculum2(Project $project){
+    public function projectCorrectionsDone(Project $project)
+    {
+        $mail = new NewCorrectionStudent($project); //TODO cambiar la estructura del correo
+        if ($this->changeStatus($project->id, $mail, $project->teacher->user, "project_corrections_done", "project_review_teacher")) {
+            return response()->json(["message" => "status_changed"], 200);
+        }
+        return response()->json(["error" => "incorrect_status"], 500);
+    }
+
+    public function projectApprovedDirector(Project $project)
+    {
+        $mail = new NewCorrectionStudent($project); //TODO cambiar la estructura del correo
+        $students[] = Auth::user();
+        if ($project->student_id_2 !== null) {
+            $students[] = Student::find($project->student_id_2)->user;
+        }
+        if ($this->changeStatus($project->id, $mail, $students, "project_approved_director", "project_corrections_done")) {
+            return response()->json(["message" => "status_changed"], 200);
+        }
+        return response()->json(["error" => "incorrect_status"], 500);
+    }
+
+    public function sanCurriculum2(Project $project)
+    {
         $mail = new NewPlanUploadCommission($project); // TODO cambiar la estructura del correo
-        try{
-            $this->changeStatus($project->id, $mail, $project->teacher->user, "san_curriculum_2", "project_approved_director");
-        } catch (Exception $e){
-            // TODO ver posibilidad de enviar un correo de error
+        if ($this->changeStatus($project->id, $mail, $project->teacher->user, "san_curriculum_2", "project_approved_director")) {
+            return response()->json(["message" => "status_changed"], 200);
         }
+        return response()->json(["error" => "incorrect_status"], 500);
     }
 
-    public function testDefenseApt(Project $project){
+    public function testDefenseApt(Project $project)
+    {
         $mail = new NewCorrectionStudent($project); //TODO cambiar la estructura del correo
         $students[] = Auth::user();
         if ($project->student_id_2 !== null) {
             $students[] = Student::find($project->student_id_2)->user;
         }
-        try{
-            $this->changeStatus($project->id, $mail, $students,"test_defense_apt", "san_curriculum_2");
-        } catch (Exception $e){
-            // TODO ver posibilidad de enviar un correo de error
+        if ($this->changeStatus($project->id, $mail, $students, "test_defense_apt", "san_curriculum_2")) {
+            return response()->json(["message" => "status_changed"], 200);
         }
+        return response()->json(["error" => "incorrect_status"], 500);
     }
 
-    public function tribunalAssigned(Project $project){
+    public function tribunalAssigned(Project $project)
+    {
         $mail = new NewCorrectionStudent($project); //TODO cambiar la estructura del correo
         $students[] = Auth::user();
         if ($project->student_id_2 !== null) {
             $students[] = Student::find($project->student_id_2)->user;
         }
-        try{
-            $this->changeStatus($project->id, $mail, $students,"tribunal_assigned", "test_defense_apt");
-        } catch (Exception $e){
-            // TODO ver posibilidad de enviar un correo de error
+        if ($this->changeStatus($project->id, $mail, $students, "tribunal_assigned", "test_defense_apt")) {
+            return response()->json(["message" => "status_changed"], 200);
         }
+        return response()->json(["error" => "incorrect_status"], 500);
     }
 
-    public function dateDefenseAssigned(Project $project){
+    public function dateDefenseAssigned(Project $project)
+    {
         $mail = new NewCorrectionStudent($project); //TODO cambiar la estructura del correo
         $students[] = Auth::user();
         if ($project->student_id_2 !== null) {
             $students[] = Student::find($project->student_id_2)->user;
         }
-        try{
-            $this->changeStatus($project->id, $mail, $students,"date_defense_assigned", "tribunal_assigned");
-        } catch (Exception $e){
-            // TODO ver posibilidad de enviar un correo de error
+        if ($this->changeStatus($project->id, $mail, $students, "date_defense_assigned", "tribunal_assigned")) {
+            return response()->json(["message" => "status_changed"], 200);
+
         }
+        return response()->json(["error" => "incorrect_status"], 500);
     }
 
-    public function projectGraded(Project $project){
+    public function projectGraded(Project $project)
+    {
         $mail = new NewCorrectionStudent($project); //TODO cambiar la estructura del correo
         $students[] = Auth::user();
         if ($project->student_id_2 !== null) {
             $students[] = Student::find($project->student_id_2)->user;
         }
-        try{
-            $this->changeStatus($project->id, $mail, $students,"project_approved_director", "project_corrections_done");
-        } catch (Exception $e){
-            // TODO ver posibilidad de enviar un correo de error
+        if ($this->changeStatus($project->id, $mail, $students, "project_approved_director", "project_corrections_done")) {
+            return response()->json(["message" => "status_changed"], 200);
         }
+        return response()->json(["error" => "incorrect_status"], 500);
     }
 
 
-
-    public function updatePdf(Request $request, Project $project){
+    public function updatePdf(Request $request, Project $project)
+    {
         $user = Auth::user();
         $date = new DateTime();
         $student_id = $user->userable->id;
         $fileNameToStore = "project.pdf";
         $pathPdf = $request->report_pdf->storeAs("public/reports/{$student_id}", $fileNameToStore);
         $project->report_pdf = $pathPdf;
-        $project->update(["report_pdf"=>$pathPdf, "status"=>"project_uploaded", "report_uploaded_at"=> $date->getTimestamp()]);
+        $project->update(["report_pdf" => $pathPdf, "status" => "project_uploaded", "report_uploaded_at" => $date->getTimestamp()]);
 
         Mail::to($project->teacher->user)->send(new NewPdfUpload($project));
 
@@ -323,17 +333,16 @@ class ProjectController extends Controller
         return response()->json(null, 204);
     }
 
-    private function changeStatus($project_id, $mail, $mailTo, $newStatus, $prevStatus){
-        $project=Project::find($project_id);
-        if($project->status===$prevStatus){
+    private function changeStatus($project_id, $mail, $mailTo, $newStatus, $prevStatus)
+    {
+        $project = Project::find($project_id);
+        if ($project->status === $prevStatus) {
 //            $project->update(["status"=>$newStatus]);
-            $project->status=$newStatus;
+            $project->status = $newStatus;
             $project->save();
 //            Mail::to($mailTo)->send($mail);
-            return response()->json(["message"=>"status_changed"],200);
-        }else{
-            return response()->json(["error"=>"incorrect_status"],500);
+            return true;
         }
-
+        return false;
     }
 }
