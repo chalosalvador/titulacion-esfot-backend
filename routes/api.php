@@ -59,6 +59,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::post('projects/{project}/plan-review-commission',[ProjectController::class, 'planReviewCommission']);
     Route::post('projects/{project}/plan-corrections-done-2',[ProjectController::class, 'planCorrectionsDone2']);
     Route::post('projects/{project}/plan-approved-commission',[ProjectController::class, 'planApprovedCommission']);
+    Route::post('projects/{project}/plan-rejected',[ProjectController::class, 'planRejected']);
     Route::post('projects/{project}/project-uploaded',[ProjectController::class, 'projectUploaded']);
     Route::post('projects/{project}/project-review-teacher',[ProjectController::class, 'projectReviewTeacher']);
     Route::post('projects/{project}/project-corrections-done',[ProjectController::class, 'projectCorrectionsDone']);

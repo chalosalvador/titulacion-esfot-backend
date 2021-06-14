@@ -170,6 +170,16 @@ class ProjectController extends Controller
         return $this->changeStatus($project->id, $mail, $students, "plan_approved_commission", "plan_corrections_done2");
     }
 
+    public function planRejected(Project $project)
+    {
+        $mail = new NewCorrectionStudent($project); //TODO cambiar la estructura del correo
+        $students[] = Auth::user();
+        if ($project->student_id_2 !== null) {
+            $students[] = Student::find($project->student_id_2)->user;
+        }
+        return $this->changeStatus($project->id, $mail, $students, "plan_rejected", "plan_corrections_done2");
+    }
+
     public function projectUploaded(Project $project)
     {
         $mail = new NewCorrectionStudent($project); //TODO cambiar la estructura del correo
