@@ -139,7 +139,7 @@ class ProjectController extends Controller
         $date = new DateTime();
         $student_id = $user->userable->id;
         $fileNameToStore = "project.pdf";
-        $pathPdf = $request->report_pdf->storeAs("public/reports/{$student_id}", $fileNameToStore);
+        $pathPdf = $request->report_pdf->storeAs("storage/reports/{$student_id}", $fileNameToStore);
         $project->report_pdf = $pathPdf;
         $project->update(["report_pdf"=>$pathPdf, "status"=>"project_uploaded", "report_uploaded_at"=> $date->getTimestamp()]);
 
