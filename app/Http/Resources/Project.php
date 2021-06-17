@@ -49,6 +49,7 @@ class Project extends JsonResource
             'bibliography_comment' => $this->bibliography_comment,
             'project_type' => $this->project_type,
             'report_pdf' => $this->report_pdf,
+            'highlights' => $this->highlights,
             'report_uploaded_at' => $this->report_uploaded_at,
             'report_modified_at' => $this->report_modified_at,
             'teacher' => '/api/teachers/' . $this->teacher_id,

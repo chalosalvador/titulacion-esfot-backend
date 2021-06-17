@@ -39,6 +39,7 @@ class ProjectsTableSeeder extends Seeder
                 'bibliography' => $faker->sentence(30),
                 'uploaded_at' => $faker->dateTime,
                 'report_pdf' => $faker->sentence('15'),
+                'highlights' => $faker-> paragraph,
                 'report_uploaded_at' => $faker->dateTime,
                 'report_modified_at' => $faker->dateTime,
                 'teacher_id'=>$faker->numberBetween(1,10)
