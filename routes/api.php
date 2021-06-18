@@ -5,6 +5,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\TeacherPlanController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CommissionController;
 use Illuminate\Http\Request;
 
 /*
@@ -88,6 +89,10 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get('teachers/projects', [TeacherController::class, 'projects']);
     Route::get('teachers/{teacher}/projects/{project}', [TeacherController::class, 'project']);
 
-
+//commissions
+    Route::get('commissions', [CommissionController::class, 'index']);
+    Route::get('commissions/{commissions}', [CommissionController::class, 'show']);
+    Route::post('commissions/commissions', [CommissionController::class, 'store']);
+    Route::post('commissions/{commissions}', [CommissionController::class, 'update']);
 });
 //});
