@@ -51,7 +51,24 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::post('projects/{project}', [ProjectController::class, 'update']);
     Route::post('projects/{project}/pdf', [ProjectController::class, 'updatePdf']);
     Route::delete('projects/{project}', [ProjectController::class, 'delete']);
-
+    Route::post('projects/{project}/plan-sent',[ProjectController::class, 'planSent']);
+    Route::post('projects/{project}/plan-review-teacher',[ProjectController::class, 'planReviewTeacher']);
+    Route::post('projects/{project}/plan-corrections-done',[ProjectController::class, 'planCorrectionsDone']);
+    Route::post('projects/{project}/plan-approved-director',[ProjectController::class, 'planApprovedDirector']);
+    Route::post('projects/{project}/san-curriculum-1',[ProjectController::class, 'sanCurriculum1']);
+    Route::post('projects/{project}/plan-review-commission',[ProjectController::class, 'planReviewCommission']);
+    Route::post('projects/{project}/plan-corrections-done-2',[ProjectController::class, 'planCorrectionsDone2']);
+    Route::post('projects/{project}/plan-approved-commission',[ProjectController::class, 'planApprovedCommission']);
+    Route::post('projects/{project}/plan-rejected',[ProjectController::class, 'planRejected']);
+    Route::post('projects/{project}/project-uploaded',[ProjectController::class, 'projectUploaded']);
+    Route::post('projects/{project}/project-review-teacher',[ProjectController::class, 'projectReviewTeacher']);
+    Route::post('projects/{project}/project-corrections-done',[ProjectController::class, 'projectCorrectionsDone']);
+    Route::post('projects/{project}/project-approved-director',[ProjectController::class, 'projectApprovedDirector']);
+    Route::post('projects/{project}/san-curriculum-2',[ProjectController::class, 'sanCurriculum2']);
+    Route::post('projects/{project}/test-defense-apt',[ProjectController::class, 'testDefenseApt']);
+    Route::post('projects/{project}/tribunal-assigned',[ProjectController::class, 'tribunalAssigned']);
+    Route::post('projects/{project}/date-defense-assigned',[ProjectController::class, 'dateDefenseAssigned']);
+    Route::post('projects/{project}/project-graded',[ProjectController::class, 'projectGraded']);
 
 //student
     Route::get('students', [StudentController::class, 'index']);
