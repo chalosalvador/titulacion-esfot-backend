@@ -10,6 +10,7 @@ use App\Mail\NewPlanUploadCommission;
 use App\Mail\NewProjectStudent;
 use App\Mail\NewProjectUploadTeacher;
 use App\Mail\PlanApprovedByDirector;
+use App\Mail\PlanSentToSecretary;
 use App\Models\Project;
 use App\Models\Student;
 use App\Http\Resources\Project as ProjectResource;
@@ -102,7 +103,9 @@ class ProjectController extends Controller
         }
 
         if ($request->status === 'plan_approved_director') {
+            set_time_limit(300);
             Mail::to($students)->send(new PlanApprovedByDirector($project));
+            Mail::to($students)->send(new PlanSentToSecretary($project)); //TODO cambiar el mail de secretaria
         }
 
         if ($request->status === 'plan_review_teacher') {
