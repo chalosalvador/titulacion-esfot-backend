@@ -267,10 +267,7 @@ class ProjectController extends Controller
         $fileNameToStore = "project.pdf";
         $pathPdf = $request->report_pdf->storeAs("public/reports/{$student_id}", $fileNameToStore);
         $project->report_pdf = $pathPdf;
-        $project->update(["report_pdf" => $pathPdf, "status" => "project_uploaded", "report_uploaded_at" => $date->getTimestamp()]);
-
-        Mail::to($project->teacher->user)->send(new NewPdfUpload($project));
-
+        $project->update(["report_pdf" => $pathPdf, "report_uploaded_at" => $date->getTimestamp()]);
         return response()->json($project, 200);
     }
 
