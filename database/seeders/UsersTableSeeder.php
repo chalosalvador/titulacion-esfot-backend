@@ -6,6 +6,7 @@ use App\Models\Student;
 use App\Models\Teacher;
 use App\Models\User;
 use App\Models\Secretary;
+use App\Models\Administrative;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -21,6 +22,7 @@ class UsersTableSeeder extends Seeder
         User::truncate();
         Teacher::truncate();
         Student::truncate();
+        Administrative::truncate();
 
         $faker = \Faker\Factory::create();
 
@@ -35,6 +37,13 @@ class UsersTableSeeder extends Seeder
             'userable_type' => 'App\Admin',
             'role' => User::ROLE_SUPERADMIN]);
         $secretary = Secretary::create(['office' => $faker->randomDigit]);
+        $administrative = Administrative::create(['office'=>$faker->randomDigit]);
+        $administrative->user()->create([
+            'name'=>$faker->name,
+            'email'=>'admin@epn.edu.ec',
+            'password'=>$password,
+            'role'=>User::ROLE_ADMIN
+        ]);
         $secretary->user()->create([
             'name' => $faker->name,
             'email' => 'secretaria@epn.edu.ec',
