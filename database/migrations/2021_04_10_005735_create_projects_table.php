@@ -65,7 +65,7 @@ class CreateProjectsTable extends Migration
             $table->string('schedule')->nullable();
             $table->string('schedule_comment')->nullable();
             $table->string('report_pdf', 255)->nullable();
-            $table->text('highlights', 255)->nullable();
+            $table->text('highlights')->nullable();
             $table->dateTime('report_uploaded_at')->nullable();
             $table->dateTime('report_modified_at')->nullable();
             $table->bigInteger('teacher_id')->unsigned();
