@@ -15,7 +15,7 @@ class CreateAdministrativesTable extends Migration
     {
         Schema::create('administratives', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('users_id');
+            $table->string('office');
             $table->timestamps();
         });
     }
