@@ -41,7 +41,7 @@ class TeachersPolicy
      */
     public function create(User $user)
     {
-        //
+        return $user->isGranted(User::ROLE_SECRETARY);
     }
 
     /**

@@ -6,6 +6,7 @@ use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\TeacherPlanController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CommissionController;
+use App\Http\Controllers\CareerController;
 use Illuminate\Http\Request;
 
 /*
@@ -84,6 +85,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
 //teacher
     Route::get('teachers', [TeacherController::class, 'index']);
     Route::get('teacher-projects', [TeacherController::class, 'show']);
+    Route::post('teachers/', [TeacherController::class, 'store']);
     Route::put('teachers/{teacher}', [TeacherController::class, 'update']);
     Route::delete('teachers/{teacher}', [TeacherController::class, 'delete']);
     Route::get('teachers/projects', [TeacherController::class, 'projects']);
@@ -94,5 +96,11 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get('commissions/{commissions}', [CommissionController::class, 'show']);
     Route::post('commissions/commissions', [CommissionController::class, 'store']);
     Route::post('commissions/{commissions}', [CommissionController::class, 'update']);
+
+//careers
+    Route::get('careers', [CareerController::class, 'index']);
+    Route::get('careers/{careers}', [CareerController::class, 'show']);
+    Route::post('careers/careers', [CareerController::class, 'store']);
+    Route::post('careers/{careers}', [CareerController::class, 'update']);
 });
 //});

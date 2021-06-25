@@ -24,7 +24,8 @@ class Teacher extends JsonResource
             'name' => $this->user->name,
             'email' => $this->user->email,
             'career' => $career->name,
-            'committee'=>$this->committee
+            'committee'=>$this->committee,
+            'career_id'=>$this->career_id
         ];
     }
 }
