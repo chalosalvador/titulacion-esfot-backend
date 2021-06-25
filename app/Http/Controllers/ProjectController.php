@@ -5,21 +5,17 @@ namespace App\Http\Controllers;
 use App\Http\Resources\User;
 use App\Mail\NewCommentCommentCommission;
 use App\Mail\NewCommentTeacher;
-use App\Mail\NewCorrectionOnPdfStudent;
 use App\Mail\NewCorrectionStudent;
 use App\Mail\NewPdfUpload;
 use App\Mail\NewPlanUploadCommission;
 use App\Mail\NewProjectStudent;
 use App\Mail\NewProjectUploadTeacher;
-use App\Mail\PdfApprovedByDirector;
 use App\Mail\PlanApprovedByDirector;
 use App\Models\Project;
 use App\Models\Student;
 use App\Http\Resources\Project as ProjectResource;
 use App\Http\Resources\ProjectCollection;
 use DateTime;
-use Dompdf\Exception;
-use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -48,6 +44,10 @@ class ProjectController extends Controller
     public function cronogram(Project $project)
     {
         return response()->download(public_path(Storage::url($project->schedule)), $project->title);
+    }
+
+    public function getProjectPDFFile(Project $project){
+        return response()->file(public_path(Storage::url($project->report_pdf)));
     }
 
     public function store(Request $request)
@@ -267,10 +267,7 @@ class ProjectController extends Controller
         $fileNameToStore = "project.pdf";
         $pathPdf = $request->report_pdf->storeAs("public/reports/{$student_id}", $fileNameToStore);
         $project->report_pdf = $pathPdf;
-        $project->update(["report_pdf" => $pathPdf, "status" => "project_uploaded", "report_uploaded_at" => $date->getTimestamp()]);
-
-        Mail::to($project->teacher->user)->send(new NewPdfUpload($project));
-
+        $project->update(["report_pdf" => $pathPdf, "report_uploaded_at" => $date->getTimestamp()]);
         return response()->json($project, 200);
     }
 

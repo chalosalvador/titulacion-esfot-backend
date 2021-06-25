@@ -32,7 +32,8 @@ class Project extends Model
         'bibliography',
         'bibliography_comment',
         'project_type',
-        'status'
+        'status',
+        'highlights'
     ];
 
     public static function boot()

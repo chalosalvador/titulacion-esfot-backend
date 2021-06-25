@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Teacher;
 use App\Models\Project;
 use App\Models\User;
-
 use Illuminate\Http\Request;
 use App\Http\Resources\Project as ProjectResource;
 use App\Http\Resources\TeacherPlan as TeacherPlanResource;
