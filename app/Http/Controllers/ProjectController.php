@@ -47,7 +47,7 @@ class ProjectController extends Controller
     }
 
     public function getProjectPDFFile(Project $project){
-        return response()->file(public_path(Storage::url($project->report_pdf)));
+        return response()->file(public_path($project->report_pdf));
     }
 
     public function store(Request $request)
@@ -265,9 +265,9 @@ class ProjectController extends Controller
         $date = new DateTime();
         $student_id = $user->userable->id;
         $fileNameToStore = "project.pdf";
-        $pathPdf = $request->report_pdf->storeAs("public/reports/{$student_id}", $fileNameToStore);
-        $project->report_pdf = $pathPdf;
-        $project->update(["report_pdf" => $pathPdf, "report_uploaded_at" => $date->getTimestamp()]);
+        $request->report_pdf->storeAs("public/reports/{$student_id}", $fileNameToStore);
+        $project->report_pdf = "storage/reports/{$student_id}/{$fileNameToStore}";
+        $project->save();
         return response()->json($project, 200);
     }
 
