@@ -20,7 +20,7 @@ class NewDateAssigned extends Mailable
      */
     public function __construct(Project $project)
     {
-        $project->teacher = $project->teacher->user;
+        $project->teacher;
         $project->status='date_defense_assigned';
         $this->project = $project;
     }

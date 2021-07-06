@@ -20,7 +20,7 @@ class PlanApprovedByComission extends Mailable
      */
     public function __construct(Project $project)
     {
-        $project->teacher = $project->teacher->user;
+        $project->teacher;
         $project->status='plan_approved_commission';
         $this->project = $project;
     }

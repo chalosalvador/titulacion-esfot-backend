@@ -20,7 +20,7 @@ class TribunalAssigned extends Mailable
      */
     public function __construct(Project $project)
     {
-        $project->teacher = $project->teacher->user;
+        $project->teacher ;
         $project->status='tribunal_assigned';
         $this->project = $project;
     }

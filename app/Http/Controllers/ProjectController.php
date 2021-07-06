@@ -114,8 +114,8 @@ class ProjectController extends Controller
         if ($project->student_id_2 !== null) {
             $students[] = Student::find($project->student_id_2)->user;
         }
-        //Mail::to($project->teacher->user)->send(new NewProjectUploadTeacher($project));
-        return $this->changeStatus($project->id, $mail, $students, "plan_sent", "plan_saved");
+        $secondMail = new NewProjectUploadTeacher($project);
+        return $this->changeStatus($project->id, $mail, $students, "plan_sent", "plan_saved", $secondMail, $project->teacher);
     }
 
     public function planReviewTeacher(Project $project)
@@ -131,7 +131,7 @@ class ProjectController extends Controller
     public function planCorrectionsDone(Project $project)
     {
         $mail = new NewCorrectionStudent($project);
-        return $this->changeStatus($project->id, $mail, $project->teacher->user, "plan_corrections_done", "plan_review_teacher");
+        return $this->changeStatus($project->id, $mail, $project->teacher, "plan_corrections_done", "plan_review_teacher");
     }
 
     public function planApprovedDirector(Project $project)
@@ -147,7 +147,7 @@ class ProjectController extends Controller
     public function sanCurriculum1(Project $project)
     {
         $mail = new NewPlanUploadCommission($project);
-        return $this->changeStatus($project->id, $mail, $project->teacher->user, "san_curriculum_1", "plan_approved_director");
+        return $this->changeStatus($project->id, $mail, $project->teacher, "san_curriculum_1", "plan_approved_director");
     }
 
     public function planReviewCommission(Project $project)
@@ -163,7 +163,7 @@ class ProjectController extends Controller
     public function planCorrectionsDone2(Project $project)
     {
         $mail = new NewCorrectionDone2($project);
-        return $this->changeStatus($project->id, $mail, $project->teacher->user, "plan_corrections_done2", "plan_review_commission");
+        return $this->changeStatus($project->id, $mail, $project->teacher, "plan_corrections_done2", "plan_review_commission");
     }
 
     public function planApprovedCommission(Project $project)
@@ -179,7 +179,7 @@ class ProjectController extends Controller
     public function projectUploaded(Project $project)
     {
         $mail = new NewPdfUpload($project);
-        return $this->changeStatus($project->id, $mail, $project->teacher->user, "project_uploaded", "plan_approved_commission");
+        return $this->changeStatus($project->id, $mail, $project->teacher, "project_uploaded", "plan_approved_commission");
     }
 
     public function projectReviewTeacher(Project $project)
@@ -211,7 +211,7 @@ class ProjectController extends Controller
     public function sanCurriculum2(Project $project)
     {
         $mail = new NewPlanUploadCommission($project); // TODO cambiar la estructura del correo
-        return $this->changeStatus($project->id, $mail, $project->teacher->user, "san_curriculum_2", "project_approved_director");
+        return $this->changeStatus($project->id, $mail, $project->teacher, "san_curriculum_2", "project_approved_director");
     }
 
     public function testDefenseApt(Project $project)
@@ -231,7 +231,7 @@ class ProjectController extends Controller
         if ($project->student_id_2 !== null) {
             $students[] = Student::find($project->student_id_2)->user;
         }
-        Mail::to($project->teacher->user)->send(new TribunalAssigned($project));
+        Mail::to($project->teacher_id->user)->send(new TribunalAssigned($project));
         return $this->changeStatus($project->id, $mail, $students, "tribunal_assigned", "test_defense_apt");
     }
 
@@ -266,7 +266,7 @@ class ProjectController extends Controller
         $project->report_pdf = $pathPdf;
         $project->update(["report_pdf" => $pathPdf, "status" => "project_uploaded", "report_uploaded_at" => $date->getTimestamp()]);
 
-        Mail::to($project->teacher->user)->send(new NewPdfUpload($project));
+        Mail::to($project->teacher)->send(new NewPdfUpload($project));
 
         return response()->json($project, 200);
     }
@@ -277,7 +277,7 @@ class ProjectController extends Controller
         return response()->json(null, 204);
     }
 
-    private function changeStatus($project_id, $mail, $mailTo, $newStatus, $prevStatus)
+    private function changeStatus($project_id, $mail, $mailTo, $newStatus, $prevStatus, $secondMail= null, $secondMailTo=null )
     {
         $project = Project::find($project_id);
         if ($project->status === $prevStatus) {
@@ -285,8 +285,13 @@ class ProjectController extends Controller
             $project->status = $newStatus;
             $project->save();
             Mail::to($mailTo)->send($mail);
+            if ($secondMail&& $secondMailTo !== null){
+                Mail::to($secondMailTo)->send($secondMail);
+            }
             return response()->json(["message" => "status_changed"], 200);
+
         }
+
         return response()->json(["error" => "incorrect_status"], 500);
     }
 }

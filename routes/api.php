@@ -49,9 +49,9 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get('projects/{project}', [ProjectController::class, 'show']);
     Route::post('students/projects', [ProjectController::class, 'store']);
     Route::post('projects/{project}', [ProjectController::class, 'update']);
+    Route::post('projects/{project}/plan-sent',[ProjectController::class, 'planSent']);
     Route::post('projects/{project}/pdf', [ProjectController::class, 'updatePdf']);
     Route::delete('projects/{project}', [ProjectController::class, 'delete']);
-    Route::post('projects/{project}/plan-sent',[ProjectController::class, 'planSent']);
     Route::post('projects/{project}/plan-review-teacher',[ProjectController::class, 'planReviewTeacher']);
     Route::post('projects/{project}/plan-corrections-done',[ProjectController::class, 'planCorrectionsDone']);
     Route::post('projects/{project}/plan-approved-director',[ProjectController::class, 'planApprovedDirector']);

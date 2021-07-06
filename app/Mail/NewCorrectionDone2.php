@@ -20,7 +20,7 @@ class NewCorrectionDone2 extends Mailable
      */
     public function __construct(Project $project)
     {
-        $project->teacher = $project->teacher->user;
+        $project->teacher;
         $project->status='plan_corrections_done_2';
         $this->project = $project;
 //        $project->students = $project->students->user;
