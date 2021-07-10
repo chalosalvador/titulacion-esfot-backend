@@ -17,6 +17,7 @@ class CreateTeachersTable extends Migration
             $table->bigIncrements('id');
             $table->boolean('titular');
             $table->boolean('committee');
+            $table->string('schedule')->nullable();
             $table->bigInteger('career_id')->unsigned();
             $table->foreign('career_id')->references('id')->on('careers')->onDelete('restrict');
             $table->timestamps();
