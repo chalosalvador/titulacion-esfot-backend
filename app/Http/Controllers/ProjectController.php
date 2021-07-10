@@ -43,8 +43,7 @@ class ProjectController extends Controller
 
     public function cronogram(Project $project)
     {
-        return response()->download(public_path(Storage::url($project->schedule)), $project->title);
-    }
+        return response()->file(public_path($project->schedule));    }
 
     public function getProjectPDFFile(Project $project){
         return response()->file(public_path($project->report_pdf));
@@ -96,9 +95,20 @@ class ProjectController extends Controller
 
         $project->update($request->all());
 
+        if($request->schedule){
+            $this->updateSchedule($request, $project);
+        }
 
         return response()->json($project, 200);
+    }
 
+    public function updateSchedule($request, $project){
+        $user = Auth::user();
+        $student_id = $user->userable->id;
+        $fileNameToStore = "schedule.jpg";
+        $request->schedule->storeAs("public/schedule/{$student_id}", $fileNameToStore);
+        $project->schedule = "storage/schedule/{$student_id}/{$fileNameToStore}";
+        $project->save();
     }
 
     public function planSent(Project $project)

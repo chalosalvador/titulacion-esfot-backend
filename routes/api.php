@@ -81,6 +81,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get('students/view-projects', [StudentController::class, 'project']);
 
 //project cronogram
+    Route::get('project/getSchedule/{project}', [ProjectController::class,'cronogram']);
 
 //teacher
     Route::get('teachers', [TeacherController::class, 'index']);
