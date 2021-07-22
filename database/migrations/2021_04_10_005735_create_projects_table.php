@@ -62,9 +62,10 @@ class CreateProjectsTable extends Migration
                 'project_rejected']);
             $table->timestamps();
             $table->dateTime('uploaded_at')->nullable();
-            $table->string('schedule')->nullable();
+            $table->string('schedule', 255)->nullable();
             $table->string('schedule_comment')->nullable();
             $table->string('report_pdf', 255)->nullable();
+            $table->text('highlights')->nullable();
             $table->dateTime('report_uploaded_at')->nullable();
             $table->dateTime('report_modified_at')->nullable();
             $table->bigInteger('teacher_id')->unsigned();

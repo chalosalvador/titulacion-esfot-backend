@@ -21,7 +21,6 @@ class Project extends Model
         'specifics_objectives',
         'specifics_objectives_comment',
         'teacher_id',
-        'schedule',
         'schedule_comment',
         'methodology',
         'methodology_comment',
@@ -32,7 +31,8 @@ class Project extends Model
         'bibliography',
         'bibliography_comment',
         'project_type',
-        'status'
+        'status',
+        'highlights'
     ];
 
     public static function boot()

@@ -14,8 +14,6 @@ use App\Mail\NewPdfUpload;
 use App\Mail\NewPlanUploadCommission;
 use App\Mail\NewProjectStudent;
 use App\Mail\NewProjectUploadTeacher;
-use App\Mail\PdfApprovedByDirector;
-use App\Mail\PlanApprovedByComission;
 use App\Mail\PlanApprovedByDirector;
 use App\Mail\TestDefenseApt;
 use App\Mail\TribunalAssigned;
@@ -24,8 +22,6 @@ use App\Models\Student;
 use App\Http\Resources\Project as ProjectResource;
 use App\Http\Resources\ProjectCollection;
 use DateTime;
-use Dompdf\Exception;
-use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -53,7 +49,10 @@ class ProjectController extends Controller
 
     public function cronogram(Project $project)
     {
-        return response()->download(public_path(Storage::url($project->schedule)), $project->title);
+        return response()->file(public_path($project->schedule));    }
+
+    public function getProjectPDFFile(Project $project){
+        return response()->file(public_path($project->report_pdf));
     }
 
     public function store(Request $request)
@@ -102,9 +101,20 @@ class ProjectController extends Controller
 
         $project->update($request->all());
 
+        if($request->schedule){
+            $this->updateSchedule($request, $project);
+        }
 
         return response()->json($project, 200);
+    }
 
+    public function updateSchedule($request, $project){
+        $user = Auth::user();
+        $student_id = $user->userable->id;
+        $fileNameToStore = "schedule.jpg";
+        $request->schedule->storeAs("public/schedule/{$student_id}", $fileNameToStore);
+        $project->schedule = "storage/schedule/{$student_id}/{$fileNameToStore}";
+        $project->save();
     }
 
     public function planSent(Project $project)
@@ -174,6 +184,16 @@ class ProjectController extends Controller
             $students[] = Student::find($project->student_id_2)->user;
         }
         return $this->changeStatus($project->id, $mail, $students, "plan_approved_commission", "plan_corrections_done2");
+    }
+
+    public function planRejected(Project $project)
+    {
+        $mail = new NewCorrectionStudent($project); //TODO cambiar la estructura del correo
+        $students[] = Auth::user();
+        if ($project->student_id_2 !== null) {
+            $students[] = Student::find($project->student_id_2)->user;
+        }
+        return $this->changeStatus($project->id, $mail, $students, "plan_rejected", "plan_corrections_done2");
     }
 
     public function projectUploaded(Project $project)
@@ -262,12 +282,9 @@ class ProjectController extends Controller
         $date = new DateTime();
         $student_id = $user->userable->id;
         $fileNameToStore = "project.pdf";
-        $pathPdf = $request->report_pdf->storeAs("public/reports/{$student_id}", $fileNameToStore);
-        $project->report_pdf = $pathPdf;
-        $project->update(["report_pdf" => $pathPdf, "status" => "project_uploaded", "report_uploaded_at" => $date->getTimestamp()]);
-
-        Mail::to($project->teacher->user)->send(new NewPdfUpload($project));
-
+        $request->report_pdf->storeAs("public/reports/{$student_id}", $fileNameToStore);
+        $project->report_pdf = "storage/reports/{$student_id}/{$fileNameToStore}";
+        $project->save();
         return response()->json($project, 200);
     }
 

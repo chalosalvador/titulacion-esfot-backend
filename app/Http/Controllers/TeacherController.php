@@ -4,19 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\Teacher;
 use App\Models\Project;
-
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Resources\Project as ProjectResource;
 use App\Http\Resources\TeacherPlan as TeacherPlanResource;
 use App\Http\Resources\Teacher as TeacherResource;
 use App\Http\Resources\TeacherCollection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class TeacherController extends Controller
 {
     public function index()
     {
-        return new TeacherCollection(Teacher::paginate());
+        return new TeacherCollection(Teacher::paginate(50));
     }
 
     public function show()
@@ -28,13 +29,28 @@ class TeacherController extends Controller
 
     public function store(Request $request)
     {
-        $teacher = Teacher::create($request->all());
+        $faker = \Faker\Factory::create();
+        $password = Hash::make('123456');
+        $teacher = Teacher::create([
+            'titular'=> "1",
+            'committee'=>"0",
+            "career_id"=> $request->career_id,
+            "schedule" => $request->schedule
+        ]);
+        $teacher->user()->create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $password,
+            'role' => User::ROLE_TEACHER
+        ]);
         return response()->json(new TeacherResource($teacher), 201);
     }
 
     public function update(Request $request, Teacher $teacher)
     {
         $teacher->update($request->all());
+        $teacher->user()->update($request->except(['career_id','schedule']));
+
         return response()->json($teacher, 200);
     }
 
