@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Teacher extends Model
 {
-    protected $fillable = ['titular','committee','career_id'];
+    protected $fillable = ['titular','commission_id','career_id'];
 
     public function user()
     {
@@ -24,6 +24,10 @@ class Teacher extends Model
 
     public function career()
     {
-        return $this->belongsTo('App\Models\Careers', 'career_id');
+        return $this->belongsTo('App\Models\Career', 'career_id');
+    }
+
+    public function commission(){
+        return $this->belongsTo('App\Models\Commission', 'commission_id');
     }
 }

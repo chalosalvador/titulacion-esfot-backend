@@ -3,27 +3,29 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Careers;
+use App\Models\Career;
+use App\Http\Resources\Career as CareerResource;
+use App\Http\Resources\CareerCollection;
 
 class CareerController extends Controller
 {
     public function index()
     {
-        return Careers::all();
+        return new CareerCollection(Career::all());
     }
 
-    public function show (Careers $careers)
+    public function show (Career $careers)
     {
-        return $careers;
+        return response()->json(new CareerResource($careers), 200);
     }
     public function store(Request $request)
     {
-        $careers= Careers::create($request->all());
-        return response()->json($careers, 201);
+        $careers= Career::create($request->all());
+        return response()->json(new CareerResource($careers), 201);
     }
-    public function update(Request $request, Careers $careers)
+    public function update(Request $request, Career $careers)
     {
         $careers->update($request->all());
-        return response()->json($careers, 200);
+        return response()->json(new CareerResource($careers), 200);
     }
 }

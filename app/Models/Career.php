@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Careers extends Model
+class Career extends Model
 {
     protected $fillable = ['name'];
 
@@ -17,6 +17,10 @@ class Careers extends Model
     public function students()
     {
         return $this->hasMany('App\Models\Student');
+    }
+
+    public function commission(){
+        return $this->hasOne('App\Models\Commission');
     }
 
 }
