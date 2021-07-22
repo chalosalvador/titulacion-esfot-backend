@@ -15,9 +15,12 @@ class CreateJuriesTable extends Migration
     {
         Schema::create('juries', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('teacher_id');
-            $table->integer('project_plan_id');
-            $table->integer('users_id');
+            $table->string('tribunalSchedule')->nullable();
+            $table->string('member1')->nullable();
+            $table->string('member2')->nullable();
+            $table->string('member3')->nullable();
+            $table->integer('project_id');
+            $table->integer('career_id');
             $table->timestamps();
         });
     }
