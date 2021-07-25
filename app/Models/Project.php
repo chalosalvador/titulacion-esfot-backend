@@ -55,6 +55,11 @@ class Project extends Model
         return $this->belongsTo('App\Models\Teacher', 'teacher_id');
     }
 
+    public function jury()
+    {
+        return $this->belongsTo('App\Models\Jury');
+    }
+
 
 
 }

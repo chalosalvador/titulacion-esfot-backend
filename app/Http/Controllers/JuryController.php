@@ -4,22 +4,31 @@ namespace App\Http\Controllers;
 
 use App\Models\Jury;
 use Illuminate\Http\Request;
+use App\Http\Resources\Jury as JuryResource;
+use App\Http\Resources\JuryCollection;
+use App\Models\Teacher;
 
 class JuryController extends Controller
 {
     public function index()
     {
-        return Jury::all();
+        return new JuryCollection(Jury::all());
     }
 
     public function show(Jury $juries)
     {
-        return $juries;
+        return response()->json(new JuryResource($juries));
     }
 
     public function store ( Request $request)
     {
-        $juries = Jury::create($request->all());
+        $juries = new Jury($request->except(['members']));
+        $juries->save();
+        foreach ($request->members as $member){
+            $teacher_commission = Teacher::find($member);
+            $teacher_commission->jury()->associate($juries);
+            $teacher_commission->save();
+        }
         return response()->json($juries, 201);
     }
 

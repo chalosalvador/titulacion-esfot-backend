@@ -19,6 +19,6 @@ class Student extends Model
 
     public function career()
     {
-        return $this->belongsTo('App\Models\Careers', 'career_id');
+        return $this->belongsTo('App\Models\Career', 'career_id');
     }
 }
