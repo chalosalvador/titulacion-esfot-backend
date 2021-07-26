@@ -21,7 +21,7 @@ class NewCommentCommentCommission extends Mailable
      */
     public function __construct(Project $project)
     {
-        $project->teacher = $project->teacher->user;
+        $project->teacher;
         $project->status = 'plan_review_commission';
         $this->project = $project;
     }

@@ -34,7 +34,8 @@ class TeacherController extends Controller
         $teacher = Teacher::create([
             'titular'=> "1",
             'committee'=>"0",
-            "career_id"=> $request->career_id
+            "career_id"=> $request->career_id,
+            "schedule" => $request->schedule
         ]);
         $teacher->user()->create([
             'name' => $request->name,
@@ -48,7 +49,7 @@ class TeacherController extends Controller
     public function update(Request $request, Teacher $teacher)
     {
         $teacher->update($request->all());
-        $teacher->user()->update($request->except(['career_id']));
+        $teacher->user()->update($request->except(['career_id','schedule']));
 
         return response()->json($teacher, 200);
     }

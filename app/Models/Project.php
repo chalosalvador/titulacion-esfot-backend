@@ -21,7 +21,6 @@ class Project extends Model
         'specifics_objectives',
         'specifics_objectives_comment',
         'teacher_id',
-        'schedule',
         'schedule_comment',
         'methodology',
         'methodology_comment',

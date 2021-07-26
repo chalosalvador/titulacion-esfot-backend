@@ -54,7 +54,6 @@ class UsersTableSeeder extends Seeder
         for ($i = 0; $i < 10; $i++) {
             $student = Student::create(['apto' => $faker->boolean, 'unique_number' => $faker->word, 'career_id' => $faker->numberBetween(1, 8)]);
             $teacher = Teacher::create(['titular' => $faker->boolean, 'career_id' => $faker->numberBetween(1, 8)]);
-//            $commission = Teacher::create(['titular' => $faker->boolean]);
             $student->user()->create([
                 'name' => $faker->name,
                 'email' => "estudiante$i@epn.edu.ec",
@@ -67,12 +66,6 @@ class UsersTableSeeder extends Seeder
                 'password' => $password,
                 'role' => User::ROLE_TEACHER
             ]);
-//            $commission->user()->create([
-//                'name' => $faker->name,
-//                'email' => "comision$i@epn.edu.ec",
-//                'password' => $password,
-//                'role' => User::ROLE_TEACHER
-//            ]);
         }
 
     }

@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class NewProjectUploadTeacher extends Mailable
+class TribunalAssigned extends Mailable
 {
     use Queueable, SerializesModels;
     public $project;
@@ -21,6 +21,7 @@ class NewProjectUploadTeacher extends Mailable
     public function __construct(Project $project)
     {
         $project->teacher ;
+        $project->status='tribunal_assigned';
         $this->project = $project;
     }
 
@@ -31,6 +32,6 @@ class NewProjectUploadTeacher extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.projects.new.teacher');
+        return $this->markdown('emails.projects.new.tribunalassigned');
     }
 }

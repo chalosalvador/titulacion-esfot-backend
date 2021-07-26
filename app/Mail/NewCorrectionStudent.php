@@ -20,7 +20,7 @@ class NewCorrectionStudent extends Mailable
      */
     public function __construct(Project $project)
     {
-        $project->teacher = $project->teacher->user;
+        $project->teacher;
         $project->status='plan_review_teacher';
         $this->project = $project;
 //        $project->students = $project->students->user;

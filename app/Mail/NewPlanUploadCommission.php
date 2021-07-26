@@ -21,7 +21,7 @@ class NewPlanUploadCommission extends Mailable
      */
     public function __construct(Project $project)
     {
-        $project->teacher = $project->teacher->user;
+        $project->teacher ;
         $this->project = $project;
     }
 

@@ -16,6 +16,7 @@ class CreateTeachersTable extends Migration
         Schema::create('teachers', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->boolean('titular');
+            $table->string('schedule')->nullable();
             $table->bigInteger('career_id')->unsigned();
             $table->foreign('career_id')->references('id')->on('careers')->onDelete('restrict');
             $table->timestamps();
