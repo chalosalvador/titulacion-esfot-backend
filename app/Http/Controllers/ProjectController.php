@@ -218,16 +218,6 @@ class ProjectController extends Controller
         return $this->changeStatus($project->id, $mail, $project->teacher->user, "san_curriculum_2", "project_approved_director");
     }
 
-    public function testDefenseApt(Project $project)
-    {
-        $mail = new NewCorrectionStudent($project); //TODO cambiar la estructura del correo
-        $students[] = Auth::user();
-        if ($project->student_id_2 !== null) {
-            $students[] = Student::find($project->student_id_2)->user;
-        }
-        return $this->changeStatus($project->id, $mail, $students, "test_defense_apt", "san_curriculum_2");
-    }
-
     public function tribunalAssigned(Project $project)
     {
         $mail = new NewCorrectionStudent($project); //TODO cambiar la estructura del correo
@@ -235,8 +225,29 @@ class ProjectController extends Controller
         if ($project->student_id_2 !== null) {
             $students[] = Student::find($project->student_id_2)->user;
         }
-        return $this->changeStatus($project->id, $mail, $students, "tribunal_assigned", "test_defense_apt");
+        return $this->changeStatus($project->id, $mail, $students, "tribunal_assigned", "san_curriculum_2");
     }
+
+    public function projectGraded(Project $project)
+    {
+        $mail = new NewCorrectionStudent($project); //TODO cambiar la estructura del correo
+        $students[] = Auth::user();
+        if ($project->student_id_2 !== null) {
+            $students[] = Student::find($project->student_id_2)->user;
+        }
+        return $this->changeStatus($project->id, $mail, $students, "project_graded", "tribunal_assigned");
+    }
+
+    public function testDefenseApt(Project $project)
+    {
+        $mail = new NewCorrectionStudent($project); //TODO cambiar la estructura del correo
+        $students[] = Auth::user();
+        if ($project->student_id_2 !== null) {
+            $students[] = Student::find($project->student_id_2)->user;
+        }
+        return $this->changeStatus($project->id, $mail, $students, "test_defense_apt", "project_graded");
+    }
+
 
     public function dateDefenseAssigned(Project $project)
     {
@@ -248,15 +259,6 @@ class ProjectController extends Controller
         return $this->changeStatus($project->id, $mail, $students, "date_defense_assigned", "tribunal_assigned");
     }
 
-    public function projectGraded(Project $project)
-    {
-        $mail = new NewCorrectionStudent($project); //TODO cambiar la estructura del correo
-        $students[] = Auth::user();
-        if ($project->student_id_2 !== null) {
-            $students[] = Student::find($project->student_id_2)->user;
-        }
-        return $this->changeStatus($project->id, $mail, $students, "project_approved_director", "project_corrections_done");
-    }
 
 
     public function updatePdf(Request $request, Project $project)
