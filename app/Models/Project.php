@@ -56,7 +56,7 @@ class Project extends Model
 
     public function jury()
     {
-        return $this->belongsTo('App\Models\Jury');
+        return $this->hasOne('App\Models\Jury');
     }
 
 

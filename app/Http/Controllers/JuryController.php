@@ -24,11 +24,7 @@ class JuryController extends Controller
     {
         $juries = new Jury($request->except(['members']));
         $juries->save();
-        foreach ($request->members as $member){
-            $teacher_commission = Teacher::find($member);
-            $teacher_commission->jury()->associate($juries);
-            $teacher_commission->save();
-        }
+        $juries->teachers()->sync($request->members);
         return response()->json($juries, 201);
     }
 

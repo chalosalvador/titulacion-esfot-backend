@@ -30,6 +30,6 @@ class Teacher extends Model
 
     public function jury()
     {
-        return $this->belongsTo('App\Models\Jury');
+        return $this->belongsToMany('App\Models\Jury');
     }
 }

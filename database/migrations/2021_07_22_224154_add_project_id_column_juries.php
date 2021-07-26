@@ -17,6 +17,13 @@ class AddProjectIdColumnJuries extends Migration
            $table->unsignedBigInteger('project_id');
            $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
         });
+        Schema::create('jury_teacher', function (Blueprint $table){
+            $table->unsignedBigInteger('teacher_id');
+            $table->foreign('teacher_id')->references('id')->on('teachers')->onDelete('cascade');
+            $table->unsignedBigInteger('jury_id');
+            $table->foreign('jury_id')->references('id')->on('juries')->onDelete('cascade');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -26,9 +33,12 @@ class AddProjectIdColumnJuries extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::table('juries', function (Blueprint $table)
         {
             $table->dropColumn('project_id');
         });
+        Schema::dropIfExists('jury_teacher');
+        Schema::enableForeignKeyConstraints();
     }
 }
