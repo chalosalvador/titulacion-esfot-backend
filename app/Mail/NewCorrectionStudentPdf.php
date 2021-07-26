@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class NewProjectUploadTeacher extends Mailable
+class NewCorrectionStudentPdf extends Mailable
 {
     use Queueable, SerializesModels;
     public $project;
@@ -20,8 +20,10 @@ class NewProjectUploadTeacher extends Mailable
      */
     public function __construct(Project $project)
     {
-        $project->teacher ;
+        $project->teacher;
+        $project->status='project_corrections_done';
         $this->project = $project;
+//        $project->students = $project->students->user;
     }
 
     /**
@@ -31,6 +33,6 @@ class NewProjectUploadTeacher extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.projects.new.teacher');
+        return $this->markdown('emails.projects.comment.teacherpdf');
     }
 }
