@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\JuryController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
@@ -97,6 +98,12 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get('commissions/{commissions}', [CommissionController::class, 'show']);
     Route::post('commissions/commissions', [CommissionController::class, 'store']);
     Route::post('commissions/{commissions}', [CommissionController::class, 'update']);
+
+//Jury
+    Route::get('juries', [JuryController::class, 'index']);
+    Route::get('juries/{juries}', [JuryController::class, 'show']);
+    Route::post('juries', [JuryController::class, 'store']);
+    Route::post('juries/{juries}', [JuryController::class, 'update']);
 
 //careers
     Route::get('careers', [CareerController::class, 'index']);

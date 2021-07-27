@@ -22,5 +22,4 @@ class Career extends Model
     public function commission(){
         return $this->hasOne('App\Models\Commission');
     }
-
 }

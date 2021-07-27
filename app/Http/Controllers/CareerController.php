@@ -7,6 +7,7 @@ use App\Models\Career;
 use App\Http\Resources\Career as CareerResource;
 use App\Http\Resources\CareerCollection;
 
+
 class CareerController extends Controller
 {
     public function index()
@@ -16,7 +17,7 @@ class CareerController extends Controller
 
     public function show (Career $careers)
     {
-        return response()->json(new CareerResource($careers), 200);
+        return response()->json(new Career($careers));
     }
     public function store(Request $request)
     {

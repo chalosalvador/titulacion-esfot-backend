@@ -27,7 +27,6 @@ class CommissionController extends Controller
             $teacher_commission = Teacher::find($member);
             $teacher_commission->commission()->associate($commissions);
             $teacher_commission->save();
-//            $commissions->teachers()->saveMany($request->members);
         }
         return response()->json(new CommissionResource($commissions), 201);
     }

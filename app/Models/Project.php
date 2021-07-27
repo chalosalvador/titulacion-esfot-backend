@@ -54,6 +54,11 @@ class Project extends Model
         return $this->belongsTo('App\Models\Teacher', 'teacher_id');
     }
 
+    public function jury()
+    {
+        return $this->hasOne('App\Models\Jury');
+    }
+
 
 
 }
