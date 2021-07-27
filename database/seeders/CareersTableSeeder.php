@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Careers;
+use App\Models\Career;
 
 class CareersTableSeeder extends Seeder
 {
@@ -14,30 +14,30 @@ class CareersTableSeeder extends Seeder
      */
     public function run()
     {
-        Careers::truncate();
+        Career::truncate();
 
-        Careers::create([
+        Career::create([
             'name' => 'ASI'
         ]);
-        Careers::create([
+        Career::create([
             'name' => 'ASA'
         ]);
-        Careers::create([
+        Career::create([
             'name' => 'ET'
         ]);
-        Careers::create([
+        Career::create([
             'name' => 'EM'
         ]);
-        Careers::create([
+        Career::create([
             'name' => 'TSEM'
         ]);
-        Careers::create([
+        Career::create([
             'name' => 'TSDS'
         ]);
-        Careers::create([
+        Career::create([
             'name' => 'TSASA'
         ]);
-        Careers::create([
+        Career::create([
             'name' => 'TSET'
         ]);
 

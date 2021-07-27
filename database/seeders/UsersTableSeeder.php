@@ -37,12 +37,12 @@ class UsersTableSeeder extends Seeder
             'userable_type' => 'App\Admin',
             'role' => User::ROLE_SUPERADMIN]);
         $secretary = Secretary::create(['office' => $faker->randomDigit]);
-        $administrative = Administrative::create(['office'=>$faker->randomDigit]);
+        $administrative = Administrative::create(['office' => $faker->randomDigit]);
         $administrative->user()->create([
-            'name'=>$faker->name,
-            'email'=>'admin@epn.edu.ec',
-            'password'=>$password,
-            'role'=>User::ROLE_ADMIN
+            'name' => $faker->name,
+            'email' => 'admin@epn.edu.ec',
+            'password' => $password,
+            'role' => User::ROLE_ADMIN
         ]);
         $secretary->user()->create([
             'name' => $faker->name,
@@ -52,9 +52,8 @@ class UsersTableSeeder extends Seeder
         ]);
 
         for ($i = 0; $i < 10; $i++) {
-            $student = Student::create(['apto' => $faker->boolean, 'unique_number' => $faker->word, 'career_id'=>$faker->numberBetween(1,8)]);
-            $teacher = Teacher::create(['titular' => $faker->boolean, 'committee' => false,'schedule'=> $faker->word, 'career_id'=>$faker->numberBetween(1,8)]);
-            $commission = Teacher::create(['titular' => $faker->boolean, 'committee' => true, 'career_id'=>$faker->numberBetween(1,8)]);
+            $student = Student::create(['apto' => $faker->boolean, 'unique_number' => $faker->word, 'career_id' => $faker->numberBetween(1, 8)]);
+            $teacher = Teacher::create(['titular' => $faker->boolean, 'career_id' => $faker->numberBetween(1, 8)]);
             $student->user()->create([
                 'name' => $faker->name,
                 'email' => "estudiante$i@epn.edu.ec",
@@ -64,12 +63,6 @@ class UsersTableSeeder extends Seeder
             $teacher->user()->create([
                 'name' => $faker->name,
                 'email' => "profesor$i@epn.edu.ec",
-                'password' => $password,
-                'role' => User::ROLE_TEACHER
-            ]);
-            $commission->user()->create([
-                'name' => $faker->name,
-                'email' => "comision$i@epn.edu.ec",
                 'password' => $password,
                 'role' => User::ROLE_TEACHER
             ]);

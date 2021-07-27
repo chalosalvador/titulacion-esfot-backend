@@ -17,7 +17,7 @@ class TeacherController extends Controller
 {
     public function index()
     {
-        return new TeacherCollection(Teacher::paginate(50));
+        return new TeacherCollection(Teacher::all());
     }
 
     public function show()
