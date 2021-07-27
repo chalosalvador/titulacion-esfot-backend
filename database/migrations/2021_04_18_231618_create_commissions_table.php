@@ -15,11 +15,10 @@ class CreateCommissionsTable extends Migration
     {
         Schema::create('commissions', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('commissionSchedule')->nullable();
-            $table->string('member1')->nullable();
-            $table->string('member2')->nullable();
-            $table->string('member3')->nullable();
-            $table->string('careerName')->nullable();
+            $table->string('commission_schedule')->nullable();
+//            $table->json('members')->nullable();
+            $table->bigInteger('career_id')->unsigned();
+            $table->foreign('career_id')->references('id')->on('careers')->onDelete('restrict');
             $table->timestamps();
         });
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\Commission as CommissionResource;
 use App\Http\Resources\TeacherCollection;
 
 class Career extends JsonResource
@@ -18,6 +19,7 @@ class Career extends JsonResource
         return [
             'id'=>$this->id,
             'name'=>$this->name,
+            'commission'=>new CommissionResource($this->commission),
             'teachers'=>new TeacherCollection($this->teachers),
         ];
     }

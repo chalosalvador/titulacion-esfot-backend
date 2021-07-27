@@ -19,4 +19,7 @@ class Career extends Model
         return $this->hasMany('App\Models\Student');
     }
 
+    public function commission(){
+        return $this->hasOne('App\Models\Commission');
+    }
 }
