@@ -25,7 +25,7 @@ class Teacher extends JsonResource
             'email' => $this->user->email,
             'career' => $career->name,
             'commission_id'=>$this->commission_id,
-            'career_id'=>$this->career_id       
+            'career_id'=>$this->career_id,
             'schedule'=>$this->schedule
         ];
     }

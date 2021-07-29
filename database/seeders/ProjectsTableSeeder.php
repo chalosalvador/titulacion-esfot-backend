@@ -43,12 +43,12 @@ class ProjectsTableSeeder extends Seeder
                 'report_modified_at' => $faker->dateTime,
                 'teacher_id'=>$faker->numberBetween(1,10)
             ]);
-//            $hasTwoStudents = $faker->boolean();
-//            $studentIds = [$student->id];
-//            if($hasTwoStudents) {
-//                $studentIds[] = $faker->numberBetween(1, 10);
-//            }
-//            $project->sync($studentIds);
+            $hasTwoStudents = $faker->boolean();
+            $studentIds = [$student->id];
+            if($hasTwoStudents) {
+                $studentIds[] = $faker->numberBetween(1, 10);
+            }
+            $project->students()->sync($studentIds);
         }
 
     }
