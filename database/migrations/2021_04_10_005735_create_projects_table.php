@@ -56,6 +56,8 @@ class CreateProjectsTable extends Migration
                 'san_curriculum_2',
                 'tribunal_assigned',
                 'project_graded',
+                'project_corrections_done_2',
+                'project_approved_send',
                 'test_defense_apt',
                 'date_defense_assigned',
                 'project_completed',
