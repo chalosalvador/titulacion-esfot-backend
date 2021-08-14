@@ -251,7 +251,6 @@ class ProjectController extends Controller
         if ($project->student_id_2 !== null) {
             $students[] = Student::find($project->student_id_2)->user;
         }
-        return $this->changeStatus($project->id, $mail, $students, "tribunal_assigned", "test_defense_apt");
         return $this->changeStatus($project->id, $mail, $students, "project_graded", "tribunal_assigned");
     }
 
