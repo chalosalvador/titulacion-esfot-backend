@@ -135,7 +135,7 @@ class ProjectController extends Controller
         if ($project->student_id_2 !== null) {
             $students[] = Student::find($project->student_id_2)->user;
         }
-        return $this->changeStatus($project->id, $mail, $students, "plan_review_teacher", "plan_sent");
+        return $this->changeStatus($project->id, $mail, $students, "plan_review_teacher", ["plan_sent", "plan_corrections_done"]);
     }
 
     public function planCorrectionsDone(Project $project)
@@ -298,7 +298,13 @@ class ProjectController extends Controller
     private function changeStatus($project_id, $mail, $mailTo, $newStatus, $prevStatus, $secondMail= null, $secondMailTo=null )
     {
         $project = Project::find($project_id);
-        if ($project->status === $prevStatus) {
+        if(is_array($prevStatus)) {
+            $canUpdate = in_array($project->status, $prevStatus);
+        } else {
+            $canUpdate = $project->status === $prevStatus;
+        }
+
+        if ($canUpdate) {
 //            $project->update(["status"=>$newStatus]);
             $project->status = $newStatus;
             $project->save();

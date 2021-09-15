@@ -1,6 +1,6 @@
 <?php
 
-return [
+$config = [
 
     /*
     |--------------------------------------------------------------------------
@@ -87,10 +87,7 @@ return [
         'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
-    'to' => [
-        'address' => 'chantal.morales@epn.edu.ec',
-        'name' => 'pruebas'
-    ],
+
 
     /*
     |--------------------------------------------------------------------------
@@ -112,3 +109,13 @@ return [
     ],
 
 ];
+
+// global TO Address for all sent mails
+if (env('MAIL_TO_ADDRESS') && env('APP_ENV') !== 'production') {
+    $config['to'] = [
+        'address' => env('MAIL_TO_ADDRESS'),
+        'name' => env('MAIL_TO_NAME', 'Example'),
+    ];
+}
+
+return $config;

@@ -17,11 +17,11 @@ class CreateProjectsTable extends Migration
             $table->bigIncrements('id');
 //            $table->integer('director_id');
 //            $table->integer('coodirector_id');
-            $table->string('title', 255)->nullable();
+            $table->string('title')->nullable();
             $table->text('title_comment')->nullable();
-            $table->string('general_objective', 255)->nullable();
+            $table->text('general_objective')->nullable();
             $table->text('general_objective_comment')->nullable();
-            $table->string('specifics_objectives', 255)->nullable();
+            $table->text('specifics_objectives')->nullable();
             $table->text('specifics_objectives_comment')->nullable();
             $table->text('problem')->nullable();
             $table->text('problem_comment')->nullable();
@@ -62,9 +62,9 @@ class CreateProjectsTable extends Migration
                 'project_rejected']);
             $table->timestamps();
             $table->dateTime('uploaded_at')->nullable();
-            $table->string('schedule', 255)->nullable();
-            $table->string('schedule_comment')->nullable();
-            $table->string('report_pdf', 255)->nullable();
+            $table->text('schedule', 255)->nullable();
+            $table->text('schedule_comment')->nullable();
+            $table->text('report_pdf', 255)->nullable();
             $table->text('highlights')->nullable();
             $table->dateTime('report_uploaded_at')->nullable();
             $table->dateTime('report_modified_at')->nullable();
