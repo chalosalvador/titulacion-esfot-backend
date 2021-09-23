@@ -35,9 +35,6 @@ class StudentController extends Controller
 
     public function store(Request $request)
     {
-//        $validatedData = $request->validate([
-//            'apto' => 'required'
-//        ], self::$messages);
 
         $password = Hash::make('123456');
 
