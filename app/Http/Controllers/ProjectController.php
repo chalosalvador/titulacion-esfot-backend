@@ -14,6 +14,8 @@ use App\Mail\NewPdfUpload;
 use App\Mail\NewPlanUploadCommission;
 use App\Mail\NewProjectStudent;
 use App\Mail\NewProjectUploadTeacher;
+use App\Mail\PdfApprovedByDirector;
+use App\Mail\PlanApprovedByComission;
 use App\Mail\PlanApprovedByDirector;
 use App\Mail\TestDefenseApt;
 use App\Mail\TribunalAssigned;
@@ -209,7 +211,7 @@ class ProjectController extends Controller
         if ($project->student_id_2 !== null) {
             $students[] = Student::find($project->student_id_2)->user;
         }
-        return $this->changeStatus($project->id, $mail, $students, "project_review_teacher", "project_uploaded");
+        return $this->changeStatus($project->id, $mail, $students, "project_review_teacher", ["project_uploaded","project_corrections_done"]);
     }
 
     public function projectCorrectionsDone(Project $project)
@@ -272,7 +274,7 @@ class ProjectController extends Controller
         if ($project->student_id_2 !== null) {
             $students[] = Student::find($project->student_id_2)->user;
         }
-        return $this->changeStatus($project->id, $mail, $students, "date_defense_assigned", "tribunal_assigned");
+        return $this->changeStatus($project->id, $mail, $students, "date_defense_assigned", "test_defense_apt");
     }
 
 
