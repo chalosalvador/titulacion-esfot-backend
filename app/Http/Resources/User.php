@@ -27,6 +27,7 @@ class User extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'last_name' => $this->last_name,
             'email' => $this->email,
             'userable'=>$this->userable,
 //            'unique_number'=>$this->when(Auth::user()->userable_type=='App\Student',$this->userable->unique_number),

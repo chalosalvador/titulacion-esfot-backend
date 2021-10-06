@@ -54,13 +54,13 @@ class Project extends JsonResource
             'report_modified_at' => $this->report_modified_at,
             'teacher' => '/api/teachers/' . $this->teacher_id,
             'teacher_name' => $teacher->name,
+            'teacher_lastName' => $teacher->last_name,
             'teacher_id' => $this->teacher_id,
             'teacher_career' => $this->teacher->career_id,
             'schedule' => $this->schedule,
             'schedule_comment' => $this->schedule_comment,
             'student_name' => $student->name,
+            'student_last_name' => $student->last_name
         ];
     }
-
-
 }

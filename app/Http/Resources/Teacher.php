@@ -22,6 +22,7 @@ class Teacher extends JsonResource
             'created_at'=>$this->created_at,
             'updated_at'=>$this->updated_at,
             'name' => $this->user->name,
+            'last_name' => $this->user->last_name,
             'email' => $this->user->email,
             'career' => $career->name,
             'commission_id'=>$this->commission_id,

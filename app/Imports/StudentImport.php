@@ -34,6 +34,7 @@ class StudentImport implements ToModel, WithHeadingRow, WithChunkReading, WithBa
             */
             $user = new User();
             $user->name = $row['name'];
+            $user->last_name = $row['last_name'];
             $user->email = $row['email'];
             $user->password = Hash::make('123456');
             $user->role = User::ROLE_STUDENT;
@@ -84,6 +85,7 @@ class StudentImport implements ToModel, WithHeadingRow, WithChunkReading, WithBa
         return [
             'career_id' => 'required|exists:careers,id|integer',
             'name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
             'email' => ['required', 'regex:/^[a-zA-Z0-9]+(.)+[a-zA-Z0-9]+@epn.edu.ec$/i', 'max:45'],
         ];
     }
