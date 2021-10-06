@@ -39,6 +39,7 @@ class TeacherController extends Controller
         ]);
         $teacher->user()->create([
             'name' => $request->name,
+            'last_name' => $request->last_name,
             'email' => $request->email,
             'password' => $password,
             'role' => User::ROLE_TEACHER

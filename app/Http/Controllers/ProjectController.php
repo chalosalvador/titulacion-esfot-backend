@@ -254,6 +254,22 @@ class ProjectController extends Controller
         return $this->changeStatus($project->id, $mail, $students, "project_graded", "tribunal_assigned");
     }
 
+    public function projectCorrectionsDone2(Project $project)
+    {
+        $mail = new NewCorrectionStudentPdf($project);
+        return $this->changeStatus($project->id, $mail, $project->teacher->user, "project_corrections_done_2", "project_graded");
+    }
+
+    public function projectApprovedSend(Project $project)
+    {
+        $mail = new NewCorrectionStudentPdf($project);;
+        $students[] = Auth::user();
+        if ($project->student_id_2 !== null) {
+            $students[] = Student::find($project->student_id_2)->user;
+        }
+        return $this->changeStatus($project->id, $mail, $students, "project_approved_send", "project_corrections_done_2");
+    }
+
     public function testDefenseApt(Project $project)
     {
         $mail = new NewDateAssigned($project);
@@ -261,7 +277,7 @@ class ProjectController extends Controller
         if ($project->student_id_2 !== null) {
             $students[] = Student::find($project->student_id_2)->user;
         }
-        return $this->changeStatus($project->id, $mail, $students, "test_defense_apt", "project_graded");
+        return $this->changeStatus($project->id, $mail, $students, "test_defense_apt", "project_approved_send");
     }
 
 
