@@ -12,6 +12,8 @@ class NewCorrectionOnPdfStudent extends Mailable
 {
     use Queueable, SerializesModels;
     public $project;
+    public $student;
+    public $teacher;
 
     /**
      * Create a new message instance.
@@ -23,6 +25,9 @@ class NewCorrectionOnPdfStudent extends Mailable
         $project->teacher;
 //        $project->students = $project->student->user;
         $this->project = $project;
+        $students_value = $project->students()->where('project_id',$project->id)->first();
+        $this->student = $students_value->user;
+        $this->teacher = $project->teacher->user;
     }
 
     /**

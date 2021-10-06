@@ -12,6 +12,7 @@ class NewCorrectionStudent extends Mailable
 {
     use Queueable, SerializesModels;
     public $project;
+    public $student;
 
     /**
      * Create a new message instance.
@@ -23,6 +24,8 @@ class NewCorrectionStudent extends Mailable
         $project->teacher;
         $project->status='plan_review_teacher';
         $this->project = $project;
+        $students_value = $project->students()->where('project_id',$project->id)->first();
+        $this->student = $students_value->user;
 //        $project->students = $project->students->user;
     }
 
