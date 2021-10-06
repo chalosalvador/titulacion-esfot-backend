@@ -70,6 +70,8 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::post('projects/{project}/san-curriculum-2',[ProjectController::class, 'sanCurriculum2']);
     Route::post('projects/{project}/test-defense-apt',[ProjectController::class, 'testDefenseApt']);
     Route::post('projects/{project}/tribunal-assigned',[ProjectController::class, 'tribunalAssigned']);
+    Route::post('projects/{project}/project-corrections-done-2',[ProjectController::class, 'projectCorrectionsDone2']);
+    Route::post('projects/{project}/project-approved-send',[ProjectController::class, 'projectApprovedSend']);
     Route::post('projects/{project}/date-defense-assigned',[ProjectController::class, 'dateDefenseAssigned']);
     Route::post('projects/{project}/project-graded',[ProjectController::class, 'projectGraded']);
 
