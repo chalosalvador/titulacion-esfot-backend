@@ -31,6 +31,7 @@ class UsersTableSeeder extends Seeder
 
         User::create([
             'name' => 'Administrador',
+            'last_name' => 'Principal',
             'email' => 'admin@prueba.com',
             'password' => $password,
             'userable_id' => 0,
@@ -39,13 +40,15 @@ class UsersTableSeeder extends Seeder
         $secretary = Secretary::create(['office' => $faker->randomDigit]);
         $administrative = Administrative::create(['office' => $faker->randomDigit]);
         $administrative->user()->create([
-            'name' => $faker->name,
+            'name' => $faker->firstName,
+            'last_name' => $faker->lastName,
             'email' => 'admin@epn.edu.ec',
             'password' => $password,
             'role' => User::ROLE_ADMIN
         ]);
         $secretary->user()->create([
-            'name' => $faker->name,
+            'name' => $faker->firstName,
+            'last_name' => $faker->lastName,
             'email' => 'secretaria@epn.edu.ec',
             'password' => $password,
             'role' => User::ROLE_SECRETARY
@@ -53,15 +56,17 @@ class UsersTableSeeder extends Seeder
 
         for ($i = 0; $i < 10; $i++) {
             $student = Student::create(['apto' => $faker->boolean, 'unique_number' => $faker->word, 'career_id' => $faker->numberBetween(1, 8)]);
-            $teacher = Teacher::create(['titular' => $faker->boolean, 'career_id' => $faker->numberBetween(1, 8)]);
+            $teacher = Teacher::create(['titular' => $faker->boolean,'schedule' => $faker->word, 'career_id' => $faker->numberBetween(1, 8)]);
             $student->user()->create([
-                'name' => $faker->name,
+                'name' => $faker->firstName,
+                'last_name' => $faker->lastName,
                 'email' => "estudiante$i@epn.edu.ec",
                 'password' => $password,
                 'role' => User::ROLE_STUDENT
             ]);
             $teacher->user()->create([
-                'name' => $faker->name,
+                'name' => $faker->firstName,
+                'last_name' => $faker->lastName,
                 'email' => "profesor$i@epn.edu.ec",
                 'password' => $password,
                 'role' => User::ROLE_TEACHER
