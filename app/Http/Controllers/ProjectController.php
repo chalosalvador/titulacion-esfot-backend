@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\User;
+use App\Mail\CurriculumSan2;
 use App\Mail\NewCommentCommentCommission;
 use App\Mail\NewCommentTeacher;
 use App\Mail\NewCorrectionDone2;
@@ -14,13 +15,20 @@ use App\Mail\NewPdfUpload;
 use App\Mail\NewPlanUploadCommission;
 use App\Mail\NewProjectStudent;
 use App\Mail\NewProjectUploadTeacher;
+use App\Mail\PdfApprovedByDirector;
+use App\Mail\PlanApprovedByComission;
 use App\Mail\PlanApprovedByDirector;
+use App\Mail\ProjectApprovedSend;
+use App\Mail\ProjectRejected;
 use App\Mail\TestDefenseApt;
 use App\Mail\TribunalAssigned;
+use App\Mail\TribunalAssignedTeacher;
 use App\Models\Project;
 use App\Models\Student;
+use App\Models\Career;
 use App\Http\Resources\Project as ProjectResource;
 use App\Http\Resources\ProjectCollection;
+use App\Http\Resources\TeacherCollection;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -154,10 +162,18 @@ class ProjectController extends Controller
         return $this->changeStatus($project->id, $mail, $students, "plan_approved_director", "plan_corrections_done");
     }
 
-    public function sanCurriculum1(Project $project)
+    public function sanCurriculum1(Project $project, Request $request)
     {
         $mail = new NewPlanUploadCommission($project);
-        return $this->changeStatus($project->id, $mail, $project->teacher->user, "san_curriculum_1", "plan_approved_director");
+        $career = Career::find($project->teacher->career_id);
+        $commission = $career->commission;
+        $commissionMembers = new TeacherCollection($commission->teachers);
+        $teachers=[];
+        foreach ($commissionMembers as $teacher){
+            $teachers[] = $teacher->user;
+        }
+
+        return $this->changeStatus($project->id, $mail, $teachers, "san_curriculum_1", "plan_approved_director");
     }
 
     public function planReviewCommission(Project $project)
@@ -167,6 +183,7 @@ class ProjectController extends Controller
         if ($project->student_id_2 !== null) {
             $students[] = Student::find($project->student_id_2)->user;
         }
+
         return $this->changeStatus($project->id, $mail, $students, "plan_review_commission", "san_curriculum_1");
     }
 
@@ -183,12 +200,12 @@ class ProjectController extends Controller
         if ($project->student_id_2 !== null) {
             $students[] = Student::find($project->student_id_2)->user;
         }
-        return $this->changeStatus($project->id, $mail, $students, "plan_approved_commission", "plan_corrections_done2");
+        return $this->changeStatus($project->id, $mail, $students, "plan_approved_commission", ["plan_corrections_done2","san_curriculum_1"]);
     }
 
     public function planRejected(Project $project)
     {
-        $mail = new NewCorrectionStudent($project); //TODO cambiar la estructura del correo
+        $mail = new ProjectRejected($project);
         $students[] = Auth::user();
         if ($project->student_id_2 !== null) {
             $students[] = Student::find($project->student_id_2)->user;
@@ -209,7 +226,7 @@ class ProjectController extends Controller
         if ($project->student_id_2 !== null) {
             $students[] = Student::find($project->student_id_2)->user;
         }
-        return $this->changeStatus($project->id, $mail, $students, "project_review_teacher", "project_uploaded");
+        return $this->changeStatus($project->id, $mail, $students, "project_review_teacher", ["project_uploaded","project_corrections_done"]);
     }
 
     public function projectCorrectionsDone(Project $project)
@@ -225,28 +242,29 @@ class ProjectController extends Controller
         if ($project->student_id_2 !== null) {
             $students[] = Student::find($project->student_id_2)->user;
         }
-        return $this->changeStatus($project->id, $mail, $students, "project_approved_director", "project_corrections_done");
+        return $this->changeStatus($project->id, $mail, $students, "project_approved_director", ["project_corrections_done","project_uploaded"]);
     }
 
     public function sanCurriculum2(Project $project)
     {
-        $mail = new NewPlanUploadCommission($project); // TODO cambiar la estructura del correo
+        $mail = new CurriculumSan2($project);
         return $this->changeStatus($project->id, $mail, $project->teacher->user, "san_curriculum_2", "project_approved_director");
     }
 
     public function tribunalAssigned(Project $project)
     {
-        $mail = new TestDefenseApt($project);
+        $mail = new TribunalAssigned($project);
         $students[] = Auth::user();
         if ($project->student_id_2 !== null) {
             $students[] = Student::find($project->student_id_2)->user;
         }
-        return $this->changeStatus($project->id, $mail, $students, "tribunal_assigned", "san_curriculum_2");
+        $secondMail = new TribunalAssignedTeacher($project);
+        return $this->changeStatus($project->id, $mail, $students, "tribunal_assigned", "san_curriculum_2",$secondMail,$project->teacher->user);
     }
 
     public function projectGraded(Project $project)
     {
-        $mail = new TribunalAssigned($project);
+        $mail = new TribunalAssigned($project); //TODO cambiar a correo de projecto calificado
         $students[] = Auth::user();
         if ($project->student_id_2 !== null) {
             $students[] = Student::find($project->student_id_2)->user;
@@ -262,7 +280,7 @@ class ProjectController extends Controller
 
     public function projectApprovedSend(Project $project)
     {
-        $mail = new NewCorrectionStudentPdf($project);;
+        $mail = new ProjectApprovedSend($project);;
         $students[] = Auth::user();
         if ($project->student_id_2 !== null) {
             $students[] = Student::find($project->student_id_2)->user;
@@ -272,7 +290,7 @@ class ProjectController extends Controller
 
     public function testDefenseApt(Project $project)
     {
-        $mail = new NewDateAssigned($project);
+        $mail = new TestDefenseApt($project);
         $students[] = Auth::user();
         if ($project->student_id_2 !== null) {
             $students[] = Student::find($project->student_id_2)->user;
@@ -283,12 +301,12 @@ class ProjectController extends Controller
 
     public function dateDefenseAssigned(Project $project)
     {
-        $mail = new NewCorrectionStudent($project); //TODO cambiar la estructura del correo
+        $mail = new NewDateAssigned($project); //TODO cambiar la estructura del correo
         $students[] = Auth::user();
         if ($project->student_id_2 !== null) {
             $students[] = Student::find($project->student_id_2)->user;
         }
-        return $this->changeStatus($project->id, $mail, $students, "date_defense_assigned", "tribunal_assigned");
+        return $this->changeStatus($project->id, $mail, $students, "date_defense_assigned", "test_defense_apt");
     }
 
 
