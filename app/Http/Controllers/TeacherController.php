@@ -33,7 +33,6 @@ class TeacherController extends Controller
         $password = Hash::make('123456');
         $teacher = Teacher::create([
             'titular'=> "1",
-            'committee'=>"0",
             "career_id"=> $request->career_id,
             "schedule" => $request->schedule
         ]);
