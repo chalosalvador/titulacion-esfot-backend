@@ -1,8 +1,8 @@
 @component('mail::message')
 # Tribunal Asignado
 
-## Estimado/a {{$student->name}},
-## Es una agrado informarte que se ha asignado un tribunal para el proyecto con el tema: {{$project->title}}
+## Estimado/a {{$teacher->name}},
+## Es una agrado informarte que se ha asignado un tribunal para el proyecto con el tema: {{$project->title}} del cual consta como director.
 
 ### Los miembros del tribunal son:
 

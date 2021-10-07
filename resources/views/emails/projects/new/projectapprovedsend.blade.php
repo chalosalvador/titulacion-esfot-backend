@@ -1,11 +1,11 @@
 @component('mail::message')
-# Apto para defensa oral.
+# Proyecto aprobado para envíar.
 
 ## Estimado/a {{$student->name}},
-## Es un agrado informarte que cumples con los requisitos para continuar con el proceso de titulación.
-### Puedes defender tu proyecto registrado con el tema: {{$project->title}}
+## Es un agrado informarte que el jurado aprobó tu plan para continuar con el proceso de titulación
+de tu proyecto registrado con el tema: {{$project->title}}
 
-## Por favor espera la fecha de defensa.
+## Por favor espera la autorización para una fecha de defensa.
 @component('mail::button', ['url' => 'https://titulacion-esfot-frontend-p62owr52w-titulacion.vercel.app/', 'color' => 'success'])
     Ir a la plataforma
 @endcomponent

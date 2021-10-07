@@ -12,6 +12,7 @@ class NewDateAssigned extends Mailable
 {
     use Queueable, SerializesModels;
     public $project;
+    public $student;
 
     /**
      * Create a new message instance.
@@ -23,6 +24,8 @@ class NewDateAssigned extends Mailable
         $project->teacher;
         $project->status='date_defense_assigned';
         $this->project = $project;
+        $students_value = $project->students()->where('project_id',$project->id)->first();
+        $this->student = $students_value->user;
     }
 
     /**
