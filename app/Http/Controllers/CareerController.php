@@ -17,7 +17,7 @@ class CareerController extends Controller
 
     public function show (Career $careers)
     {
-        return response()->json(new Career($careers));
+        return response()->json(new CareerResource($careers));
     }
     public function store(Request $request)
     {
