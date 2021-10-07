@@ -57,6 +57,7 @@ class Project extends JsonResource
             'teacher_lastName' => $teacher->last_name,
             'teacher_id' => $this->teacher_id,
             'teacher_career' => $this->teacher->career_id,
+            'student_career'=>$students_value->career->name,
             'schedule' => $this->schedule,
             'schedule_comment' => $this->schedule_comment,
             'student_name' => $student->name,

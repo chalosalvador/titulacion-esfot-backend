@@ -12,6 +12,7 @@ class PlanApprovedByComission extends Mailable
 {
     use Queueable, SerializesModels;
     public $project;
+    public $student;
 
     /**
      * Create a new message instance.
@@ -23,6 +24,8 @@ class PlanApprovedByComission extends Mailable
         $project->teacher;
         $project->status='plan_approved_commission';
         $this->project = $project;
+        $students_value = $project->students()->where('project_id',$project->id)->first();
+        $this->student = $students_value->user;
     }
 
     /**
