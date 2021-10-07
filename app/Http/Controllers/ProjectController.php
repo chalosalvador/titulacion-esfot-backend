@@ -185,7 +185,7 @@ class ProjectController extends Controller
         if ($project->student_id_2 !== null) {
             $students[] = Student::find($project->student_id_2)->user;
         }
-        return $this->changeStatus($project->id, $mail, $students, "plan_approved_commission", "plan_corrections_done2");
+        return $this->changeStatus($project->id, $mail, $students, "plan_approved_commission", ["plan_corrections_done2","san_curriculum_1"]);
     }
 
     public function planRejected(Project $project)
@@ -227,7 +227,7 @@ class ProjectController extends Controller
         if ($project->student_id_2 !== null) {
             $students[] = Student::find($project->student_id_2)->user;
         }
-        return $this->changeStatus($project->id, $mail, $students, "project_approved_director", "project_corrections_done");
+        return $this->changeStatus($project->id, $mail, $students, "project_approved_director", ["project_corrections_done","project_uploaded"]);
     }
 
     public function sanCurriculum2(Project $project)
