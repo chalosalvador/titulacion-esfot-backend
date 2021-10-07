@@ -15,6 +15,8 @@ use App\Mail\NewPdfUpload;
 use App\Mail\NewPlanUploadCommission;
 use App\Mail\NewProjectStudent;
 use App\Mail\NewProjectUploadTeacher;
+use App\Mail\PdfApprovedByDirector;
+use App\Mail\PlanApprovedByComission;
 use App\Mail\PlanApprovedByDirector;
 use App\Mail\ProjectApprovedSend;
 use App\Mail\ProjectRejected;
