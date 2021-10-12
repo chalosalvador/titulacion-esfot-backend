@@ -72,6 +72,7 @@ class CreateProjectsTable extends Migration
             $table->dateTime('report_modified_at')->nullable();
             $table->bigInteger('teacher_id')->unsigned();
             $table->foreign('teacher_id')->references('id')->on('teachers')->onDelete('restrict');
+            $table->integer('plan_approved_commission')->nullable();
         });
 
         Schema::create('project_student', function (Blueprint $table) {

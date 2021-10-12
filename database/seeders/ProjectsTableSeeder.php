@@ -34,18 +34,19 @@ class ProjectsTableSeeder extends Seeder
                 'general_objective' => $faker->sentence(15),
                 'specifics_objectives' => $faker->sentence(15),
                 'schedule' => $faker->imageUrl(400, 300, null, false),
-                'problem'=>$faker->paragraph,
+                'problem' => $faker->paragraph,
                 'project_type' => $faker->sentence(15),
                 'bibliography' => $faker->sentence(30),
                 'uploaded_at' => $faker->dateTime,
                 'report_pdf' => $faker->sentence('15'),
                 'report_uploaded_at' => $faker->dateTime,
                 'report_modified_at' => $faker->dateTime,
-                'teacher_id'=>$faker->numberBetween(1,10)
+                'plan_approved_commission' => 0,
+                'teacher_id' => $faker->numberBetween(1, 10)
             ]);
             $hasTwoStudents = $faker->boolean();
             $studentIds = [$student->id];
-            if($hasTwoStudents) {
+            if ($hasTwoStudents) {
                 $studentIds[] = $faker->numberBetween(1, 10);
             }
             $project->students()->sync($studentIds);
