@@ -21,8 +21,7 @@ class NewDateAssigned extends Mailable
      */
     public function __construct(Project $project)
     {
-        $project->teacher;
-        $project->status='date_defense_assigned';
+//        $project->status='date_defense_assigned';
         $this->project = $project;
         $students_value = $project->students()->where('project_id',$project->id)->first();
         $this->student = $students_value->user;

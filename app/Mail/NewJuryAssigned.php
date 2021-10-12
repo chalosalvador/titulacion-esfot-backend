@@ -23,8 +23,6 @@ class NewJuryAssigned extends Mailable
      */
     public function __construct(Jury $jury)
     {
-//        $project->teacher ;
-//        $this->project = $project;
         $project = Project::find($jury->project_id);
         $this->project = $project;
         $students_value = $project->students()->where('project_id',$jury->project_id)->first();

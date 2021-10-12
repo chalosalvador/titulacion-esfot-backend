@@ -162,7 +162,7 @@ class ProjectController extends Controller
         if ($project->student_id_2 !== null) {
             $students[] = Student::find($project->student_id_2)->user;
         }
-        return $this->changeStatus($project->id, $mail, $students, "plan_approved_director", "plan_corrections_done");
+        return $this->changeStatus($project->id, $mail, $students, "plan_approved_director", ["plan_corrections_done","plan_sent"]);
     }
 
     public function sanCurriculum1(Project $project, Request $request)
