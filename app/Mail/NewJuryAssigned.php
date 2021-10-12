@@ -19,7 +19,7 @@ class NewJuryAssigned extends Mailable
     /**
      * Create a new message instance.
      *
-     * @return void
+     * @param Jury $jury
      */
     public function __construct(Jury $jury)
     {
