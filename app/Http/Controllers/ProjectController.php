@@ -204,7 +204,7 @@ class ProjectController extends Controller
         if ($project->student_id_2 !== null) {
             $students[] = Student::find($project->student_id_2)->user;
         }
-        if ($project->plan_approved_commission <= 3) {
+        if ($project->plan_approved_commission < 2) {
             $project->plan_approved_commission = $count + 1;
             $project->save();
             return response()->json(["message" => "plan_approved_by_" . $project->plan_approved_commission . "_members"]);
