@@ -3,10 +3,15 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordInterface;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Notifications\Notifiable;
 
-class User extends JsonResource
+class User extends JsonResource implements CanResetPasswordInterface
 {
+    use Notifiable;
+    use CanResetPassword;
     protected $token;
 
 
