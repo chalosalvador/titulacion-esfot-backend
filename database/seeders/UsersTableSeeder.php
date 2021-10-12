@@ -55,8 +55,8 @@ class UsersTableSeeder extends Seeder
         ]);
 
         for ($i = 0; $i < 10; $i++) {
-            $student = Student::create(['apto' => $faker->boolean, 'unique_number' => $faker->word, 'career_id' => $faker->numberBetween(1, 8)]);
-            $teacher = Teacher::create(['titular' => $faker->boolean,'schedule' => $faker->word, 'career_id' => $faker->numberBetween(1, 8)]);
+            $student = Student::create(['apto' => $faker->boolean, 'unique_number' => $faker->word, 'career_id' => $faker->numberBetween(1, 4)]);
+            $teacher = Teacher::create(['titular' => $faker->boolean,'schedule' => $faker->word, 'career_id' => $faker->numberBetween(1, 4)]);
             $student->user()->create([
                 'name' => $faker->firstName,
                 'last_name' => $faker->lastName,
