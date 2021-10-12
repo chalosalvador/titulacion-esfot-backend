@@ -22,8 +22,7 @@ class ProjectRejected extends Mailable
      */
     public function __construct(Project $project)
     {
-        $project->teacher;
-        $project->status='plan_approved_director';
+//        $project->status='plan_approved_director';
         $this->project = $project;
         $students_value = $project->students()->where('project_id',$project->id)->first();
         $this->student = $students_value->user;
