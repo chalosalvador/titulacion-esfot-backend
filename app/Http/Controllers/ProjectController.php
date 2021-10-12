@@ -285,7 +285,7 @@ class ProjectController extends Controller
         if ($project->student_id_2 !== null) {
             $students[] = Student::find($project->student_id_2)->user;
         }
-        return $this->changeStatus($project->id, $mail, $students, "project_approved_send", "project_corrections_done_2");
+        return $this->changeStatus($project->id, $mail, $students, "project_approved_send", ["project_corrections_done_2","project_uploaded"]);
     }
 
     public function testDefenseApt(Project $project)
