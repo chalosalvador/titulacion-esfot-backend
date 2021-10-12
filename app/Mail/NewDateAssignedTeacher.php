@@ -8,12 +8,13 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class NewDateAssigned extends Mailable
+class NewDateAssignedTeacher extends Mailable
 {
     use Queueable, SerializesModels;
     public $project;
     public $student;
     public $jury;
+    public $teacher;
 
     /**
      * Create a new message instance.
@@ -22,12 +23,13 @@ class NewDateAssigned extends Mailable
      */
     public function __construct(Project $project)
     {
-        $project->status='date_defense_assigned';
+
+//        $project->status='date_defense_assigned';
         $this->project = $project;
-        $students_value = $project->students()->where('project_id',$project->id)->first();
-        $this->student = $students_value->user;
+        $this->teacher = $project->teacher->user;
+//        $students_value = $project->students()->where('project_id',$project->id)->first();
+//        $this->student = $students_value->user;
         $this->jury = $project->jury()->where('project_id',$project->id)->first();
-//        $this->date=$jury_value->tribunalSchedule;
     }
 
     /**
@@ -37,6 +39,6 @@ class NewDateAssigned extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.projects.new.dateassigned');
+        return $this->markdown('emails.projects.new.dateassignedteacher');
     }
 }

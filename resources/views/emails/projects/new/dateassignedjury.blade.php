@@ -1,7 +1,7 @@
 @component('mail::message')
 # Fecha de defensa Asignada
 
-## Estimado/a {{$student->name}},
+## Estimado/a {{$teacher->name}},
 ## Ya se ha asignado a fecha de defensa para el proyecto con el tema: {{$project->title}}
 
 ### La fecha designada es : {{$jury->tribunalSchedule}}
