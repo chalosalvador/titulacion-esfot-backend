@@ -200,11 +200,12 @@ class ProjectController extends Controller
     {
         $mail = new PlanApprovedByComission($project);
         $students[] = Auth::user();
+        $count = $project->plan_approved_commission;
         if ($project->student_id_2 !== null) {
             $students[] = Student::find($project->student_id_2)->user;
         }
         if ($project->plan_approved_commission < 3) {
-            $project->update(["plan_approved_commission" => $project->plan_approved_commission + 1]);
+            $project->plan_approved_commission = $count + 1;
             $project->save();
             return response()->json(["message" => "plan_approved_by_" . $project->plan_approved_commission . "_members"]);
         } else {
