@@ -81,8 +81,6 @@ class ProjectController extends Controller
 
         $user = Auth::user();
         $students[] = Auth::user();
-        $path_image = $request->schedule->store('public/schedules');
-        $project->schedule = $path_image;
         $project->save();
         if ($request->student_id_2 !== null) {
             $project->students()->sync([$user->userable->id, $request->student_id_2]);
@@ -90,12 +88,6 @@ class ProjectController extends Controller
         } else {
             $project->students()->sync([$user->userable->id]);
         }
-
-        if ($request->status === 'plan_sent') {
-            Mail::to($project->teacher->user)->send(new NewProjectUploadTeacher($project));
-            Mail::to($students)->send(new NewProjectStudent($project));
-        }
-
 
         return response()->json(new ProjectResource($project), 201);
     }
