@@ -33,6 +33,7 @@ class NewProjectStudent extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.projects.new.student');
+        return $this->subject('Plan registrado con éxito')
+                    ->markdown('emails.projects.new.student');
     }
 }

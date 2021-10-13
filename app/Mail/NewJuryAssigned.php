@@ -37,6 +37,7 @@ class NewJuryAssigned extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.projects.new.juryassigned');
+        return $this->subject('Ha sido asignado como jurado')
+                    ->markdown('emails.projects.new.juryassigned');
     }
 }

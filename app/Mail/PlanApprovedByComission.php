@@ -33,6 +33,7 @@ class PlanApprovedByComission extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.projects.update.commisionapprovedplan');
+        return $this->subject('Plan aprobado por la comisión')
+                    ->markdown('emails.projects.update.commisionapprovedplan');
     }
 }

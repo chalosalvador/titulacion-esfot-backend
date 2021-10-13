@@ -35,6 +35,7 @@ class NewCorrectionStudent extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.projects.comment.teacher');
+        return $this->subject('Correcciones del estudiante en el plan')
+                    ->markdown('emails.projects.comment.teacher');
     }
 }

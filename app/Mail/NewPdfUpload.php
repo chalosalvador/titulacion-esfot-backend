@@ -35,6 +35,7 @@ class NewPdfUpload extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.projects.new.pdfupload');
+        return $this->subject('Nuevo PDF subido')
+                    ->markdown('emails.projects.new.pdfupload');
     }
 }

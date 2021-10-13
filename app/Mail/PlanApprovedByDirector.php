@@ -37,7 +37,8 @@ class PlanApprovedByDirector extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.projects.update.student');
+        return $this->subject('Plan aprobado por el director')
+                    ->markdown('emails.projects.update.student');
     }
 }
 

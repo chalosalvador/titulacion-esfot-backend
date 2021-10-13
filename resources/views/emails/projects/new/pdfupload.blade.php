@@ -2,7 +2,7 @@
 # Nuevo PDF subido.
 
 ## Estimado {{$teacher->name}},
-
+<br>
 ### Se ha registrado un nuevo Informe con el título del tema: {{$project->title}}
 ### Por parte de el/los estudiante/s {{$student->name}}
 

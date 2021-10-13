@@ -1,14 +1,12 @@
 @component('mail::message')
-# Observaciones del director.
-## Estimado/a {{$student->name}}.
-## Tu plan con el tema: {{$project->title}}.<br>
+# Fecha de defensa Asignada
 
+## Estimado/a miembro del jurado,
+## Ya se ha asignado a fecha de defensa para el proyecto con el tema: {{$project->title}}
 
-## {{$teacher->name}} ha realizado observaciones en tu plan.
+### La fecha designada es : {{$dateAssigned}}
 
-
-
-Dirigete a la plataforma para hacer las correciones.
+## Dirigete a la plataforma para ver la fecha.
 @component('mail::button', ['url' => 'https://titulacion-esfot-frontend-p62owr52w-titulacion.vercel.app/', 'color' => 'success'])
     Ir a la plataforma
 @endcomponent

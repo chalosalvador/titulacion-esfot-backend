@@ -2,31 +2,34 @@
 
 namespace App\Mail;
 
+use App\Models\Jury;
 use App\Models\Project;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class NewCommentTeacher extends Mailable
+class NewDateAssignedJury extends Mailable
 {
     use Queueable, SerializesModels;
     public $project;
     public $student;
     public $teacher;
+    public $dateAssigned;
 
     /**
      * Create a new message instance.
      *
-     * @param Project $project
+     * @param Jury $jury
      */
-    public function __construct(Project $project)
+    public function __construct(Jury $jury)
     {
-//        $project->status='plan_review_teacher';
+        $project = Project::find($jury->project_id);
         $this->project = $project;
-        $students_value = $project->students()->where('project_id',$project->id)->first();
+        $students_value = $project->students()->where('project_id',$jury->project_id)->first();
         $this->student = $students_value->user;
         $this->teacher = $project->teacher->user;
+        $this->dateAssigned = $jury->tribunalSchedule;
     }
 
     /**
@@ -36,7 +39,7 @@ class NewCommentTeacher extends Mailable
      */
     public function build()
     {
-        return $this->subject('Observaciones del director')
-                    ->markdown('emails.projects.comment.student');
+        return $this->subject('Fecha de defensa asignada como parte del Jurado')
+                    ->markdown('emails.projects.new.dateassignedjury');
     }
 }

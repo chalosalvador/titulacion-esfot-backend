@@ -35,6 +35,7 @@ class NewCorrectionStudentPdf extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.projects.comment.teacherpdf');
+        return $this->subject('Correciones en el PDF')
+                    ->markdown('emails.projects.comment.teacherpdf');
     }
 }

@@ -34,6 +34,7 @@ class TestDefenseApt extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.projects.new.studentapt');
+        return $this->subject('Estudiante apto para la defensa oral')
+                    ->markdown('emails.projects.new.studentapt');
     }
 }

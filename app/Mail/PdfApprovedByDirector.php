@@ -35,6 +35,7 @@ class PdfApprovedByDirector extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.projects.new.pdfapprovedbydirector');
+        return $this->subject('PDF aprobado por tu director')
+                    ->markdown('emails.projects.new.pdfapprovedbydirector');
     }
 }

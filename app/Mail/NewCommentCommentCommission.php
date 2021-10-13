@@ -22,7 +22,7 @@ class NewCommentCommentCommission extends Mailable
      */
     public function __construct(Project $project)
     {
-//        $project->status = 'plan_review_commission';
+        $project->teacher;
         $this->project = $project;
         $students_value = $project->students()->where('project_id',$project->id)->first();
         $this->student = $students_value->user;
@@ -35,7 +35,8 @@ class NewCommentCommentCommission extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.projects.comment.commission2student');
+        return $this->subject('Observaciones de la comisión')
+                    ->markdown('emails.projects.comment.commission2student');
     }
 }
 

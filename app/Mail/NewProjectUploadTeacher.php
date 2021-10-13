@@ -35,6 +35,7 @@ class NewProjectUploadTeacher extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.projects.new.teacher');
+        return $this->subject('Ha sido registrado en un nuevo plan')
+                    ->markdown('emails.projects.new.teacher');
     }
 }

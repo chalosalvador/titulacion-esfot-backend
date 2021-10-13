@@ -2,8 +2,9 @@
 # Plan subido.
 
 ## Estimado/a {{$student->name}},
+<br>
 ## Tu plan ha sido correctamente enviado.
-
+<br>
 ### El título registrado de tu plan es: {{$project->title}}
 ## Por favor espera las observaciones de tu director.
 
