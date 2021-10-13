@@ -21,10 +21,8 @@ class NewProjectStudent extends Mailable
      */
     public function __construct(Project $project)
     {
-        $project->teacher;
         $students_value = $project->students()->where('project_id',$project->id)->first();
         $this->student = $students_value->user;
-//        $project->students = $project->student->user;
         $this->project = $project;
     }
 

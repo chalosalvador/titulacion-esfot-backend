@@ -21,8 +21,7 @@ class NewCorrectionStudentPdf extends Mailable
      */
     public function __construct(Project $project)
     {
-        $project->teacher;
-        $project->status='project_corrections_done';
+//        $project->status='project_corrections_done';
         $this->project = $project;
         $students_value = $project->students()->where('project_id',$project->id)->first();
         $this->student = $students_value->user;

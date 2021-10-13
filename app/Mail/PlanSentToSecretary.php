@@ -7,13 +7,13 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use PDF;
 
-class NewCommentTeacher extends Mailable
+class PlanSentToSecretary extends Mailable
 {
     use Queueable, SerializesModels;
     public $project;
-    public $student;
-    public $teacher;
+    public $pdf;
 
     /**
      * Create a new message instance.
@@ -22,11 +22,8 @@ class NewCommentTeacher extends Mailable
      */
     public function __construct(Project $project)
     {
-//        $project->status='plan_review_teacher';
         $this->project = $project;
-        $students_value = $project->students()->where('project_id',$project->id)->first();
-        $this->student = $students_value->user;
-        $this->teacher = $project->teacher->user;
+        $this->pdf=PDF::LoadView("emails.projects.reports.planpdf", $this->project);
     }
 
     /**
@@ -36,7 +33,6 @@ class NewCommentTeacher extends Mailable
      */
     public function build()
     {
-        return $this->subject('Observaciones del director')
-                    ->markdown('emails.projects.comment.student');
+        return $this->markdown('emails.projects.reports.secretary')->attachData($this->pdf->output(),"plan-pdf.pdf");
     }
 }

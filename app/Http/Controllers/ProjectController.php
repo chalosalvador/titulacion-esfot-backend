@@ -19,6 +19,7 @@ use App\Mail\NewProjectUploadTeacher;
 use App\Mail\PdfApprovedByDirector;
 use App\Mail\PlanApprovedByComission;
 use App\Mail\PlanApprovedByDirector;
+use App\Mail\PlanSentToSecretary;
 use App\Mail\ProjectApprovedSend;
 use App\Mail\ProjectRejected;
 use App\Mail\TestDefenseApt;
@@ -35,6 +36,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use Barryvdh\DomPDF\PDF;
 use Carbon\Carbon;
 
 class ProjectController extends Controller
@@ -58,9 +60,11 @@ class ProjectController extends Controller
 
     public function cronogram(Project $project)
     {
-        return response()->file(public_path($project->schedule));    }
+        return response()->file(public_path($project->schedule));
+    }
 
-    public function getProjectPDFFile(Project $project){
+    public function getProjectPDFFile(Project $project)
+    {
         return response()->file(public_path($project->report_pdf));
     }
 
@@ -86,12 +90,6 @@ class ProjectController extends Controller
             $project->students()->sync([$user->userable->id]);
         }
 
-        if ($request->status === 'plan_sent') {
-            Mail::to($project->teacher->user)->send(new NewProjectUploadTeacher($project));
-            Mail::to($students)->send(new NewProjectStudent($project));
-        }
-
-
         return response()->json(new ProjectResource($project), 201);
     }
 
@@ -108,16 +106,18 @@ class ProjectController extends Controller
             'title' => 'string|unique:projects,title,' . $project->id . '|max:255',
         ], self::$messages);
 
+
         $project->update($request->all());
 
-        if($request->schedule){
+        if ($request->schedule) {
             $this->updateSchedule($request, $project);
         }
 
         return response()->json($project, 200);
     }
 
-    public function updateSchedule($request, $project){
+    public function updateSchedule($request, $project)
+    {
         $user = Auth::user();
         $student_id = $user->userable->id;
         $fileNameToStore = "schedule.jpg";
@@ -157,10 +157,12 @@ class ProjectController extends Controller
     {
         $mail = new PlanApprovedByDirector($project);
         $students[] = Auth::user();
+        set_time_limit(300);
         if ($project->student_id_2 !== null) {
             $students[] = Student::find($project->student_id_2)->user;
         }
-        return $this->changeStatus($project->id, $mail, $students, "plan_approved_director", "plan_corrections_done");
+        Mail::to($students)->send(new PlanSentToSecretary($project));
+        return $this->changeStatus($project->id, $mail, $students, "plan_approved_director", ["plan_corrections_done","plan_sent"]);
     }
 
     public function sanCurriculum1(Project $project, Request $request)
@@ -169,8 +171,8 @@ class ProjectController extends Controller
         $career = Career::find($project->teacher->career_id);
         $commission = $career->commission;
         $commissionMembers = new TeacherCollection($commission->teachers);
-        $teachers=[];
-        foreach ($commissionMembers as $teacher){
+        $teachers = [];
+        foreach ($commissionMembers as $teacher) {
             $teachers[] = $teacher->user;
         }
 
@@ -198,10 +200,17 @@ class ProjectController extends Controller
     {
         $mail = new PlanApprovedByComission($project);
         $students[] = Auth::user();
+        $count = $project->plan_approved_commission;
         if ($project->student_id_2 !== null) {
             $students[] = Student::find($project->student_id_2)->user;
         }
-        return $this->changeStatus($project->id, $mail, $students, "plan_approved_commission", ["plan_corrections_done2","san_curriculum_1"]);
+        if ($project->plan_approved_commission < 2) {
+            $project->plan_approved_commission = $count + 1;
+            $project->save();
+            return response()->json(["message" => "plan_approved_by_" . $project->plan_approved_commission . "_members"]);
+        } else {
+            return $this->changeStatus($project->id, $mail, $students, "plan_approved_commission", ["plan_corrections_done2", "san_curriculum_1"]);
+        }
     }
 
     public function planRejected(Project $project)
@@ -227,7 +236,7 @@ class ProjectController extends Controller
         if ($project->student_id_2 !== null) {
             $students[] = Student::find($project->student_id_2)->user;
         }
-        return $this->changeStatus($project->id, $mail, $students, "project_review_teacher", ["project_uploaded","project_corrections_done"]);
+        return $this->changeStatus($project->id, $mail, $students, "project_review_teacher", ["project_uploaded", "project_corrections_done"]);
     }
 
     public function projectCorrectionsDone(Project $project)
@@ -243,7 +252,7 @@ class ProjectController extends Controller
         if ($project->student_id_2 !== null) {
             $students[] = Student::find($project->student_id_2)->user;
         }
-        return $this->changeStatus($project->id, $mail, $students, "project_approved_director", ["project_corrections_done","project_uploaded"]);
+        return $this->changeStatus($project->id, $mail, $students, "project_approved_director", ["project_corrections_done", "project_uploaded"]);
     }
 
     public function sanCurriculum2(Project $project)
@@ -260,7 +269,7 @@ class ProjectController extends Controller
             $students[] = Student::find($project->student_id_2)->user;
         }
         $secondMail = new TribunalAssignedTeacher($project);
-        return $this->changeStatus($project->id, $mail, $students, "tribunal_assigned", "san_curriculum_2",$secondMail,$project->teacher->user);
+        return $this->changeStatus($project->id, $mail, $students, "tribunal_assigned", "san_curriculum_2", $secondMail, $project->teacher->user);
     }
 
     public function projectGraded(Project $project)
@@ -312,7 +321,6 @@ class ProjectController extends Controller
     }
 
 
-
     public function updatePdf(Request $request, Project $project)
     {
         $user = Auth::user();
@@ -331,10 +339,10 @@ class ProjectController extends Controller
         return response()->json(null, 204);
     }
 
-    private function changeStatus($project_id, $mail, $mailTo, $newStatus, $prevStatus, $secondMail= null, $secondMailTo=null )
+    private function changeStatus($project_id, $mail, $mailTo, $newStatus, $prevStatus, $secondMail = null, $secondMailTo = null)
     {
         $project = Project::find($project_id);
-        if(is_array($prevStatus)) {
+        if (is_array($prevStatus)) {
             $canUpdate = in_array($project->status, $prevStatus);
         } else {
             $canUpdate = $project->status === $prevStatus;
@@ -345,7 +353,7 @@ class ProjectController extends Controller
             $project->status = $newStatus;
             $project->save();
             Mail::to($mailTo)->send($mail);
-            if ($secondMail&& $secondMailTo !== null){
+            if ($secondMail && $secondMailTo !== null) {
                 Mail::to($secondMailTo)->send($secondMail);
             }
             return response()->json(["message" => "status_changed"], 200);

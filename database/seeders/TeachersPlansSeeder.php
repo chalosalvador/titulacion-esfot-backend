@@ -16,20 +16,20 @@ class TeachersPlansSeeder extends Seeder
     {
         //TeachersPlans::truncate();
 
-        $faker = \Faker\Factory::create();
-
-        $teachers = \App\Models\Teacher::all();
-
-
-
-        foreach ($teachers as $teacher){
-            TeacherPlan::create([
-                'title' => $faker->sentence,
-                'problem' => $faker->paragraph,
-                'solution'=> $faker->paragraph,
-                'status'=>$faker->state,
-                'teacher_id'=>$faker->numberBetween(1,10)
-            ]);
-        }
+//        $faker = \Faker\Factory::create();
+//
+//        $teachers = \App\Models\Teacher::all();
+//
+//
+//
+//        foreach ($teachers as $teacher){
+//            TeacherPlan::create([
+//                'title' => $faker->sentence,
+//                'problem' => $faker->paragraph,
+//                'solution'=> $faker->paragraph,
+//                'status'=>$faker->state,
+//                'teacher_id'=>$faker->numberBetween(1,10)
+//            ]);
+//        }
     }
 }

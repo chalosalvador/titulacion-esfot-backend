@@ -17,29 +17,16 @@ class CareersTableSeeder extends Seeder
         Career::truncate();
 
         Career::create([
-            'name' => 'ASI'
+            'name' => 'TSASA'
         ]);
         Career::create([
-            'name' => 'ASA'
-        ]);
-        Career::create([
-            'name' => 'ET'
-        ]);
-        Career::create([
-            'name' => 'EM'
-        ]);
-        Career::create([
-            'name' => 'TSEM'
+            'name' => 'TSRT'
         ]);
         Career::create([
             'name' => 'TSDS'
         ]);
         Career::create([
-            'name' => 'TSASA'
+            'name' => 'TSEM'
         ]);
-        Career::create([
-            'name' => 'TSET'
-        ]);
-
     }
 }
