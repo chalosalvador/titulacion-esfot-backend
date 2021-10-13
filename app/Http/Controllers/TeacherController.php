@@ -29,7 +29,6 @@ class TeacherController extends Controller
 
     public function store(Request $request)
     {
-        $faker = \Faker\Factory::create();
         $password = Hash::make('123456');
         $teacher = Teacher::create([
             'titular'=> "1",
