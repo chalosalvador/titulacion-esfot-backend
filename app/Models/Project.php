@@ -21,7 +21,6 @@ class Project extends Model
         'specifics_objectives',
         'specifics_objectives_comment',
         'teacher_id',
-        'schedule',
         'schedule_comment',
         'methodology',
         'methodology_comment',
@@ -32,7 +31,8 @@ class Project extends Model
         'bibliography',
         'bibliography_comment',
         'project_type',
-        'status'
+        'status',
+        'highlights'
     ];
 
     public static function boot()
@@ -52,6 +52,11 @@ class Project extends Model
     public function teacher()
     {
         return $this->belongsTo('App\Models\Teacher', 'teacher_id');
+    }
+
+    public function jury()
+    {
+        return $this->hasOne('App\Models\Jury');
     }
 
 

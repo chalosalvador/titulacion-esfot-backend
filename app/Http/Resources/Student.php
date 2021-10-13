@@ -14,9 +14,13 @@ class Student extends JsonResource
      */
     public function toArray($request)
     {
+        $career = $this->career;
+
         return [
             'id'=>$this->id,
             'apto'=>$this->apto,
+            'career_id'=>$this->career_id,
+            'career' => $career->name,
             //'name'=>$this->user->name,
             'unique_number'=>$this->unique_number,
             'created_at'=>$this->created_at,

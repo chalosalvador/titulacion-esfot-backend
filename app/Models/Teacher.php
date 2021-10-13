@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Teacher extends Model
 {
-    protected $fillable = ['titular','committee'];
+
+    protected $fillable = ['titular','commission_id','schedule','career_id','jury_id'];
 
     public function user()
     {
@@ -20,5 +21,21 @@ class Teacher extends Model
     public function ideas()
     {
         return $this->hasMany('App\Models\TeacherPlan');
+    }
+
+    public function career()
+    {
+        return $this->belongsTo('App\Models\Career', 'career_id');
+    }
+
+
+    public function jury()
+    {
+        return $this->belongsToMany('App\Models\Jury');
+    }
+
+    public function commission()
+    {
+        return $this->belongsTo('App\Models\Commission', 'commission_id');
     }
 }

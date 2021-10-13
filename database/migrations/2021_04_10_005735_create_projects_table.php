@@ -17,11 +17,11 @@ class CreateProjectsTable extends Migration
             $table->bigIncrements('id');
 //            $table->integer('director_id');
 //            $table->integer('coodirector_id');
-            $table->string('title', 255)->nullable();
+            $table->string('title')->nullable();
             $table->text('title_comment')->nullable();
-            $table->string('general_objective', 255)->nullable();
+            $table->text('general_objective')->nullable();
             $table->text('general_objective_comment')->nullable();
-            $table->string('specifics_objectives', 255)->nullable();
+            $table->text('specifics_objectives')->nullable();
             $table->text('specifics_objectives_comment')->nullable();
             $table->text('problem')->nullable();
             $table->text('problem_comment')->nullable();
@@ -56,19 +56,23 @@ class CreateProjectsTable extends Migration
                 'san_curriculum_2',
                 'tribunal_assigned',
                 'project_graded',
+                'project_corrections_done_2',
+                'project_approved_send',
                 'test_defense_apt',
                 'date_defense_assigned',
                 'project_completed',
                 'project_rejected']);
             $table->timestamps();
             $table->dateTime('uploaded_at')->nullable();
-            $table->string('schedule')->nullable();
-            $table->string('schedule_comment')->nullable();
-            $table->string('report_pdf', 255)->nullable();
+            $table->text('schedule', 255)->nullable();
+            $table->text('schedule_comment')->nullable();
+            $table->text('report_pdf', 255)->nullable();
+            $table->text('highlights')->nullable();
             $table->dateTime('report_uploaded_at')->nullable();
             $table->dateTime('report_modified_at')->nullable();
             $table->bigInteger('teacher_id')->unsigned();
             $table->foreign('teacher_id')->references('id')->on('teachers')->onDelete('restrict');
+            $table->integer('plan_approved_commission')->nullable();
         });
 
         Schema::create('project_student', function (Blueprint $table) {

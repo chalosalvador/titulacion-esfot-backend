@@ -17,6 +17,8 @@ class CreateStudentsTable extends Migration
             $table->bigIncrements('id');
             $table->boolean('apto');
             $table->text('unique_number');
+            $table->bigInteger('career_id')->unsigned();
+            $table->foreign('career_id')->references('id')->on('careers')->onDelete('restrict');
             $table->timestamps();
 
         });

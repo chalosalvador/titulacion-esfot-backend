@@ -12,6 +12,8 @@ class PlanApprovedByDirector extends Mailable
 {
     use Queueable, SerializesModels;
     public $project;
+    public $student;
+    public $teacher;
 
     /**
      * Create a new message instance.
@@ -20,9 +22,12 @@ class PlanApprovedByDirector extends Mailable
      */
     public function __construct(Project $project)
     {
-        $project->teacher = $project->teacher->user;
-        $project->status='plan_approved_director';
+//        $project->status='plan_approved_director';
         $this->project = $project;
+        $students_value = $project->students()->where('project_id',$project->id)->first();
+        $this->student = $students_value->user;
+        $this->teacher = $project->teacher->user;
+
     }
 
     /**

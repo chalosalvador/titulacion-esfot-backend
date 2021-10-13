@@ -2,7 +2,7 @@
 
 namespace App\Mail;
 
-use App\Project;
+use App\Models\Project;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -13,6 +13,8 @@ class NewPlanUploadCommission extends Mailable
     use Queueable, SerializesModels;
 
     public $project;
+    public $student;
+    public $teacher;
 
     /**
      * Create a new message instance.
@@ -21,8 +23,10 @@ class NewPlanUploadCommission extends Mailable
      */
     public function __construct(Project $project)
     {
-        $project->teacher = $project->teacher->user;
         $this->project = $project;
+        $students_value = $project->students()->where('project_id',$project->id)->first();
+        $this->student = $students_value->user;
+        $this->teacher = $project->teacher->user;
     }
 
     /**

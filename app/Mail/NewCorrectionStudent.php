@@ -2,7 +2,7 @@
 
 namespace App\Mail;
 
-use App\Project;
+use App\Models\Project;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -12,6 +12,7 @@ class NewCorrectionStudent extends Mailable
 {
     use Queueable, SerializesModels;
     public $project;
+    public $student;
 
     /**
      * Create a new message instance.
@@ -20,9 +21,10 @@ class NewCorrectionStudent extends Mailable
      */
     public function __construct(Project $project)
     {
-        $project->teacher = $project->teacher->user;
-        $project->status='plan_review_teacher';
+//        $project->status='plan_review_teacher';
         $this->project = $project;
+        $students_value = $project->students()->where('project_id',$project->id)->first();
+        $this->student = $students_value->user;
 //        $project->students = $project->students->user;
     }
 

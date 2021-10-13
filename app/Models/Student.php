@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Student extends Model
 {
-    protected $fillable = ['apto','unique_number'];
+    protected $fillable = ['apto','unique_number','career_id'];
 
     public function projects()
     {
@@ -15,5 +15,10 @@ class Student extends Model
     public function user()
     {
         return $this->morphOne('App\Models\User', 'userable');
+    }
+
+    public function career()
+    {
+        return $this->belongsTo('App\Models\Career', 'career_id');
     }
 }

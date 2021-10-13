@@ -12,6 +12,7 @@ class NewProjectStudent extends Mailable
 {
     use Queueable, SerializesModels;
     public $project;
+    public $student;
 
     /**
      * Create a new message instance.
@@ -20,8 +21,8 @@ class NewProjectStudent extends Mailable
      */
     public function __construct(Project $project)
     {
-        $project->teacher = $project->teacher->user;
-//        $project->students = $project->student->user;
+        $students_value = $project->students()->where('project_id',$project->id)->first();
+        $this->student = $students_value->user;
         $this->project = $project;
     }
 

@@ -13,6 +13,7 @@ class NewCommentCommentCommission extends Mailable
     use Queueable, SerializesModels;
 
     public $project;
+    public $student;
 
     /**
      * Create a new message instance.
@@ -21,9 +22,10 @@ class NewCommentCommentCommission extends Mailable
      */
     public function __construct(Project $project)
     {
-        $project->teacher = $project->teacher->user;
-        $project->status = 'plan_review_commission';
+//        $project->status = 'plan_review_commission';
         $this->project = $project;
+        $students_value = $project->students()->where('project_id',$project->id)->first();
+        $this->student = $students_value->user;
     }
 
     /**

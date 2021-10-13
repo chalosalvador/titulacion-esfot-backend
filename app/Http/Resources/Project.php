@@ -7,16 +7,20 @@ use App\Http\Resources\User as UserResource;
 
 class Project extends JsonResource
 {
+
     /**
      * Transform the resource into an array.
      *
      * @param \Illuminate\Http\Request $request
      * @return array
      */
+
     public function toArray($request)
     {
         $teacher = $this->teacher->user;
-        $students = $this->students;
+        $students_value = $this->students()->where('project_id',$this->id)->first();
+        $student = $students_value->user;
+
         return [
             'id' => $this->id,
             'title' => $this->title,
@@ -45,30 +49,19 @@ class Project extends JsonResource
             'bibliography_comment' => $this->bibliography_comment,
             'project_type' => $this->project_type,
             'report_pdf' => $this->report_pdf,
+            'highlights' => $this->highlights,
             'report_uploaded_at' => $this->report_uploaded_at,
             'report_modified_at' => $this->report_modified_at,
             'teacher' => '/api/teachers/' . $this->teacher_id,
             'teacher_name' => $teacher->name,
+            'teacher_lastName' => $teacher->last_name,
             'teacher_id' => $this->teacher_id,
-            'schedule'=>$this->schedule,
-            'schedule_comment'=>$this->schedule_comment,
-            //'students' => $this->getStudents(),
-            //'student_name' => $student->student_id
-            'students'=>$students
+            'teacher_career' => $this->teacher->career_id,
+            'student_career'=>$students_value->career->name,
+            'schedule' => $this->schedule,
+            'schedule_comment' => $this->schedule_comment,
+            'student_name' => $student->name,
+            'student_last_name' => $student->last_name
         ];
-    }
-
-    private function getStudents() {
-        $students = [];
-
-        foreach($this->students as $student) {
-            $students[] = [
-                'id' => $student->id,
-                'name' => $student->project_student->user->name,
-                //'lastname' => $student->user->lastname,
-            ];
-        }
-
-        return $students;
     }
 }

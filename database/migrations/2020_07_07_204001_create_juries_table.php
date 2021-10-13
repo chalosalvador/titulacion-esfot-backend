@@ -15,9 +15,7 @@ class CreateJuriesTable extends Migration
     {
         Schema::create('juries', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('teacher_id');
-            $table->integer('project_plan_id');
-            $table->integer('users_id');
+            $table->string('tribunalSchedule')->nullable();
             $table->timestamps();
         });
     }
