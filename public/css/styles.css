@@ -1,0 +1,87 @@
+* {
+    font-family: "Times New Roman", Times, serif;
+}
+
+header {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: row;
+    margin-left: 400px;
+}
+
+header p {
+    text-align: center;
+}
+
+.buho {
+    margin-left: 190px;
+}
+
+.title-header-section {
+    align-self: center;
+    margin-left: 190px;
+}
+
+.faa {
+    text-align: right;
+    margin-right: 440px;
+}
+
+.title-header {
+    margin: 0;
+}
+
+.title-institute {
+    text-align: center;
+}
+
+.title-institute h2 {
+    margin: 0;
+}
+
+.project-type{
+    text-align: center;
+    margin-top: 60px;
+}
+
+.plan-content{
+    width: 800px;
+    margin-left: 450px;
+}
+
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+table {
+    width: 100%;
+}
+
+td {
+    width: 50%;
+}
+
+.title-section {
+    text-align: left;
+    font-size: 20px;
+}
+
+.students-section {
+    padding: 0px 5px 50px;
+}
+
+.project-area-section {
+    padding: 5px 10px 20px 5px;
+}
+
+.date-section {
+    padding: 0 5px 30px;
+}
+
+.text-description {
+    margin-left: 15px;
+    margin-right: 10px;
+    text-align: justify;
+    font-size: large;
+}

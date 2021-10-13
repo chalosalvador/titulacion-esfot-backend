@@ -18,6 +18,7 @@ use App\Mail\NewProjectUploadTeacher;
 use App\Mail\PdfApprovedByDirector;
 use App\Mail\PlanApprovedByComission;
 use App\Mail\PlanApprovedByDirector;
+use App\Mail\PlanSentToSecretary;
 use App\Mail\ProjectApprovedSend;
 use App\Mail\ProjectRejected;
 use App\Mail\TestDefenseApt;
@@ -34,6 +35,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use Barryvdh\DomPDF\PDF;
 use Carbon\Carbon;
 
 class ProjectController extends Controller
@@ -79,6 +81,8 @@ class ProjectController extends Controller
 
         $user = Auth::user();
         $students[] = Auth::user();
+        $path_image = $request->schedule->store('public/schedules');
+        $project->schedule = $path_image;
         $project->save();
         if ($request->student_id_2 !== null) {
             $project->students()->sync([$user->userable->id, $request->student_id_2]);
@@ -108,6 +112,7 @@ class ProjectController extends Controller
         $request->validate([
             'title' => 'string|unique:projects,title,' . $project->id . '|max:255',
         ], self::$messages);
+
 
         $project->update($request->all());
 
@@ -159,9 +164,11 @@ class ProjectController extends Controller
     {
         $mail = new PlanApprovedByDirector($project);
         $students[] = Auth::user();
+        set_time_limit(300);
         if ($project->student_id_2 !== null) {
             $students[] = Student::find($project->student_id_2)->user;
         }
+        Mail::to($students)->send(new PlanSentToSecretary($project));
         return $this->changeStatus($project->id, $mail, $students, "plan_approved_director", ["plan_corrections_done","plan_sent"]);
     }
 
