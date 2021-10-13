@@ -1,7 +1,7 @@
 @component('mail::message')
 # Ha sido asignado como jurado.
 
-## Estimado {{$teacher->name}},
+## Estimado/a,
 ### Ha sido asignado como parte del jurado para la calificación del
 proyecto con el tema: {{$project->title}}
 

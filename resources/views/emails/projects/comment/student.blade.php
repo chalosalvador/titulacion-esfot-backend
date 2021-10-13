@@ -1,7 +1,7 @@
 @component('mail::message')
 # Observaciones del director.
 ## Estimado/a {{$student->name}}.
-## Tu plan con el tema: {{$project->title}}.
+## Tu plan con el tema: {{$project->title}}.<br>
 
 
 ## {{$teacher->name}} ha realizado observaciones en tu plan.

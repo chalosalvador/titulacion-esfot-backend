@@ -39,6 +39,7 @@ class NewDateAssignedTeacher extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.projects.new.dateassignedteacher');
+        return $this->subject('Fecha de defensa asignada')
+                    ->markdown('emails.projects.new.dateassignedteacher');
     }
 }

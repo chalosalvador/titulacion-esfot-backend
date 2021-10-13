@@ -5,7 +5,7 @@
 ## Es una agrado informarte que se ha asignado un tribunal para el proyecto con el tema: {{$project->title}}
 
 ### Los miembros del tribunal son:
-
+{{$teachers[0]->user->name}}, &nbsp; {{$teachers[1]->user->name}}
 
 
 Por favor espera la fecha de defensa.

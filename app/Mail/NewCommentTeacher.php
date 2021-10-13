@@ -37,6 +37,7 @@ class NewCommentTeacher extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.projects.comment.student');
+        return $this->subject('Observaciones del director')
+                    ->markdown('emails.projects.comment.student');
     }
 }

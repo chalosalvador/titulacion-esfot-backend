@@ -35,6 +35,7 @@ class CurriculumSan2 extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.projects.new.curriculum2');
+        return $this->subject('Curriculum Saneado')
+                    ->markdown('emails.projects.new.curriculum2');
     }
 }

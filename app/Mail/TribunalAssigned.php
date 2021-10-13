@@ -3,6 +3,7 @@
 namespace App\Mail;
 
 use App\Models\Project;
+use App\Models\Jury;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -13,6 +14,8 @@ class TribunalAssigned extends Mailable
     use Queueable, SerializesModels;
     public $project;
     public $student;
+    public $jury;
+    public $teachers;
 
     /**
      * Create a new message instance.
@@ -26,6 +29,8 @@ class TribunalAssigned extends Mailable
         $this->project = $project;
         $students_value = $project->students()->where('project_id',$project->id)->first();
         $this->student = $students_value->user;
+        $this->jury = $project->jury()->where('project_id',$project->id)->first();
+        $this->teachers = $this->jury->teachers;
     }
 
     /**
@@ -35,6 +40,7 @@ class TribunalAssigned extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.projects.new.tribunalassigned');
+        return $this->subject('Tribunal asignado')
+                    ->markdown('emails.projects.new.tribunalassigned');
     }
 }

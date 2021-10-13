@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\NewDateAssignedJury;
 use App\Mail\NewJuryAssigned;
 use App\Mail\NewProjectUploadTeacher;
 use App\Models\Jury;
@@ -48,12 +49,15 @@ class JuryController extends Controller
     public function changeTribunalSchedule(Request $request)
     {
         $juries = Jury::all();
+        $teachers=[];
         foreach (
             $juries as $jury
         ) {
             if ($jury->project_id === $request->project_id) {
                 $jury->update(["tribunalSchedule" => $request->tribunalSchedule]);
                 $jury->save();
+                $teachers[]= $jury->teachers();
+                Mail::to($teachers)->send(new NewDateAssignedJury($jury));
             }
         }
         return response()->json(["message" => "schedule saved"]);

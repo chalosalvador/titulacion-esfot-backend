@@ -35,6 +35,7 @@ class ProjectApprovedSend extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.projects.new.projectapprovedsend');
+        return $this->subject('Plan aprobado por el jurado')
+                    ->markdown('emails.projects.new.projectapprovedsend');
     }
 }

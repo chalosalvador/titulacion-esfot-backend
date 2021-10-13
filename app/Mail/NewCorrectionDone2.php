@@ -36,6 +36,7 @@ class NewCorrectionDone2 extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.projects.comment.students2commision');
+        return $this->subject('Correcciones realizadas por el estudiante')
+                    ->markdown('emails.projects.comment.students2commision');
     }
 }

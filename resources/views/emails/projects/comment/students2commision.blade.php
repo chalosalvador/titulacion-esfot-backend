@@ -1,9 +1,9 @@
 @component('mail::message')
 # Correcciones realizadas por el estudiante.
 ## El plan con el tema: {{$project->title}}.
-
+<br>
 ## El estudiante/s {{$student->name}} registra las correcciones que fueron solicitadas por la comisión.
-
+<br>
 ## Dirigete a la plataforma para verificar
 @component('mail::button', ['url' => 'https://titulacion-esfot-frontend-p62owr52w-titulacion.vercel.app/', 'color' => 'success'])
     Ir a la plataforma

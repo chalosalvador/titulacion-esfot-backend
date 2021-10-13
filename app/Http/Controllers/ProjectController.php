@@ -11,6 +11,7 @@ use App\Mail\NewCorrectionOnPdfStudent;
 use App\Mail\NewCorrectionStudent;
 use App\Mail\NewCorrectionStudentPdf;
 use App\Mail\NewDateAssigned;
+use App\Mail\NewDateAssignedTeacher;
 use App\Mail\NewPdfUpload;
 use App\Mail\NewPlanUploadCommission;
 use App\Mail\NewProjectStudent;
@@ -301,12 +302,13 @@ class ProjectController extends Controller
 
     public function dateDefenseAssigned(Project $project)
     {
-        $mail = new NewDateAssigned($project); //TODO cambiar la estructura del correo
+        $mail = new NewDateAssigned($project);
         $students[] = Auth::user();
         if ($project->student_id_2 !== null) {
             $students[] = Student::find($project->student_id_2)->user;
         }
-        return $this->changeStatus($project->id, $mail, $students, "date_defense_assigned", "test_defense_apt");
+        $secondMail = new NewDateAssignedTeacher($project);
+        return $this->changeStatus($project->id, $mail, $students, "date_defense_assigned", "test_defense_apt",$secondMail,$project->teacher->user);
     }
 
 

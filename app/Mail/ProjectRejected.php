@@ -37,6 +37,7 @@ class ProjectRejected extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.projects.new.projectrejected');
+        return $this->subject('Proyecto rechazado')
+                    ->markdown('emails.projects.new.projectrejected');
     }
 }

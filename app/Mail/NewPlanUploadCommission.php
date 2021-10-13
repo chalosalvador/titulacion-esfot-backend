@@ -37,6 +37,7 @@ class NewPlanUploadCommission extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.projects.new.commission');
+        return $this->subject('Nuevo plan registrado para la comisión')
+                    ->markdown('emails.projects.new.commission');
     }
 }
