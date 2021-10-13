@@ -91,7 +91,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
 //teacher
     Route::get('teachers', [TeacherController::class, 'index']);
     Route::get('teacher-projects', [TeacherController::class, 'show']);
-    Route::post('teachers/', [TeacherController::class, 'store']);
+    Route::post('teachers', [TeacherController::class, 'store']);
     Route::put('teachers/{teacher}', [TeacherController::class, 'update']);
     Route::delete('teachers/{teacher}', [TeacherController::class, 'delete']);
     Route::get('teachers/projects', [TeacherController::class, 'projects']);
