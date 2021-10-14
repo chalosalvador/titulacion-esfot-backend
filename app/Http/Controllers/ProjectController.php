@@ -35,9 +35,7 @@ use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Storage;
-use Barryvdh\DomPDF\PDF;
-use Carbon\Carbon;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class ProjectController extends Controller
 {
@@ -60,7 +58,8 @@ class ProjectController extends Controller
 
     public function cronogram(Project $project)
     {
-        return response()->file(public_path($project->schedule));
+        $path = $project->schedule->getPath();
+        return $path;
     }
 
     public function getProjectPDFFile(Project $project)
@@ -120,9 +119,11 @@ class ProjectController extends Controller
     {
         $user = Auth::user();
         $student_id = $user->userable->id;
-        $fileNameToStore = "schedule.jpg";
-        $request->schedule->storeAs("public/schedule/{$student_id}", $fileNameToStore);
-        $project->schedule = "storage/schedule/{$student_id}/{$fileNameToStore}";
+        $fileNameToStore = "schedule";
+        $result = $request->schedule->storeOnCloudinaryAs("schedules/{$student_id}", $fileNameToStore);
+        $path = $result->getPath();
+
+        $project->schedule = $path;
         $project->save();
     }
 
@@ -324,11 +325,11 @@ class ProjectController extends Controller
     public function updatePdf(Request $request, Project $project)
     {
         $user = Auth::user();
-        $date = new DateTime();
         $student_id = $user->userable->id;
-        $fileNameToStore = "project.pdf";
-        $request->report_pdf->storeAs("public/reports/{$student_id}", $fileNameToStore);
-        $project->report_pdf = "storage/reports/{$student_id}/{$fileNameToStore}";
+        $fileNameToStore = "project";
+        $result = $request->report_pdf->storeOnCloudinaryAs("reports/{$student_id}", $fileNameToStore);
+        $path = $result->getPath();
+        $project->report_pdf = $path;
         $project->save();
         return response()->json($project, 200);
     }
