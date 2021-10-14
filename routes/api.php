@@ -101,7 +101,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get('commissions', [CommissionController::class, 'index']);
     Route::get('commissions/{commissions}', [CommissionController::class, 'show']);
     Route::post('commissions/commissions', [CommissionController::class, 'store']);
-    Route::post('commissions/{commissions}', [CommissionController::class, 'update']);
+    Route::put('commissions/{commissions}', [CommissionController::class, 'update']);
 
 //Jury
     Route::get('juries', [JuryController::class, 'index']);

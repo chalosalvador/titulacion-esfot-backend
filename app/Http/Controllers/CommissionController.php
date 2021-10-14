@@ -30,11 +30,12 @@ class CommissionController extends Controller
         }
         return response()->json(new CommissionResource($commissions), 201);
     }
-    public function update(Request $request, Commission $commissions)
+    public function update(Commission $commissions,Request $request)
     {
         $commissions->update($request->except(["members", "career_id"]));
         $commissions->teachers()->update($request->members);
         $commissions->career()->update($request->career_id);
+        $commissions->save();
         return response()->json(new CommissionResource($commissions), 200);
     }
 }
