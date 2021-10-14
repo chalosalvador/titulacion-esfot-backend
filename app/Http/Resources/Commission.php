@@ -28,6 +28,7 @@ class Commission extends JsonResource
         $teachersUsers=[];
         foreach ($teachers as $teacher){
             $teachersUsers[] = [
+                'id'=>$teacher->id,
                 'name'=>$teacher->user->name,
                 'last_name'=>$teacher->user->last_name,
                 'email'=>$teacher->user->email
