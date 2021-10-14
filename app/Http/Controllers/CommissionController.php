@@ -27,8 +27,8 @@ class CommissionController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'career_id' => 'required|unique:careers,id',
-//            'members' => 'required|exists:teachers,id',
+            'career_id' => 'required|unique:commissions',
+            'members' => 'required|exists:teachers,id',
         ], self::$messages);
         $commissions= new Commission($request->except(['members']));
         $commissions->save();
