@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\TeacherCollection;
 use App\Mail\NewDateAssignedJury;
 use App\Mail\NewJuryAssigned;
 use App\Mail\NewProjectUploadTeacher;
@@ -58,5 +59,11 @@ class JuryController extends Controller
         }
         Mail::to($teachers)->send(new NewDateAssignedJury($jury));
         return response()->json(["message" => "schedule saved"]);
+    }
+
+    public function juriesTeachers(Project $project)
+    {
+        $jury = Jury::where("project_id",$project->id)->first();
+        return new TeacherCollection($jury->teachers);
     }
 }
