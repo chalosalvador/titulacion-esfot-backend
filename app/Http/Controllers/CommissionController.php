@@ -28,7 +28,7 @@ class CommissionController extends Controller
     {
         $request->validate([
             'career_id' => 'required|unique:commissions',
-            'members' => 'required|exists:teachers,id',
+//            'members' => 'required|exists:teachers,id',
         ], self::$messages);
         $commissions= new Commission($request->except(['members']));
         $commissions->save();
@@ -41,6 +41,10 @@ class CommissionController extends Controller
     }
     public function update(Commission $commissions,Request $request)
     {
+        $request->validate([
+            'career_id' => 'required|unique:commissions',
+//            'members' => 'required|exists:teachers,id',
+        ], self::$messages);
         $commissions->update($request->except(["members", "career_id"]));
         $commissions->teachers()->update($request->members);
         $commissions->career()->update($request->career_id);
