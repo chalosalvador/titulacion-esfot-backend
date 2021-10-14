@@ -151,6 +151,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::post('juries', [JuryController::class, 'store']);
     Route::post('juries/{juries}', [JuryController::class, 'update']);
     Route::put('juries/assignSchedule', [JuryController::class, 'changeTribunalSchedule']);
+    Route::get('juriesTeachers/{project}', [JuryController::class, 'juriesTeachers']);
 
 //careers
     Route::get('careers', [CareerController::class, 'index']);
