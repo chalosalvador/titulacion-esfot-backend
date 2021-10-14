@@ -2,10 +2,10 @@
 # Nuevo plan de titulación subido.
 
 ## Estimado {{$teacher->name}}, como parte de la comisión, se ha registrado un nuevo plan.
-<br>
+
 ### El tema del plan es: {{$project->title}}
 ### Por parte de el/los estudiante/s {{$student->name}}
-<br>
+
 
 ## Por favor dirigete al sistema para revisar el plan.
 
