@@ -48,7 +48,7 @@ class TeacherController extends Controller
 
     public function update(Request $request, Teacher $teacher)
     {
-        $teacher->update($request->except(["email"]));
+        $teacher->update($request->except(["email", "name", "last_name"]));
         $teacher->user()->update($request->except(['career_id','schedule']));
 
         return response()->json(new TeacherPlanResource($teacher), 200);
