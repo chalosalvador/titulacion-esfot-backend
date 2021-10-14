@@ -57,7 +57,7 @@ Route::post('/reset-password', function (Request $request) {
     ]);
 
     $status = Password::reset(
-        $request->only('email', 'password', 'password_confirmation', 'token'),
+        $request->only(['email', 'password', 'password_confirmation', 'token']),
         function ($user, $password) use ($request) {
             $user->forceFill([
                 'password' => Hash::make($password)
