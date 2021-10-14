@@ -7,6 +7,7 @@ use App\Models\Project;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Resources\Project as ProjectResource;
+use App\Http\Resources\ProjectCollection;
 use App\Http\Resources\TeacherPlan as TeacherPlanResource;
 use App\Http\Resources\Teacher as TeacherResource;
 use App\Http\Resources\TeacherCollection;
@@ -24,7 +25,7 @@ class TeacherController extends Controller
     {
         $user=Auth::user();
         $teacher = $user->userable;
-        return response()->json(ProjectResource::collection($teacher->projects), 200);
+        return response()->json(new ProjectCollection($teacher->projects), 200);
     }
 
     public function store(Request $request)
@@ -47,17 +48,17 @@ class TeacherController extends Controller
 
     public function update(Request $request, Teacher $teacher)
     {
-        $teacher->update($request->all());
+        $teacher->update($request->except(["email"]));
         $teacher->user()->update($request->except(['career_id','schedule']));
 
-        return response()->json($teacher, 200);
+        return response()->json(new TeacherPlanResource($teacher), 200);
     }
 
     public function projects()
     {
         $user=Auth::user();
         $teacher = $user->userable;
-        return response()->json($teacher->projects, 200);
+        return response()->json(new ProjectCollection($teacher->projects), 200);
     }
 
     public function project(Teacher $teacher, Project $project)
