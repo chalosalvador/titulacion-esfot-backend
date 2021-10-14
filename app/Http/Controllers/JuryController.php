@@ -56,8 +56,8 @@ class JuryController extends Controller
             if ($jury->project_id === $request->project_id) {
                 $jury->tribunalSchedule = $request->tribunalSchedule;
                 $jury->save();
-//                $teachers= $jury->teachers();
-//                Mail::to($teachers)->send(new NewDateAssignedJury($jury));
+                $teachers= $jury->teachers();
+                Mail::to($teachers)->send(new NewDateAssignedJury($jury));
             }
         }
         return response()->json(["message" => "schedule saved"]);
