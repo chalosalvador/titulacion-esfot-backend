@@ -10,6 +10,11 @@ use App\Models\Teacher;
 
 class CommissionController extends Controller
 {
+    private static $messages = [
+        'required' => 'El campo :attribute es obligatorio.',
+        'career_id.unique' => 'La comisión para esta carrera ya existe.',
+    ];
+
     public function index()
     {
         return new CommissionCollection(Commission::all());
@@ -21,6 +26,11 @@ class CommissionController extends Controller
     }
     public function store(Request $request)
     {
+        $request->validate([
+            'career_id' => 'required|unique:careers',
+            'members' => 'required|exists:teachers,id',
+            'commission_schedule' => 'required|string'
+        ], self::$messages);
         $commissions= new Commission($request->except(['members']));
         $commissions->save();
         foreach ($request->members as $member){
