@@ -48,18 +48,15 @@ class JuryController extends Controller
 
     public function changeTribunalSchedule(Request $request)
     {
-        $juries = Jury::all();
+        $jury = Jury::where("project_id",$request->project_id)->first();
         $teachers=[];
-        foreach (
-            $juries as $jury
-        ) {
-            if ($jury->project_id === $request->project_id) {
-                $jury->update(["tribunalSchedule" => $request->tribunalSchedule]);
-                $jury->save();
-                $teachers[]= $jury->teachers();
-                Mail::to($teachers)->send(new NewDateAssignedJury($jury));
-            }
+        $jury->update(["tribunalSchedule" => $request->tribunalSchedule]);
+        $jury->save();
+        foreach ($jury->teachers as $teacher)
+        {
+            $teachers[]=Teacher::find($teacher->id)->user;
         }
+        Mail::to($teachers)->send(new NewDateAssignedJury($jury));
         return response()->json(["message" => "schedule saved"]);
     }
 }
