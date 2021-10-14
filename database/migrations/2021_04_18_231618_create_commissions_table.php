@@ -15,8 +15,7 @@ class CreateCommissionsTable extends Migration
     {
         Schema::create('commissions', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('commission_schedule')->nullable();
-//            $table->json('members')->nullable();
+            $table->text('commission_schedule')->nullable();
             $table->bigInteger('career_id')->unsigned();
             $table->foreign('career_id')->references('id')->on('careers')->onDelete('restrict');
             $table->timestamps();
