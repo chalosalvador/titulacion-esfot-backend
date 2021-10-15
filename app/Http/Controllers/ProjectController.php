@@ -121,7 +121,7 @@ class ProjectController extends Controller
         $student_id = $user->userable->id;
         $fileNameToStore = "schedule";
         $result = $request->schedule->storeOnCloudinaryAs("schedules/{$student_id}", $fileNameToStore);
-        $path = $result->getPath();
+        $path = $result->getSecurePath();
 
         $project->schedule = $path;
         $project->save();
@@ -328,7 +328,7 @@ class ProjectController extends Controller
         $student_id = $user->userable->id;
         $fileNameToStore = "project";
         $result = $request->report_pdf->storeOnCloudinaryAs("reports/{$student_id}", $fileNameToStore);
-        $path = $result->getPath();
+        $path = $result->getSecurePath();
         $project->report_pdf = $path;
         $project->save();
         return response()->json($project, 200);
