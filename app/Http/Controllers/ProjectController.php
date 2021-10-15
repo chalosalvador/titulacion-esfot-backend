@@ -327,6 +327,7 @@ class ProjectController extends Controller
         $user = Auth::user();
         $student_id = $user->userable->id;
         $fileNameToStore = "project";
+        set_time_limit(300);
         $result = $request->report_pdf->storeOnCloudinaryAs("reports/{$student_id}", $fileNameToStore);
         $path = $result->getSecurePath();
         $project->report_pdf = $path;
