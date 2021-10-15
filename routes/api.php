@@ -116,6 +116,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::post('projects/{project}/project-approved-send',[ProjectController::class, 'projectApprovedSend']);
     Route::post('projects/{project}/date-defense-assigned',[ProjectController::class, 'dateDefenseAssigned']);
     Route::post('projects/{project}/project-graded',[ProjectController::class, 'projectGraded']);
+    Route::post('projects/{project}/project-completed',[ProjectController::class, 'projectCompleted']);
 
 //student
     Route::get('students', [StudentController::class, 'index']);
