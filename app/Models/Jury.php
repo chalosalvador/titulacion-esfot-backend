@@ -19,6 +19,6 @@ class Jury extends Model
 
     public function teachers()
     {
-        return $this->belongsToMany('App\Models\Teacher');
+        return $this->belongsToMany('App\Models\Teacher')->withPivot('grade', 'created_at');
     }
 }

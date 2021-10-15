@@ -22,6 +22,7 @@ class AddProjectIdColumnJuries extends Migration
             $table->foreign('teacher_id')->references('id')->on('teachers')->onDelete('cascade');
             $table->unsignedBigInteger('jury_id');
             $table->foreign('jury_id')->references('id')->on('juries')->onDelete('cascade');
+            $table->unsignedFloat('grade')->nullable();
             $table->timestamps();
         });
     }

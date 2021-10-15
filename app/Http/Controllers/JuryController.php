@@ -6,12 +6,15 @@ use App\Http\Resources\TeacherCollection;
 use App\Mail\NewDateAssignedJury;
 use App\Mail\NewJuryAssigned;
 use App\Mail\NewProjectUploadTeacher;
+use App\Mail\ProjectGradedJury;
 use App\Models\Jury;
 use App\Models\Project;
+use App\Models\Student;
 use Illuminate\Http\Request;
 use App\Http\Resources\Jury as JuryResource;
 use App\Http\Resources\JuryCollection;
 use App\Models\Teacher;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 class JuryController extends Controller

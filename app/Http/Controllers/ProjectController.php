@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Teacher;
 use App\Http\Resources\User;
 use App\Mail\CurriculumSan2;
 use App\Mail\NewCommentCommentCommission;
@@ -21,10 +22,12 @@ use App\Mail\PlanApprovedByComission;
 use App\Mail\PlanApprovedByDirector;
 use App\Mail\PlanSentToSecretary;
 use App\Mail\ProjectApprovedSend;
+use App\Mail\ProjectGradedJury;
 use App\Mail\ProjectRejected;
 use App\Mail\TestDefenseApt;
 use App\Mail\TribunalAssigned;
 use App\Mail\TribunalAssignedTeacher;
+use App\Models\Jury;
 use App\Models\Project;
 use App\Models\Student;
 use App\Models\Career;
@@ -273,14 +276,35 @@ class ProjectController extends Controller
         return $this->changeStatus($project->id, $mail, $students, "tribunal_assigned", "san_curriculum_2", $secondMail, $project->teacher->user);
     }
 
-    public function projectGraded(Project $project)
+    public function projectGraded(Request $request, Project $project)
     {
-        $mail = new TribunalAssigned($project); //TODO cambiar a correo de projecto calificado
-        $students[] = Auth::user();
-        if ($project->student_id_2 !== null) {
-            $students[] = Student::find($project->student_id_2)->user;
+        $user = Auth::user();
+
+        $jury = Jury::where("project_id",$project->id)->first();
+        $jury->teachers()->updateExistingPivot($user->userable->id, ['grade'=> $request->grade]);
+
+        $teachers = $jury->teachers->all();
+
+        $allGraded = true;
+        foreach($teachers as $teacher) {
+            if($teacher->pivot->grade === null) {
+                $allGraded = false;
+                break;
+            }
         }
-        return $this->changeStatus($project->id, $mail, $students, "project_graded", "tribunal_assigned");
+
+        if($allGraded) {
+            $mail = new ProjectGradedJury($project);
+            $students = $project->students->all();
+            $studentsUsers = [$students[0]->user];
+
+            if (isset($students[1])) {
+                $studentsUsers[] = $students[1]->user;
+            }
+            return $this->changeStatus($project->id, $mail, $studentsUsers, "project_graded", "tribunal_assigned");
+        }
+
+        return response()->json($project, 200);
     }
 
     public function projectCorrectionsDone2(Project $project)
@@ -363,5 +387,12 @@ class ProjectController extends Controller
         }
 
         return response()->json(["error" => "incorrect_status"], 500);
+    }
+
+    public function getJuryById(Project $project, $teacher_id) {
+        $jury = Jury::where("project_id",$project->id)->first();
+        $teacherJury = $jury->teachers()->wherePivot('teacher_id', $teacher_id)->first();
+
+        return response()->json($teacherJury->pivot, 200);
     }
 }
