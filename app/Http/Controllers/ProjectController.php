@@ -21,6 +21,7 @@ use App\Mail\PlanApprovedByComission;
 use App\Mail\PlanApprovedByDirector;
 use App\Mail\PlanSentToSecretary;
 use App\Mail\ProjectApprovedSend;
+use App\Mail\ProjectCompleted;
 use App\Mail\ProjectRejected;
 use App\Mail\TestDefenseApt;
 use App\Mail\TribunalAssigned;
@@ -319,6 +320,16 @@ class ProjectController extends Controller
         }
         $secondMail = new NewDateAssignedTeacher($project);
         return $this->changeStatus($project->id, $mail, $students, "date_defense_assigned", "test_defense_apt",$secondMail,$project->teacher->user);
+    }
+
+    public function projectCompleted(Project $project)
+    {
+        $mail = new ProjectCompleted($project);
+        $students[] = Auth::user();
+        if ($project->student_id_2 !== null) {
+            $students[] = Student::find($project->student_id_2)->user;
+        }
+        return $this->changeStatus($project->id, $mail, $students, "project_completed", "date_defense_assigned");
     }
 
 
