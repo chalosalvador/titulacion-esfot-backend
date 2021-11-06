@@ -20,7 +20,8 @@ class Jury extends JsonResource
             'updated_at'=>$this->updated_at,
             'tribunalSchedule'=>$this->tribunalSchedule,
             'teachers'=>new TeacherCollection($this->teachers),
-            'project'=> new Project($this->project)
+            'project'=> new Project($this->project),
+            'project_id' => $this->project_id
         ];
     }
 }

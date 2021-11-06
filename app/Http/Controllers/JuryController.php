@@ -69,4 +69,5 @@ class JuryController extends Controller
         $jury = Jury::where("project_id",$project->id)->first();
         return new TeacherCollection($jury->teachers);
     }
+
 }
